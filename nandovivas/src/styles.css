@@ -1,3 +1,68 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* ===== Toast Styles (Angular Material) ===== */
+
+/* Contenedor principal del snack-bar */
+.mat-snack-bar-container {
+    animation: fadeIn 0.5s ease-in, fadeOut 0.5s ease-out 3s; /* Animación de entrada y salida */
+    border-radius: 4px; /* Bordes suaves */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Sombras para más estética */
+}
+
+/* Estilo para toasts de éxito */
+.toast-success {
+    background-color: #4caf50; /* Verde */
+    color: white;
+}
+
+/* Estilo para toasts de error */
+.toast-error {
+    background-color: #f44336; /* Rojo */
+    color: white;
+}
+
+/* Estilo para toasts informativos */
+.toast-info {
+    background-color: #2196f3; /* Azul */
+    color: white;
+}
+
+/* ===== Animaciones ===== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); /* Aparece desde arriba */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Llega a su posición */
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@media (max-width: 600px) {
+  .mat-snack-bar-container {
+    max-width: 90%; /* Reduce el ancho del toast */
+    font-size: 14px; /* Reduce el tamaño de fuente */
+  }
+}
+
+.mat-snack-bar-container {
+  font-size: 1rem; /* Usa unidades relativas para escalar la tipografía */
 }
