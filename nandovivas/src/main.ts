@@ -9,6 +9,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 bootstrapApplication(WellcomeComponent, {
   providers: [
-    provideRouter(routes), provideAnimationsAsync() // Configuración de rutas
+    provideRouter(routes), provideAnimationsAsync()
   ]
 }).catch(err => console.error(err));

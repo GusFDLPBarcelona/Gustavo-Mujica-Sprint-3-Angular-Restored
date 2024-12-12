@@ -2,11 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connection from './db/connection';
-import routesProducto from './routes/producto';
-import routesMarcador from './routes/marcadores';
-import routesCalendario from './routes/calendario';
-import routesGraficos from './routes/graficos';
-
+import routesProject from '../src/routes/project';
+import routesProduct from './routes/product';
 
 dotenv.config();
 
@@ -15,10 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/productos', routesProducto);
-app.use('/api/marcadores', routesMarcador);
-app.use('/api/calendario', routesCalendario);
-app.use('/api/graficos', routesGraficos);
+app.use('/api/projects', routesProject);
+app.use('/api/products', routesProduct);
 
 connection.getConnection()
     .then(conn => {

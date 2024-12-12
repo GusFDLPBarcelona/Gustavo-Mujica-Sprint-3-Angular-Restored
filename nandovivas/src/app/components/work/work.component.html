@@ -1,1 +1,37 @@
-<p>work works!</p>
+<div class="work-container">
+    <!-- Tabs de Categorías -->
+    <div class="tabs">
+      @for (category of categories; track category) {
+        <button
+          (click)="filterByCategory(category)"
+          [class.active]="category === selectedCategory"
+        >
+          {{ category }}
+        </button>
+      }
+    </div>
+  
+    <!-- Cuadrícula de Proyectos -->
+    <div class="project-grid">
+      @for (project of projects; track project.id) {
+        <div
+          class="project-card"
+          [class.transparent]="isTransparent(project)"
+        >
+          <img
+            [src]="project.image"
+            [alt]="project.title"
+            class="project-image"
+          />
+          <div class="project-info">
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.client }}</p>
+          </div>
+        </div>
+      }
+      @empty {
+        <p>No hay proyectos disponibles en esta categoría.</p>
+      }
+    </div>
+  </div>
+  

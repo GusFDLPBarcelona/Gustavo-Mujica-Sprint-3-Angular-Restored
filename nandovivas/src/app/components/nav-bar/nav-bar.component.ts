@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-nav-bar',
-  standalone: true,
-  imports: [],
+  selector: 'app-navbar',
   templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.css'
+  styleUrls: ['./nav-bar.component.css'],
+  standalone: true,
 })
-export class NavBarComponent {
+export class NavbarComponent {
+  isMenuVisible = false; 
 
+  toggleMenu() {
+    this.isMenuVisible = !this.isMenuVisible;
+  }
+
+  navigateAndCloseMenu() {
+    this.isMenuVisible = false;
+  }
 }
