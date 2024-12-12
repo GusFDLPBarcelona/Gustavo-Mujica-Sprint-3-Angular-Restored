@@ -1,82 +1,52 @@
 import { Request, Response } from 'express';
-import { createProducto, getProductos, updateProducto, deleteProducto, getProducto } from '../models/producto';
+import { createProduct, getProducts, getProduct, updateProduct, deleteProduct } from '../models/product';
 
+export const getAllProducts = async (req: Request, res: Response) => {
+    try {
+        const products = await getProducts();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ msg: 'Error al obtener los productos', error });
+    }
+};
 
-export const getProduct = async (req: Request, res: Response) => {
-
+export const getOneProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-
-        const producto = await getProducto(Number(id));
-        res.json(producto);
+        const product = await getProduct(Number(id));
+        res.json(product);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener el producto' });
+        res.status(404).json({ msg: 'Producto no encontrado', error });
     }
 };
 
-
-export const getProducts = async (req: Request, res: Response) => {
-
+export const createProductController = async (req: Request, res: Response) => {
+    const { name, description, size, price, stock } = req.body;
     try {
-        const productos = await getProductos();
-        res.json(productos);
+        const result = await createProduct(name, description, size, price, stock);
+        res.status(201).json({ msg: 'Producto creado', result });
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los productos' });
-    }
-};
-
-
-export const postProduct = async (req: Request, res: Response) => {
-
-    const { nombre, descripcion, talla, precio, stock } = req.body;
-    try {
-        const result = await createProducto(nombre, descripcion, talla, Number(precio), Number(stock));
-        res.status(201).json(result);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al crear el producto' });
-    }
-};
-
-
-export const updateProduct = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { nombre, descripcion, talla, precio, stock } = req.body;
-
-    try {
-        const productoExistente = await getProducto(Number(id));
-
-        if (!productoExistente) {
-
-            return res.status(404).json({
-                msg: `No existe el producto con id ${id}`
-            });
-        }
-
-
-        const result = await updateProducto(Number(id), nombre, descripcion, talla, Number(precio), Number(stock));
-
-
-        res.json({
-            msg: `El producto fue actualizado con éxito.`,
-            result
-        });
-
-    } catch (error) {
-
-        console.log(error);
-        res.status(500).json({
-            msg: `Ha ocurrido un error al actualizar el producto.`
-        });
+        res.status(500).json({ msg: 'Error al crear el producto', error });
     }
 }
 
+export const updateProductController = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name, description, size, price, stock } = req.body;
+    try {
+        const result = await updateProduct(Number(id), name, description, size, price, stock);
+        res.json({ msg: 'Producto actualizado', result });
+    } catch (error) {
+        res.status(500).json({ msg: 'Error al actualizar el producto', error });
+    }
+};
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProductController = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-        const result = await deleteProducto(Number(id));
-        res.json(result);
+        const result = await deleteProduct(Number(id));
+        res.json({ msg: 'Producto eliminado', result });
     } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el producto' });
+        res.status(500).json({ msg: 'Error al eliminar el producto', error });
     }
 };

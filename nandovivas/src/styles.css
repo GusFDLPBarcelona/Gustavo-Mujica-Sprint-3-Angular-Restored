@@ -1,68 +1,124 @@
-body {
+/* ===== Resets ===== */
+* {
   margin: 0;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html, body {
   height: 100%;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }
 
-/* ===== Toast Styles (Angular Material) ===== */
+/* ===== Variables Globales ===== */
+:root {
+  --primary-color: #4caf50; /* Verde */
+  --secondary-color: #2196f3; /* Azul */
+  --error-color: #f44336; /* Rojo */
+  --background-color: #f3f4f6; /* Gris claro */
+  --text-color: #333333; /* Texto principal */
+}
 
-/* Contenedor principal del snack-bar */
+/* ===== Tipografía Global ===== */
+body {
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font-size: 16px; /* Tamaño base */
+  line-height: 1.5;
+}
+
+/* ===== Estilos Específicos ===== */
+/* Toast Styles (Angular Material) */
 .mat-snack-bar-container {
-    animation: fadeIn 0.5s ease-in, fadeOut 0.5s ease-out 3s; /* Animación de entrada y salida */
-    border-radius: 4px; /* Bordes suaves */
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Sombras para más estética */
+  animation: fadeIn 0.5s ease-in, fadeOut 0.5s ease-out 3s; /* Animación entrada/salida */
+  border-radius: 4px; /* Bordes redondeados */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  font-size: 1rem; /* Escala relativa */
 }
 
-/* Estilo para toasts de éxito */
 .toast-success {
-    background-color: #4caf50; /* Verde */
-    color: white;
+  background-color: var(--primary-color);
+  color: white;
 }
 
-/* Estilo para toasts de error */
 .toast-error {
-    background-color: #f44336; /* Rojo */
-    color: white;
+  background-color: var(--error-color);
+  color: white;
 }
 
-/* Estilo para toasts informativos */
 .toast-info {
-    background-color: #2196f3; /* Azul */
-    color: white;
+  background-color: var(--secondary-color);
+  color: white;
 }
 
 /* ===== Animaciones ===== */
-
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px); /* Aparece desde arriba */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0); /* Llega a su posición */
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
-@media (max-width: 600px) {
-  .mat-snack-bar-container {
-    max-width: 90%; /* Reduce el ancho del toast */
-    font-size: 14px; /* Reduce el tamaño de fuente */
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.mat-snack-bar-container {
-  font-size: 1rem; /* Usa unidades relativas para escalar la tipografía */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ===== Responsividad para Snack Bars ===== */
+@media (max-width: 600px) {
+  .mat-snack-bar-container {
+    max-width: 90%;
+    font-size: 14px; /* Fuente más pequeña */
+  }
+}
+
+/* ===== Estilos Generales ===== */
+/* Enlaces */
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* Botones */
+button {
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Contenedores Responsivos */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Clases Comunes */
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
