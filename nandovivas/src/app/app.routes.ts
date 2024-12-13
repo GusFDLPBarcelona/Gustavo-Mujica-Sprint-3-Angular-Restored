@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
+import { ProjectResolver } from './resolvers/project.resolver';
 
 export const routes: Routes = [
+
   {
     path: '',
     loadComponent: () =>
@@ -17,13 +19,19 @@ export const routes: Routes = [
       import('./components/shop/shop.component').then((m) => m.ShopComponent),
   },
   {
-    path: 'detail/:id',
+    path: 'work',
     loadComponent: () =>
-      import('./components/detail/detail.component').then((m) => m.DetailComponent),
+      import('./components/work/work.component').then((m) => m.WorkComponent),
   },
   {
     path: '**',
     redirectTo: '',
     pathMatch: 'full',
+  },
+  {
+    path: 'detail/:id',
+    loadComponent: () =>
+      import('./components/detail/detail.component').then((m) => m.DetailComponent),
+    resolve: { project: ProjectResolver },
   },
 ];

@@ -1,37 +1,31 @@
-<div class="work-container">
-    <!-- Tabs de Categorías -->
-    <div class="tabs">
-      @for (category of categories; track category) {
-        <button
-          (click)="filterByCategory(category)"
-          [class.active]="category === selectedCategory"
-        >
-          {{ category }}
-        </button>
-      }
-    </div>
-  
-    <!-- Cuadrícula de Proyectos -->
-    <div class="project-grid">
-      @for (project of projects; track project.id) {
-        <div
-          class="project-card"
-          [class.transparent]="isTransparent(project)"
-        >
-          <img
-            [src]="project.image"
-            [alt]="project.title"
-            class="project-image"
-          />
-          <div class="project-info">
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.client }}</p>
-          </div>
-        </div>
-      }
-      @empty {
-        <p>No hay proyectos disponibles en esta categoría.</p>
-      }
-    </div>
+<div class="container mx-auto px-4 py-6">
+  <!-- Filtros por Categoría -->
+  <div class="flex justify-center space-x-4 mb-8">
+    @for (category of ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM']; track category) {
+      <button (click)="setActiveCategory(category)"
+              class="px-4 py-2 text-sm font-semibold rounded-lg hover:bg-gray-200 focus:outline-none"
+              [class.bg-gray-300]="activeCategory() === category">
+        {{ category }}
+      </button>
+    }
   </div>
-  
+
+  <!-- Galería de Proyectos -->
+  <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    @for (project of sortedProjects(); track project.id) {
+      <div class="project-container group"
+           [class.opacity-50]="project.category !== activeCategory() && activeCategory() !== 'All'">
+        <!-- Imagen con Hover -->
+        <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
+          <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
+        </a>
+
+        <!-- Título y Cliente -->
+        <div class="pt-2 flex justify-between items-center">
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-client">{{ project.client }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

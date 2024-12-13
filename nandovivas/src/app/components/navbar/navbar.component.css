@@ -1,0 +1,86 @@
+/* Contenedor principal de la barra de navegación */
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+  backdrop-filter: blur(10px); /* Desenfoque */
+  position: fixed; /* Barra fija en la parte superior */
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Por encima del contenido */
+}
+
+/* Estilo del logo */
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+/* Menú de navegación */
+.navigation-menu {
+  display: flex;
+  gap: 24px; /* Espaciado entre los enlaces */
+}
+
+.menu-link {
+  font-size: 16px;
+  text-decoration: none;
+  color: black;
+  padding: 8px 16px;
+}
+
+.menu-link:hover {
+  color: #4b5563; /* Hover gris oscuro */
+}
+
+/* Menú hamburguesa */
+.mobile-menu {
+  display: none; /* Oculto en pantallas grandes */
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 16px;
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombras */
+  display: none; /* Oculto por defecto */
+  flex-direction: column;
+}
+
+.dropdown-menu a {
+  padding: 12px 16px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0; /* Hover gris claro */
+}
+
+/* Mostrar menú desplegable cuando está activo */
+.mobile-menu.active .dropdown-menu {
+  display: flex; /* Mostrar menú cuando está activo */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .navigation-menu {
+    display: none; /* Oculto en pantallas pequeñas */
+  }
+
+  .mobile-menu {
+    display: block; /* Visible en pantallas pequeñas */
+  }
+}

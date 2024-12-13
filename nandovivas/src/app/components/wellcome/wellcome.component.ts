@@ -1,10 +1,12 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-wellcome',
   standalone: true,
   templateUrl: './wellcome.component.html',
-  styleUrls: ['./wellcome.component.css']
+  styleUrls: ['./wellcome.component.css'],
+  imports: [NavbarComponent]
 })
 export class WellcomeComponent implements OnInit {
   images = signal<string[]>([
@@ -18,6 +20,7 @@ export class WellcomeComponent implements OnInit {
   speed = signal(1); // Velocidad de desplazamiento
 
   ngOnInit() {
+    console.log('Carousel started');
     this.startCarousel();
   }
 
@@ -45,6 +48,7 @@ export class WellcomeComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboard(event: KeyboardEvent) {
+    console.log('Key pressed:', event.key);
     if (event.key === 'ArrowRight') {
       this.changeDirection('right');
       this.increaseSpeed();
