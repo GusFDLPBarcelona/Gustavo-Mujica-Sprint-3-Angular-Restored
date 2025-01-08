@@ -1,70 +1,88 @@
 /* Contenedor del carrusel */
 .carousel-container {
-    position: relative;
-    width: 100vw; /* Toda la ventana */
-    height: 100vh; /* Toda la ventana */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black; /* Fondo para cuando las imágenes cambian */
-  }
-  
-  /* Pista del carrusel */
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s linear;
-    width: max-content; /* Permite que las imágenes se dispongan horizontalmente */
-  }
-  
-  /* Imágenes */
-  .carousel-image {
-    flex: 0 0 auto;
-    width: 100vw; /* Ocupa toda la ventana */
-    height: 100vh; /* Escala para ocupar toda la ventana */
-    object-fit: cover; /* Mantiene las proporciones sin dejar espacios */
-  }
-  
-  /* Flechas de navegación */
+  position: relative;
+  width: 100vw; /* Toda la ventana */
+  height: 100vh; /* Toda la ventana */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #777; /* Fondo para cuando las imágenes cambian */
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 1s ease-in-out;
+  width: max-content; /* Permite que las imágenes se dispongan horizontalmente */
+}
+
+.carousel-image {
+  flex: 0 0 auto;
+  width: 100vw; /* Ocupa toda la ventana */
+  height: 100vh; /* Escala para ocupar toda la ventana */
+  object-fit: cover; /* Mantiene las proporciones sin dejar espacios */
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+  color: white; /* Texto blanco */
+  border: none;
+  border-radius: 50%; /* Forma circular */
+  padding: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: opacity 0.5s ease-in-out; /* Transición suave */
+  opacity: 0; /* Ocultas por defecto */
+  z-index: 1000; /* Encima de todo */
+  pointer-events: none; /* Evita interacción cuando están ocultas */
+}
+
+.arrow.visible {
+  opacity: 1; /* Visibles cuando tienen la clase .visible */
+  pointer-events: auto; /* Activa la interacción cuando son visibles */
+}
+
+.arrow:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Cambia a claro al pasar */
+  color: black; /* Texto oscuro */
+  transform: scale(1.1); /* Pequeño zoom al hover */
+}
+
+.arrow.left {
+  left: 20px; /* Posicionada a la izquierda */
+}
+
+.arrow.right {
+  right: 20px; /* Posicionada a la derecha */
+}
+
+/* Estilos Responsivos */
+@media (max-width: 1024px) {
+  /* Tablets */
   .arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    color: white;
-    border: none;
-    padding: 1rem;
-    cursor: pointer;
-    font-size: 1.5rem;
+    padding: 0.8rem;
+    font-size: 1.2rem;
   }
-  
-  .arrow.left {
-    left: 1rem; /* Flecha izquierda */
+}
+
+@media (max-width: 768px) {
+  /* Teléfonos */
+  .arrow {
+    padding: 0.5rem;
+    font-size: 1rem;
   }
-  
-  .arrow.right {
-    right: 1rem; /* Flecha derecha */
+
+  .carousel-image {
+    height: 100vh; /* Ajusta para pantallas verticales */
   }
-  
-  /* Estilos Responsivos */
-  @media (max-width: 1024px) {
-    /* Tablets */
-    .arrow {
-      padding: 0.8rem;
-      font-size: 1.2rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    /* Teléfonos */
-    .arrow {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-  
-    .carousel-image {
-      height: 100vh; /* Ajusta para pantallas verticales */
-    }
-  }
-  
+}
+
+@media (max-with: 450px) {
+  .carousel-image {
+    width: 100%;
+    object-fit: content;
+}
+}

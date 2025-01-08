@@ -1,13 +1,10 @@
-<div class="carousel-container">
-    <!-- Flechas -->
-    <button class="arrow left" (click)="changeDirection('left')">⬅</button>
-    <button class="arrow right" (click)="changeDirection('right')">➡</button>
-  
+<div class="carousel-container">  
     <!-- Imágenes -->
     <div class="carousel-track">
       @for (image of images(); track image) {
-        <img [src]="'assets/works_grid/' + image" alt="Carousel Image" class="carousel-image">
+        <img [src]="image" alt="Carousel Image" class="carousel-image">
       }
     </div>
+    
   </div>
   
