@@ -1,33 +1,34 @@
-/* Contenedor principal de la barra de navegación */
+/* Contenedor principal de la navbar */
 .navbar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
-  backdrop-filter: blur(10px); /* Desenfoque */
-  position: fixed; /* Barra fija en la parte superior */
+  position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Por encima del contenido */
+  z-index: 1000;
+  background-color: transparent; /* Navbar siempre transparente */
 }
 
 /* Estilo del logo */
-.logo {
+.logo-container .logo {
   width: 120px;
   height: auto;
+  padding-left: 24px; /* Espaciado desde el borde izquierdo */
 }
 
-/* Menú de navegación */
 .navigation-menu {
   display: flex;
-  gap: 24px; /* Espaciado entre los enlaces */
+  justify-content: flex-end; /* Alinear los links a la derecha */
+  gap: 16px; /* Espaciado entre los links */
+  padding-right: 24px; /* Espaciado adicional desde el borde derecho */
 }
 
 .menu-link {
   font-size: 16px;
   text-decoration: none;
-  color: black;
+  color: #777;
   padding: 8px 16px;
 }
 
@@ -35,26 +36,28 @@
   color: #4b5563; /* Hover gris oscuro */
 }
 
-/* Menú hamburguesa */
+/* Menú hamburguesa (por defecto oculto) */
 .mobile-menu {
   display: none; /* Oculto en pantallas grandes */
 }
 
+/* Botón del menú hamburguesa */
 .menu-button {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
-  color: #333;
+  color: #777;
 }
 
+/* Dropdown del menú hamburguesa */
 .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 16px;
   background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombras */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   display: none; /* Oculto por defecto */
   flex-direction: column;
 }
@@ -69,18 +72,20 @@
   background-color: #f0f0f0; /* Hover gris claro */
 }
 
-/* Mostrar menú desplegable cuando está activo */
-.mobile-menu.active .dropdown-menu {
-  display: flex; /* Mostrar menú cuando está activo */
-}
-
-/* Responsivo */
+/* Reglas para pantallas pequeñas */
 @media (max-width: 768px) {
   .navigation-menu {
-    display: none; /* Oculto en pantallas pequeñas */
+    display: none; /* Ocultar links en pantallas pequeñas */
   }
 
   .mobile-menu {
-    display: block; /* Visible en pantallas pequeñas */
+    display: flex; /* Mostrar menú hamburguesa */
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 25px;
+  }
+
+  .dropdown-menu {
+    display: flex; /* Mostrar menú desplegable */
   }
 }

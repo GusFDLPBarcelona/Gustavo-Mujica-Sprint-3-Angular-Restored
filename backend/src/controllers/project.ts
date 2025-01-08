@@ -3,10 +3,11 @@ import { createProject, getProjects, getProject, updateProject, deleteProject } 
 
 export const getAllProjects = async (req: Request, res: Response) => {
     try {
-        const projects = await getProjects();
-        res.json(projects);
+        const projects = await getProjects(); 
+        res.status(200).json(projects); 
     } catch (error) {
-        res.status(500).json({ msg: 'Error al obtener los proyectos', error });
+        console.error('Error al obtener proyectos:', error); 
+        res.status(500).json({ msg: 'Error al obtener proyectos', error }); 
     }
 };
 
@@ -14,8 +15,9 @@ export const getOneProject = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const project = await getProject(Number(id));
-        res.json(project);
+        res.status(200).json(project);
     } catch (error) {
+        console.error('Error al obtener proyecto:', error);
         res.status(404).json({ msg: 'Proyecto no encontrado', error });
     }
 };

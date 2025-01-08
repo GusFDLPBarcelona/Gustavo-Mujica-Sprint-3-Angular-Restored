@@ -9,8 +9,14 @@ export const createProject = async (title: string, client: string, category: str
 };
 
 export const getProjects = async () => {
-    const [rows] = await db.query('SELECT * FROM projects');
-    return rows;
+    try {
+        const [rows] = await db.query('SELECT * FROM projects ORDER BY id'); 
+        return rows; 
+    } catch (error) {
+        console.error('Error al obtener proyectos desde la base de datos:', error); 
+        throw new Error('Error al obtener proyectos desde la base de datos'); 
+    }
+    
 };
 
 export const getProject = async (id: number) => {

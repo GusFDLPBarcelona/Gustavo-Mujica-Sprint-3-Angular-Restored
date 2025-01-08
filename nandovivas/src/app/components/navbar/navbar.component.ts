@@ -12,6 +12,7 @@ export class NavbarComponent {
   isMenuVisible = false;
 
   toggleMenu() {
+    console.log('isMenuVisible:', this.isMenuVisible); 
     this.isMenuVisible = !this.isMenuVisible;
   }
 
