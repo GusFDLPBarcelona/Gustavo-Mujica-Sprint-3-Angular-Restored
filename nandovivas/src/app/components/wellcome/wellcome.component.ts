@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
-import { ProjectsService } from '../../services/projects.service';
-import { Project } from '../../interfaces/project';
+import { WellcomeGalleryService } from '../../services/wellcome_gallery.service';
+import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
 
 @Component({
   selector: 'app-wellcome',
@@ -9,22 +9,25 @@ import { Project } from '../../interfaces/project';
   styleUrls: ['./wellcome.component.css'],
 })
 export class WellcomeComponent implements OnInit {
-  private projectService = inject(ProjectsService);
-  images = signal<string[]>([]);
+  imagesGallery = signal<WellcomeGallery[]>([]); // Imágenes y datos de wellcome_gallery
   currentIndex = signal<number>(0);
-  intervalId!: number; 
+  intervalId!: number;
   showArrows = signal<boolean>(false);
   arrowTimeout!: number;
-  
+
+  constructor(private wellcomeGalleryService: WellcomeGalleryService) {}
+
   ngOnInit() {
-    this.loadProjects();
+    console.log('Componente Wellcome cargado.');
+    this.loadGalleryItems(); // Cargar imágenes y datos de wellcome_gallery
   }
 
-  loadProjects() {
-    this.projectService.getProjects().subscribe((projects: Project[]) => {
-      const imagePaths = projects.map((p) => p.image);
-      this.images.set(imagePaths); // Actualiza las imágenes
-      this.startCarousel(); // Inicia el carrusel después de cargar
+  loadGalleryItems() {
+    this.wellcomeGalleryService.getGalleryItems().subscribe((data) => {
+      console.log('Solicitud GET recibida en /api/gallery'); 
+      this.imagesGallery.set(data); 
+      console.log('Galería cargada:', data); 
+      this.startCarousel(); 
     });
   }
 
@@ -32,12 +35,12 @@ export class WellcomeComponent implements OnInit {
     clearInterval(this.intervalId); // Limpia intervalos previos
     this.intervalId = window.setInterval(() => {
       console.log('Cambiando imagen automáticamente...');
-      this.nextImage(); // Cambia automáticamente cada 5 segundos
+      this.nextImage(); // Cambia automáticamente cada 3 segundos
     }, 3000);
   }
 
   nextImage() {
-    const imagesLength = this.images().length;
+    const imagesLength = this.imagesGallery().length;
     if (imagesLength === 0) return;
     if (this.currentIndex() === imagesLength - 1) {
       this.currentIndex.set(0);
@@ -53,7 +56,7 @@ export class WellcomeComponent implements OnInit {
   }
 
   prevImage() {
-    const imagesLength = this.images().length;
+    const imagesLength = this.imagesGallery().length;
     if (imagesLength === 0) return;
     if (this.currentIndex() === 0) {
       this.currentIndex.set(imagesLength - 1);
@@ -87,18 +90,12 @@ export class WellcomeComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   handleKeyboard(event: KeyboardEvent) {
     console.log('Tecla presionada:', event.key);
-    if (event.key === 'ArrowLeft' && this.images().length !== 0) {
+    const totalImages = this.imagesGallery().length;
+
+    if (event.key === 'ArrowLeft' && totalImages !== 0) {
       this.prevImage();
-    } else {
-      this.backToEnd();
-    }
-    if (
-      event.key === 'ArrowRight' &&
-      this.images().length !== this.images.length
-    ) {
+    } else if (event.key === 'ArrowRight' && totalImages !== 0) {
       this.nextImage();
-    } else {
-      this.backToTop();
     }
 
     this.showArrows.set(true);
@@ -116,7 +113,8 @@ export class WellcomeComponent implements OnInit {
   }
 
   backToEnd() {
-    this.currentIndex.set(this.images.length);
+    const totalImages = this.imagesGallery().length;
+    this.currentIndex.set(totalImages - 1);
     this.updateTrackPosition(true);
   }
 }
