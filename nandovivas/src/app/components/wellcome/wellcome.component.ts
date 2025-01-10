@@ -35,40 +35,22 @@ export class WellcomeComponent implements OnInit {
     clearInterval(this.intervalId); // Limpia intervalos previos
     this.intervalId = window.setInterval(() => {
       console.log('Cambiando imagen automáticamente...');
-      this.nextImage(); // Cambia automáticamente cada 3 segundos
+      this.moveToNext(); // Cambia automáticamente cada 3 segundos
     }, 3000);
   }
 
-  nextImage() {
+  moveToNext() {
     const imagesLength = this.imagesGallery().length;
     if (imagesLength === 0) return;
-    if (this.currentIndex() === imagesLength - 1) {
-      this.currentIndex.set(0);
-      this.updateTrackPosition(false); // Sin transición
-      setTimeout(() => {
-        this.currentIndex.set(1);
-        this.updateTrackPosition(true); // Con transición
-      }, 50);
-    } else {
-      this.currentIndex.set((this.currentIndex() + 1) % imagesLength);
-      this.updateTrackPosition(true); // Con transición
-    }
+    this.currentIndex.set((this.currentIndex() + 1) % imagesLength);
+    this.updateTrackPosition(true); // Con transición
   }
 
-  prevImage() {
+  moveToPrev() {
     const imagesLength = this.imagesGallery().length;
     if (imagesLength === 0) return;
-    if (this.currentIndex() === 0) {
-      this.currentIndex.set(imagesLength - 1);
-      this.updateTrackPosition(false); // Sin transición
-      setTimeout(() => {
-        this.currentIndex.set(imagesLength - 2);
-        this.updateTrackPosition(true); // Con transición
-      }, 50);
-    } else {
-      this.currentIndex.set((this.currentIndex() - 1 + imagesLength) % imagesLength);
-      this.updateTrackPosition(true); // Con transición
-    }
+    this.currentIndex.set((this.currentIndex() - 1 + imagesLength) % imagesLength);
+    this.updateTrackPosition(true); // Con transición
   }
 
   updateTrackPosition(withTransition: boolean) {
@@ -87,24 +69,36 @@ export class WellcomeComponent implements OnInit {
     track.style.transform = `translateX(-${currentIndex * 100}vw)`; // Mueve horizontalmente
   }
 
+  showAndHideArrows() {
+    this.showArrows.set(true);
+    clearTimeout(this.arrowTimeout); // Limpia cualquier timeout previo
+    this.arrowTimeout = window.setTimeout(() => {
+      this.showArrows.set(false); // Oculta las flechas después de 1 segundo
+    }, 1000);
+  }
+
   @HostListener('window:keydown', ['$event'])
   handleKeyboard(event: KeyboardEvent) {
     console.log('Tecla presionada:', event.key);
     const totalImages = this.imagesGallery().length;
 
     if (event.key === 'ArrowLeft' && totalImages !== 0) {
-      this.prevImage();
+      this.moveToPrev();
     } else if (event.key === 'ArrowRight' && totalImages !== 0) {
-      this.nextImage();
+      this.moveToNext();
     }
 
-    this.showArrows.set(true);
-    clearTimeout(this.arrowTimeout); // Limpia cualquier timeout previo
-    this.arrowTimeout = window.setTimeout(() => {
-      this.showArrows.set(false); // Oculta las flechas después de 2 segundos
-    }, 2000);
-
+    this.showAndHideArrows();
     this.startCarousel();
+  }
+
+  onArrowClick(direction: 'prev' | 'next') {
+    if (direction === 'prev') {
+      this.moveToPrev();
+    } else if (direction === 'next') {
+      this.moveToNext();
+    }
+    this.showAndHideArrows();
   }
 
   backToTop() {
@@ -116,5 +110,16 @@ export class WellcomeComponent implements OnInit {
     const totalImages = this.imagesGallery().length;
     this.currentIndex.set(totalImages - 1);
     this.updateTrackPosition(true);
+  }
+
+  handleTransitionEnd() {
+    const track = document.querySelector('.carousel-track') as HTMLElement;
+    if (this.currentIndex() === this.imagesGallery().length) {
+      track.style.transition = 'none';
+      this.currentIndex.set(0);
+      track.style.transform = `translateX(0)`;
+      void track.offsetWidth; // Forzar reflujo
+      track.style.transition = 'transform 3s ease-in-out';
+    }
   }
 }
