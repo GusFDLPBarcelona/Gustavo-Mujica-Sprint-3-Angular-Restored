@@ -1,10 +1,13 @@
-<div class="carousel-container">  
-    <!-- Imágenes -->
-    <div class="carousel-track">
-      @for (image of images(); track image) {
-        <img [src]="image" alt="Carousel Image" class="carousel-image">
-      }
-    </div>
-    
+<div class="carousel-container">
+  <div class="carousel-track">
+    @for (image of imagesGallery(); track image.id) {
+      <div class="carousel-item">
+        <img [src]="image.image_path" alt="{{ image.title }}" class="carousel-image">
+        <div class="carousel-caption roboto">
+          <p>{{ image.title }}</p>
+          <p>{{ image.client }}</p>
+        </div>
+      </div>
+    }
   </div>
-  
+</div>

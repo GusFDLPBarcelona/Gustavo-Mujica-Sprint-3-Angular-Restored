@@ -12,8 +12,9 @@
 
 .carousel-track {
   display: flex;
-  transition: transform 1s ease-in-out;
-  width: max-content; /* Permite que las imágenes se dispongan horizontalmente */
+  transition: transform 3s ease-in-out;
+  width: 100%;
+  height: 100%; /* Permite que las imágenes se dispongan horizontalmente */
 }
 
 .carousel-image {
