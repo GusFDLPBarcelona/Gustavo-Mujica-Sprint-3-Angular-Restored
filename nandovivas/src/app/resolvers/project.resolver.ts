@@ -9,14 +9,11 @@ import { Project } from '../interfaces/project';
 })
 export class ProjectResolver implements Resolve<Project | null> {
   constructor(private projectsService: ProjectsService) {}
-
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Project | null> {
-    const id = route.paramMap.get('id'); 
-
+    const id = route.paramMap.get('id');
     if (!id) {
       return of(null); 
     }
-
     return this.projectsService.getProjectById(Number(id));
   }
 }

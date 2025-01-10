@@ -1,17 +1,17 @@
-<div class="container mx-auto px-4 py-6">
+<div class="work-container">
   <!-- Filtros por Categoría -->
-  <div class="flex justify-center space-x-4 mb-8">
+  <div class="filters-container">
     @for (category of ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM']; track category) {
-      <button (click)="setActiveCategory(category)"
-              class="px-4 py-2 text-sm font-semibold rounded-lg hover:bg-gray-200 focus:outline-none"
-              [class.bg-gray-300]="activeCategory() === category">
+      <button
+        (click)="setActiveCategory(category)"
+        class="filter-link"
+        [class.active]="activeCategory() === category">
         {{ category }}
       </button>
     }
   </div>
-
   <!-- Galería de Proyectos -->
-  <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <div class="grid">
     @for (project of sortedProjects(); track project.id) {
       <div class="project-container group"
            [class.opacity-50]="project.category !== activeCategory() && activeCategory() !== 'All'">
@@ -19,7 +19,6 @@
         <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
           <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
         </a>
-
         <!-- Título y Cliente -->
         <div class="pt-2 flex justify-between items-center">
           <h3 class="project-title">{{ project.title }}</h3>

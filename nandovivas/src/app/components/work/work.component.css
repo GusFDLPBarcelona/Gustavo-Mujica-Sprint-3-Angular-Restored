@@ -1,35 +1,55 @@
 /* Contenedor principal */
+body {
+  background-color:rgba(78, 78, 78, 0.36); /* Fondo gris */
+}
+
 .container {
-  background-color: #f5f5f5; /* Fondo gris */
+  width: 100%;
+  height: 100%;/* Fondo gris */
 }
 
 .grid {
+  margin-top: 24;
   display: grid;
-  gap: 24px; /* Espaciado entre proyectos */
+  gap: 14px; /* Espaciado entre proyectos */
+  background: none; /* Sin fondo */
 }
 
-@media (max-width: 767px) {
-  .grid {
-    grid-template-columns: repeat(1, 1fr); /* 1 columna en teléfonos */
-  }
+.filters-container {
+  display: flex;
+  justify-content: center;
+  gap: 32px; /* Espaciado entre los filtros */
+  margin-top: 85px; /* Mayor separación desde la navbar */
+  margin-bottom: 48px; /* Separación hasta la galería */
 }
 
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
-  }
+.filter-link {
+  font-size: 14px; /* Tamaño más pequeño */
+  color: #888; /* Gris claro */
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 400;
+  padding: 8px;
+  border: none; /* Sin bordes ni líneas */
+  background: none; /* Sin fondo */
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
-  }
+.filter-link:hover {
+  color: #000; /* Negro al pasar el cursor */
+}
+
+.filter-link.active {
+  color: #000; /* Negro para la categoría activa */
 }
 
 .project-container {
+  background: none;
   padding: 12px;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 
 .project-container:hover {
   transform: translateY(-4px);
@@ -65,4 +85,153 @@
 .project-client {
   text-align: right;
   color: #666;
+}
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 columna en teléfonos */
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+  }
+}
+
+/* Contenedor principal */
+.work-container {
+  background-color:rgb(128, 128, 128); /* Fondo gris */
+  padding: 32px; /* Espaciado interno */
+  min-height: 100vh; /* Asegura que ocupe toda la pantalla */
+}
+
+/* Galería de proyectos */
+.grid {
+  display: grid;
+  gap: 24px;
+  background: none; /* Fondo transparente */
+}
+
+.project-container {
+  background: none;
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-container:hover {
+  transform: translateY(-4px);
+}
+/* Fondo de la página */
+body {
+  background-color: #f5f5f5; /* Fondo gris */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; /* Ocupa toda la pantalla */
+}
+
+/* Contenedor principal */
+.work-container {
+  padding: 32px; /* Espaciado interno */
+  min-height: 100vh; /* Asegura que ocupe toda la pantalla */
+}
+
+/* Filtros */
+.filters-container {
+  display: flex;
+  justify-content: center;
+  gap: 32px; /* Espaciado entre los filtros */
+  margin-top: 85px; /* Separación desde la navbar */
+  margin-bottom: 48px; /* Separación hasta la galería */
+}
+
+.filter-link {
+  font-size: 14px;
+  color: #888; /* Gris claro */
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 400;
+  padding: 8px;
+  border: none;
+  background: none; /* Sin fondo */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.filter-link:hover {
+  color: #000; /* Negro al pasar el cursor */
+}
+
+.filter-link.active {
+  font-weight: bold; /* Destacar categoría activa */
+  color: #000; /* Negro para la categoría activa */
+}
+
+/* Galería de proyectos */
+.grid {
+  display: grid;
+  gap: 24px; /* Espaciado entre proyectos */
+  margin-top: 24px; /* Espaciado adicional desde los filtros */
+}
+
+.project-container {
+  background: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-container:hover {
+  transform: translateY(-4px);
+}
+
+.project-image {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-container:hover .project-image {
+  transform: scale(1.05);
+}
+
+.project-title,
+.project-client {
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.project-title {
+  font-weight: bold;
+  text-align: left;
+}
+
+.project-client {
+  text-align: right;
+  color: #666;
+}
+
+/* Responsividad */
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 columna en teléfonos */
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+  }
 }
