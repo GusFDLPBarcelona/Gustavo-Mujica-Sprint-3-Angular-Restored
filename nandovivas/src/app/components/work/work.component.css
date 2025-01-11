@@ -1,133 +1,3 @@
-/* Contenedor principal */
-body {
-  background-color:rgba(78, 78, 78, 0.36); /* Fondo gris */
-}
-
-.container {
-  width: 100%;
-  height: 100%;/* Fondo gris */
-}
-
-.grid {
-  margin-top: 24;
-  display: grid;
-  gap: 14px; /* Espaciado entre proyectos */
-  background: none; /* Sin fondo */
-}
-
-.filters-container {
-  display: flex;
-  justify-content: center;
-  gap: 32px; /* Espaciado entre los filtros */
-  margin-top: 85px; /* Mayor separación desde la navbar */
-  margin-bottom: 48px; /* Separación hasta la galería */
-}
-
-.filter-link {
-  font-size: 14px; /* Tamaño más pequeño */
-  color: #888; /* Gris claro */
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight: 400;
-  padding: 8px;
-  border: none; /* Sin bordes ni líneas */
-  background: none; /* Sin fondo */
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.filter-link:hover {
-  color: #000; /* Negro al pasar el cursor */
-}
-
-.filter-link.active {
-  color: #000; /* Negro para la categoría activa */
-}
-
-.project-container {
-  background: none;
-  padding: 12px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-
-.project-container:hover {
-  transform: translateY(-4px);
-}
-
-.project-image {
-  width: 100%;
-  height: auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.project-container:hover .project-image {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.pt-2 {
-  padding-top: 12px; /* Espaciado entre imagen y texto */
-}
-
-.project-title, .project-client {
-  font-size: 14px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.project-title {
-  font-weight: bold;
-  text-align: left;
-}
-
-.project-client {
-  text-align: right;
-  color: #666;
-}
-
-@media (max-width: 767px) {
-  .grid {
-    grid-template-columns: repeat(1, 1fr); /* 1 columna en teléfonos */
-  }
-}
-
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
-  }
-}
-
-/* Contenedor principal */
-.work-container {
-  background-color:rgb(128, 128, 128); /* Fondo gris */
-  padding: 32px; /* Espaciado interno */
-  min-height: 100vh; /* Asegura que ocupe toda la pantalla */
-}
-
-/* Galería de proyectos */
-.grid {
-  display: grid;
-  gap: 24px;
-  background: none; /* Fondo transparente */
-}
-
-.project-container {
-  background: none;
-  padding: 16px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.project-container:hover {
-  transform: translateY(-4px);
-}
 /* Fondo de la página */
 body {
   background-color: #f5f5f5; /* Fondo gris */
@@ -147,7 +17,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 32px; /* Espaciado entre los filtros */
-  margin-top: 85px; /* Separación desde la navbar */
+  margin-top: 80px; /* Separación desde la navbar */
   margin-bottom: 48px; /* Separación hasta la galería */
 }
 
@@ -169,40 +39,53 @@ body {
 }
 
 .filter-link.active {
-  font-weight: bold; /* Destacar categoría activa */
-  color: #000; /* Negro para la categoría activa */
+  color: #000;/* Negro para la categoría activa */
 }
 
 /* Galería de proyectos */
 .grid {
   display: grid;
-  gap: 24px; /* Espaciado entre proyectos */
+  gap: 16px; /* Espaciado entre proyectos */
   margin-top: 24px; /* Espaciado adicional desde los filtros */
 }
 
 .project-container {
-  background: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.project-container:hover {
-  transform: translateY(-4px);
+  background: transparent; /* Fondo transparente */
+  padding: 0;
+  margin-bottom: 16px; /* Espacio entre proyectos */
+  overflow: hidden; /* Evita desbordamientos */
+  position: relative;
+  height: 0; /* Elimina altura dinámica */
+  padding-bottom: 66.66%; /* Relación de aspecto 3:2 para la imagen */
 }
 
 .project-image {
   width: 100%;
-  height: auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  position: absolute; /* Asegura que la imagen esté dentro del contenedor */
+  top: 0;
+  left: 0;
+  display: block; /* Evita espacios en blanco por imágenes inline */
+  transition: transform 0.3s ease; /* Zoom suave */
+  object-fit: cover; /* Asegura que la imagen se adapte al contenedor */
 }
 
 .project-container:hover .project-image {
-  transform: scale(1.05);
+  transform: scale(1.05); /* Zoom de la imagen al pasar el mouse */
+}
+
+.project-details {
+  display: flex; /* Flexbox para alinear título y cliente en la misma línea */
+  justify-content: space-between; /* Título a la izquierda, cliente a la derecha */
+  align-items: center; /* Centra verticalmente ambos elementos */
+  margin-top: 1px; /* Espaciado mínimo entre imagen y texto */
 }
 
 .project-title,
 .project-client {
-  font-size: 14px;
-  overflow: hidden;
+  font-size: 10px;
+  margin: 0; /* Sin márgenes adicionales */
+  overflow: hidden; /* Manejo de texto largo */
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -213,8 +96,8 @@ body {
 }
 
 .project-client {
+  color: #666; /* Gris claro */
   text-align: right;
-  color: #666;
 }
 
 /* Responsividad */
