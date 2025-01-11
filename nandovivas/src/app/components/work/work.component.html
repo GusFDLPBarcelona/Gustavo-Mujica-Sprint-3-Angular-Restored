@@ -10,6 +10,7 @@
       </button>
     }
   </div>
+
   <!-- Galería de Proyectos -->
   <div class="grid">
     @for (project of sortedProjects(); track project.id) {
@@ -19,8 +20,8 @@
         <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
           <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
         </a>
-        <!-- Título y Cliente -->
-        <div class="pt-2 flex justify-between items-center">
+        <!-- Detalles del Proyecto -->
+        <div class="project-details">
           <h3 class="project-title">{{ project.title }}</h3>
           <p class="project-client">{{ project.client }}</p>
         </div>
