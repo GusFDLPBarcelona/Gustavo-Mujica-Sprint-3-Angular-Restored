@@ -1,6 +1,6 @@
 /* Fondo de la página */
 body {
-  background-color: #f5f5f5; /* Fondo gris */
+  background-color: rgb(75, 75, 75); /* Fondo gris */
   margin: 0;
   padding: 0;
   min-height: 100vh; /* Ocupa toda la pantalla */
@@ -10,6 +10,8 @@ body {
 .work-container {
   padding: 32px; /* Espaciado interno */
   min-height: 100vh; /* Asegura que ocupe toda la pantalla */
+  background: transparent; /* Fondo transparente */
+  background-color: rgb(105, 105, 105);
 }
 
 /* Filtros */
@@ -39,65 +41,83 @@ body {
 }
 
 .filter-link.active {
-  color: #000;/* Negro para la categoría activa */
+  color: #000; /* Negro para la categoría activa */
 }
 
 /* Galería de proyectos */
 .grid {
   display: grid;
-  gap: 16px; /* Espaciado entre proyectos */
+  gap: 24px; /* Espaciado entre proyectos */
   margin-top: 24px; /* Espaciado adicional desde los filtros */
-}
-
-.project-container {
-  background: transparent; /* Fondo transparente */
-  padding: 0;
-  margin-bottom: 16px; /* Espacio entre proyectos */
-  overflow: hidden; /* Evita desbordamientos */
-  position: relative;
-  height: 0; /* Elimina altura dinámica */
-  padding-bottom: 66.66%; /* Relación de aspecto 3:2 para la imagen */
 }
 
 .project-image {
   width: 100%;
-  height: 100%;
-  position: absolute; /* Asegura que la imagen esté dentro del contenedor */
-  top: 0;
-  left: 0;
   display: block; /* Evita espacios en blanco por imágenes inline */
   transition: transform 0.3s ease; /* Zoom suave */
-  object-fit: cover; /* Asegura que la imagen se adapte al contenedor */
+  object-fit: cover; /* La imagen se adapta al contenedor */
+  position: absolute; /* Mantiene la imagen dentro del contenedor */
+  top: 0;
+  left: 0;
+  height: auto; /* Mantiene la proporción de la imagen */
+  display: block;
+  object-fit: cover;
+  position: relative;
+  overflow: hidden;
 }
 
 .project-container:hover .project-image {
   transform: scale(1.05); /* Zoom de la imagen al pasar el mouse */
 }
 
+.project-container {
+  margin-bottom: 24px; /* Espaciado entre proyectos */
+  background: transparent;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Imagen y detalles en columnas */
+}
+
+.project-image {
+  width: 100%;
+  height: auto; /* Mantiene la proporción de la imagen */
+  display: block;
+  object-fit: cover;
+  position: relative; /* Coloca la imagen en el flujo normal */
+}
+
+.project-details-container {
+  background: transparent; /* Fondo transparente */
+  margin-top: 8px; /* Espacio controlado entre la imagen y los detalles */
+  padding: 0; /* Espaciado interno horizontal */
+  width: 100%; /* Asegura que coincida con el ancho de la imagen */
+  box-sizing: border-box;
+}
+
 .project-details {
-  display: flex; /* Flexbox para alinear título y cliente en la misma línea */
+  display: flex; /* Alinea título y cliente horizontalmente */
   justify-content: space-between; /* Título a la izquierda, cliente a la derecha */
-  align-items: center; /* Centra verticalmente ambos elementos */
-  margin-top: 1px; /* Espaciado mínimo entre imagen y texto */
+  align-items: center; /* Centra verticalmente el texto */
 }
 
 .project-title,
 .project-client {
-  font-size: 10px;
+  font-size: 12px; /* Tamaño ajustado */
   margin: 0; /* Sin márgenes adicionales */
-  overflow: hidden; /* Manejo de texto largo */
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .project-title {
   font-weight: bold;
-  text-align: left;
+  color: #000; /* Negro */
 }
 
 .project-client {
-  color: #666; /* Gris claro */
-  text-align: right;
+  color: #888; /* Gris claro */
 }
 
 /* Responsividad */
