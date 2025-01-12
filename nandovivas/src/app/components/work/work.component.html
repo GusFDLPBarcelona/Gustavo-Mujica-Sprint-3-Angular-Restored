@@ -16,16 +16,20 @@
     @for (project of sortedProjects(); track project.id) {
       <div class="project-container group"
            [class.opacity-50]="project.category !== activeCategory() && activeCategory() !== 'All'">
-        <!-- Imagen con Hover -->
+        <!-- Imagen -->
         <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
           <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
         </a>
-        <!-- Detalles del Proyecto -->
-        <div class="project-details">
-          <h3 class="project-title">{{ project.title }}</h3>
-          <p class="project-client">{{ project.client }}</p>
+
+        <!-- Contenedor de Detalles -->
+        <div class="project-details-container">
+          <div class="project-details">
+            <span class="project-title">{{ project.title }}</span>
+            <span class="project-client">{{ project.client }}</span>
+          </div>
         </div>
       </div>
     }
   </div>
 </div>
+
