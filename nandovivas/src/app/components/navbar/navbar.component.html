@@ -1,14 +1,18 @@
 <div class="navbar-container">
   <!-- Logo -->
   <div class="logo-container">
-    <img src="assets/vivas_logo.svg" alt="Logo" class="logo" />
+    <a routerLink="/">
+    <img src="assets/vivas_logo.svg" alt="Logo" class="logo"></a>
   </div>
 
   <!-- Menú de navegación (visible en pantallas grandes) -->
   <nav class="navigation-menu">
     <a routerLink="/work" class="menu-link">Work</a>
-    <a routerLink="/shop" class="menu-link">Shop</a>
     <a routerLink="/contact" class="menu-link">Contact</a>
+    <a routerLink="/shop" class="menu-link">
+      Shop
+      <img src="/flechaShopIcon.svg" alt="Arrow" class="arrow-icon">
+    </a>
   </nav>
 
   <!-- Botón hamburguesa (visible en pantallas pequeñas) -->

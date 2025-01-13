@@ -38,7 +38,6 @@ export class ProjectsService {
       })
     );
   }
-  
 
   getProjectImages(): Observable<string[]> {
     return this.http.get<Project[]>(this.apiUrl).pipe(
@@ -51,8 +50,8 @@ export class ProjectsService {
     );
   }
   
-  
   getProjectById(id: number): Observable<Project | null> {
+    console.log(id);
     return this.http.get<Project>(`${this.apiUrl}/${id}`).pipe(
       catchError(() => {
         this.toastService.showError('No se pudo cargar el proyecto');
