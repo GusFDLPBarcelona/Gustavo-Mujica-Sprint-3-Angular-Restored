@@ -23,15 +23,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/work/work.component').then((m) => m.WorkComponent),
   },
+  {    path: 'detail/:id',
+    loadComponent: () =>
+      import('./components/detail/detail.component').then((m) => m.DetailComponent),
+    resolve: { project: ProjectResolver },
+  },
   {
     path: '**',
     redirectTo: '',
     pathMatch: 'full',
-  },
-  {
-    path: 'detail/:id',
-    loadComponent: () =>
-      import('./components/detail/detail.component').then((m) => m.DetailComponent),
-    resolve: { project: ProjectResolver },
   },
 ];

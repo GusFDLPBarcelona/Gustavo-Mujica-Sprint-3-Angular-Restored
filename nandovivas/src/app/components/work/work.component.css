@@ -1,38 +1,50 @@
 /* Fondo de la página */
 body {
-  background-color: rgb(75, 75, 75); /* Fondo gris */
   margin: 0;
   padding: 0;
   min-height: 100vh; /* Ocupa toda la pantalla */
+  overflow-y: scroll;
+  box-sizing: border-box;
 }
 
 /* Contenedor principal */
 .work-container {
-  padding: 32px; /* Espaciado interno */
+  padding: 15px; /* Espaciado interno */
   min-height: 100vh; /* Asegura que ocupe toda la pantalla */
-  background: transparent; /* Fondo transparente */
-  background-color: rgb(105, 105, 105);
+  background-color: rgb(165, 165, 165);
+}
+
+.filters-background {
+  position: fixed;
+  top: 0; /* Desde el top de la pantalla */
+  width: 100vhw; /* Ocupa todo el ancho */
+  height: 145px; /* Ajusta la altura para cubrir el área tras la navbar */
+  background-color: rgb(165, 165, 165); /* Fondo consistente */
+  z-index: 900; /* Por debajo de navbar*/
 }
 
 /* Filtros */
 .filters-container {
+  position: fixed; /* Fijo al hacer scroll */
+  width: 100%; /* Ocupa todo el ancho */
+  z-index: 999; /* Por encima de los proyectos */
   display: flex;
   justify-content: center;
-  gap: 32px; /* Espaciado entre los filtros */
-  margin-top: 80px; /* Separación desde la navbar */
+  gap: 5px; /* Espaciado entre los filtros */
+  margin-top: 75px; /* Separación desde la navbar */
   margin-bottom: 48px; /* Separación hasta la galería */
 }
 
 .filter-link {
   font-size: 14px;
-  color: #888; /* Gris claro */
-  text-transform: uppercase;
+  color: #646464; /* Gris claro */
+  text-transform: uppercase;  
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 400; 
   padding: 8px;
   border: none;
   background: none; /* Sin fondo */
-  cursor: pointer;
+  cursor: pointer; 
   transition: color 0.3s ease;
 }
 
@@ -41,14 +53,16 @@ body {
 }
 
 .filter-link.active {
+  border-bottom: 2px solid #000; /* Subrayado negro para el filtro activo */
   color: #000; /* Negro para la categoría activa */
+  transition: border-bottom 0.3s ease; /* Animación suave al activar */
 }
 
 /* Galería de proyectos */
 .grid {
-  display: grid;
-  gap: 24px; /* Espaciado entre proyectos */
-  margin-top: 24px; /* Espaciado adicional desde los filtros */
+  display: grid;   
+  gap: 15px; /* Espaciado entre proyectos */
+  margin-top: 125px; /* Ajustar espacio debajo de los filtros */
 }
 
 .project-image {
@@ -60,9 +74,6 @@ body {
   top: 0;
   left: 0;
   height: auto; /* Mantiene la proporción de la imagen */
-  display: block;
-  object-fit: cover;
-  position: relative;
   overflow: hidden;
 }
 
@@ -71,41 +82,43 @@ body {
 }
 
 .project-container {
-  margin-bottom: 24px; /* Espaciado entre proyectos */
   background: transparent;
   padding: 0;
-  overflow: hidden;
-  position: relative;
-  display: flex;
+  overflow: hidden; 
+  position: relative; 
+  display: flex; 
   flex-direction: column; /* Imagen y detalles en columnas */
 }
 
 .project-image {
-  width: 100%;
+  width: 100%; 
   height: auto; /* Mantiene la proporción de la imagen */
   display: block;
-  object-fit: cover;
+  object-fit: cover; /* La imagen se adapta al contenedor */
   position: relative; /* Coloca la imagen en el flujo normal */
 }
 
 .project-details-container {
-  background: transparent; /* Fondo transparente */
-  margin-top: 8px; /* Espacio controlado entre la imagen y los detalles */
+  display: flex; /* Usa flexbox para mayor control */
+  flex-direction: column; /* Coloca los detalles en columna */
+  background: rgb(165, 165, 165);
+  margin-top: 0px; /* Espacio controlado entre la imagen y los detalles */
   padding: 0; /* Espaciado interno horizontal */
   width: 100%; /* Asegura que coincida con el ancho de la imagen */
-  box-sizing: border-box;
+  z-index: 1; /* Por encima de la imagen */
+  height: auto; /* Ajusta la altura automáticamente */
 }
 
 .project-details {
   display: flex; /* Alinea título y cliente horizontalmente */
   justify-content: space-between; /* Título a la izquierda, cliente a la derecha */
-  align-items: center; /* Centra verticalmente el texto */
+  margin-top: -3px; /* Ajusta el espacio entre el título y el cliente */
 }
 
 .project-title,
 .project-client {
-  font-size: 12px; /* Tamaño ajustado */
-  margin: 0; /* Sin márgenes adicionales */
+  font-size: 10px; /* Tamaño ajustado */
+  margin-top: 0; /* Sin márgenes adicionales */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -117,13 +130,33 @@ body {
 }
 
 .project-client {
-  color: #888; /* Gris claro */
+  color: #616161; /* Gris claro */
 }
 
 /* Responsividad */
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: repeat(1, 1fr); /* 1 columna en teléfonos */
+  }
+
+  .filters-container {
+    flex-direction: column; /* Cambia de fila a columna */
+    align-items: center; /* Centra los filtros en la columna */
+  }
+
+  .filters-background {
+    z-index: 999;
+  }
+
+  .filter-link {
+    display: inline-block; /* Asegura que el botón solo ocupe el ancho del texto */
+    width: 100%; /* Asegura que los botones ocupen todo el ancho disponible */
+    text-align: center; /* Centra el texto en cada botón */
+  }
+
+  .filter-link.active {
+    border-bottom: 2px solid #000; /* Subrayado activo */
+    width: auto;
   }
 }
 
