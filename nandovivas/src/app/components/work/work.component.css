@@ -9,7 +9,7 @@ body {
 
 /* Contenedor principal */
 .work-container {
-  padding: 15px; /* Espaciado interno */
+  padding: 1px 15px 0; /* Espaciado interno */
   min-height: 100vh; /* Asegura que ocupe toda la pantalla */
   background-color: rgb(165, 165, 165);
 }
@@ -17,10 +17,11 @@ body {
 .filters-background {
   position: fixed;
   top: 0; /* Desde el top de la pantalla */
-  width: 100vhw; /* Ocupa todo el ancho */
-  height: 145px; /* Ajusta la altura para cubrir el área tras la navbar */
+  width: 100vw; /* Ocupa todo el ancho */
+  height: 135px; /* Ajusta la altura para cubrir el área tras la navbar */
+  width: calc(100% - 14px);
   background-color: rgb(165, 165, 165); /* Fondo consistente */
-  z-index: 900; /* Por debajo de navbar*/
+  z-index: 900; /* Por debajo de navbar (z-index: 1000) */
 }
 
 /* Filtros */
@@ -62,7 +63,7 @@ body {
 .grid {
   display: grid;   
   gap: 15px; /* Espaciado entre proyectos */
-  margin-top: 125px; /* Ajustar espacio debajo de los filtros */
+  margin-top: 135px; /* Ajustar espacio debajo de los filtros */
 }
 
 .project-image {
@@ -88,6 +89,16 @@ body {
   position: relative; 
   display: flex; 
   flex-direction: column; /* Imagen y detalles en columnas */
+}
+
+.opacity-50 {
+  opacity: 0.5; /* Reduce la opacidad de los proyectos no seleccionados */
+  pointer-events: auto; /* Desactiva interacciones (opcional) */
+}
+
+.project-container {
+  opacity: 1; /* Opacidad normal para proyectos seleccionados */
+  pointer-events: auto; /* Interacciones habilitadas */
 }
 
 .project-image {
@@ -138,18 +149,12 @@ body {
   .grid {
     grid-template-columns: repeat(1, 1fr); /* 1 columna en teléfonos */
   }
-
   .filters-container {
     flex-direction: column; /* Cambia de fila a columna */
     align-items: center; /* Centra los filtros en la columna */
   }
 
-  .filters-background {
-    z-index: 999;
-  }
-
   .filter-link {
-    display: inline-block; /* Asegura que el botón solo ocupe el ancho del texto */
     width: 100%; /* Asegura que los botones ocupen todo el ancho disponible */
     text-align: center; /* Centra el texto en cada botón */
   }
