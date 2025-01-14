@@ -16,7 +16,7 @@
   <div class="grid">
     @for (project of sortedProjects(); track project.id) {
       <div class="project-container group"
-           [class.opacity-50]="project.category !== activeCategory() && activeCategory() !== 'All'">
+      [ngClass]="{ 'opacity-50': project.category !== activeCategory() && activeCategory() !== 'All' }">
         <!-- Imagen -->
         <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
           <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
