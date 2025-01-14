@@ -16,28 +16,29 @@ export class ProjectsService {
   constructor(private http: HttpClient, private toastService: ToastService) {}
 
   getProjects(): Observable<Project[]> {
-    this.isLoading.next(true); 
-    if (this.cache) {
-      console.log('Cache content:', this.cache);
-      this.toastService.showInfo('Proyectos cargados desde la caché.');
-      this.isLoading.next(false); 
-      return of(this.cache);
-    }
+    this.isLoading.next(true);
   
     return this.http.get<Project[]>(this.apiUrl).pipe(
       tap((projects) => {
-        this.cache = projects;
+        this.cache = projects; // Guardar proyectos en caché si se obtienen desde el backend
         this.isLoading.next(false);
-        console.log('Proyectos cargados desde la API:', projects);
       }),
       catchError((error) => {
+        console.error('Error al cargar proyectos desde la API:', error);
+  
+        if (this.cache) {
+          console.warn('Cargando proyectos desde la caché.');
+          this.isLoading.next(false);
+          return of(this.cache); // Si hay caché, devolverla
+        }
+  
+        this.toastService.showError('Error al cargar proyectos. Intenta más tarde.');
         this.isLoading.next(false);
-        this.toastService.showError('Error al cargar proyectos');
-        console.error('Error al cargar proyectos:', error);
-        return of([]);
+        return of([]); // Retornar lista vacía si no hay caché
       })
     );
   }
+  
 
   getProjectImages(): Observable<string[]> {
     return this.http.get<Project[]>(this.apiUrl).pipe(

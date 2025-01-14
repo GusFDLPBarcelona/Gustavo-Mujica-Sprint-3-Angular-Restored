@@ -3,11 +3,12 @@ import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../interfaces/project';
 import { ToastService } from '../../services/toast.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-work',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
