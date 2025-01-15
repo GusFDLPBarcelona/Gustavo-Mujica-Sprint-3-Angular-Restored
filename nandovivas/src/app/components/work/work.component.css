@@ -34,6 +34,7 @@ body {
   gap: 5px; /* Espaciado entre los filtros */
   margin-top: 75px; /* Separación desde la navbar */
   margin-bottom: 48px; /* Separación hasta la galería */
+  top: 0;
 }
 
 .filter-link {
@@ -57,6 +58,14 @@ body {
   border-bottom: 2px solid #000; /* Subrayado negro para el filtro activo */
   color: #000; /* Negro para la categoría activa */
   transition: border-bottom 0.3s ease; /* Animación suave al activar */
+}
+
+
+.filters-background {
+  border: 2px solid blue; /* Bordes para depuración */
+}
+.grid {
+  border: 2px solid red; /* Bordes para depuración */
 }
 
 /* Galería de proyectos */

@@ -38,8 +38,14 @@ export class WorkComponent implements OnInit {
   }
 
   setActiveCategory(category: string) {
-    console.log('setActiveCategory called', category);
-    this.activeCategory.set(category);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+    console.log('Categoría activa:', category);
+    this.activeCategory.set(category); // Cambiar la categoría activa
+    console.log('ScrollTop del body:', document.body.scrollTop);
+    console.log('ScrollTop del html:', document.documentElement.scrollTop);
+    // Animación suave al top
+    document.body.scrollTop= 0;
+    document.documentElement.scrollTop = 0;}
+  
+  
+  
 }
