@@ -115,7 +115,7 @@ export class WellcomeComponent implements OnInit {
   handleTransitionEnd() {
     const track = document.querySelector('.carousel-track') as HTMLElement;
     if (this.currentIndex() === this.imagesGallery().length) {
-      track.style.transition = 'none';
+      //track.style.transition = 'none';
       this.currentIndex.set(0);
       track.style.transform = `translateX(0)`;
       void track.offsetWidth; // Forzar reflujo
