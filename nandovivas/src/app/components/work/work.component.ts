@@ -13,31 +13,33 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./work.component.css']
 })
 export class WorkComponent implements OnInit {
+  constructor() {
+    console.log('WorkComponent initialized');
+  }
   projects = signal<Project[]>([]);
-  activeCategory = signal<string>('All'); // Inicialización de categoría activa
-  isLoading = computed(() => this.projectService.isLoading.value); // Computado para el estado de carga
+  activeCategory = signal<string>('All'); 
+  isLoading = computed(() => this.projectService.isLoading.value); 
   private projectService = inject(ProjectsService);
 
   ngOnInit() {
     this.projectService.getProjects().subscribe((projects: Project[]) => {
+      console.log('Projects:', projects);
       if (projects.length === 0) {
-        // Mostrar toast si no hay proyectos
         const toastService = inject(ToastService);
         toastService.showInfo('No hay proyectos disponibles para mostrar.');
       } else {
-        this.projects.set(projects);
+        const projectsWithOrder = projects.map((project, index) => ({
+          ...project,
+          originalOrder: index, 
+        }));
+        this.projects.set(projectsWithOrder);
       }
     });
   }
 
   setActiveCategory(category: string) {
-    this.activeCategory.set(category); // Cambiar la categoría activa
+    console.log('setActiveCategory called', category);
+    this.activeCategory.set(category);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-  sortedProjects = computed(() => {
-    const category = this.activeCategory(); // Usar categoría activa
-    return this.projects().filter((project) =>
-      category === 'All' || project.category === category
-    );
-  });
 }
