@@ -63,7 +63,7 @@ body {
 .grid {
   display: grid;   
   gap: 15px; /* Espaciado entre proyectos */
-  margin-top: 135px; /* Ajustar espacio debajo de los filtros */
+  margin-top: 136px; /* Ajustar espacio debajo de los filtros */
 }
 
 .project-image {
@@ -71,9 +71,7 @@ body {
   display: block; /* Evita espacios en blanco por imágenes inline */
   transition: transform 0.3s ease; /* Zoom suave */
   object-fit: cover; /* La imagen se adapta al contenedor */
-  position: absolute; /* Mantiene la imagen dentro del contenedor */
-  top: 0;
-  left: 0;
+  position: relative; /* Mantiene la imagen dentro del contenedor */
   height: auto; /* Mantiene la proporción de la imagen */
   overflow: hidden;
 }
@@ -91,22 +89,11 @@ body {
   flex-direction: column; /* Imagen y detalles en columnas */
 }
 
-.opacity-50 {
-  opacity: 0.5; /* Reduce la opacidad de los proyectos no seleccionados */
-  pointer-events: auto; /* Desactiva interacciones (opcional) */
-}
-
-.project-container {
-  opacity: 1; /* Opacidad normal para proyectos seleccionados */
-  pointer-events: auto; /* Interacciones habilitadas */
-}
-
-.project-image {
-  width: 100%; 
-  height: auto; /* Mantiene la proporción de la imagen */
-  display: block;
-  object-fit: cover; /* La imagen se adapta al contenedor */
-  position: relative; /* Coloca la imagen en el flujo normal */
+.project-container.opacity-50 {
+  opacity: 0.5; /* Reduce la opacidad */
+  visibility: visible; /* Asegura que el elemento sea visible */
+  pointer-events: auto; /* Permite la interacción */
+  transition: opacity 0.3s ease; /* Transición suave */
 }
 
 .project-details-container {

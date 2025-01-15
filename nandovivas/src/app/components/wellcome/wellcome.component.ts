@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
+import { Component, OnInit, inject, signal, HostListener, OnDestroy } from '@angular/core';
 import { WellcomeGalleryService } from '../../services/wellcome_gallery.service';
 import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
 
@@ -8,7 +8,7 @@ import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
   templateUrl: './wellcome.component.html',
   styleUrls: ['./wellcome.component.css'],
 })
-export class WellcomeComponent implements OnInit {
+export class WellcomeComponent implements OnInit, OnDestroy{
   imagesGallery = signal<WellcomeGallery[]>([]); // Imágenes y datos de wellcome_gallery
   currentIndex = signal<number>(0);
   intervalId!: number;
@@ -20,6 +20,12 @@ export class WellcomeComponent implements OnInit {
   ngOnInit() {
     console.log('Componente Wellcome cargado.');
     this.loadGalleryItems(); // Cargar imágenes y datos de wellcome_gallery
+  }
+
+  ngOnDestroy() {
+    console.log('Componente Wellcome destruido.');
+    this.stopCarousel(); // Detener el carrusel
+    clearTimeout(this.arrowTimeout); // Limpiar el timeout de las flechas
   }
 
   loadGalleryItems() {
@@ -37,6 +43,11 @@ export class WellcomeComponent implements OnInit {
       console.log('Cambiando imagen automáticamente...');
       this.moveToNext(); // Cambia automáticamente cada 3 segundos
     }, 3000);
+  }
+
+  stopCarousel() {
+    clearInterval(this.intervalId); // Detiene el carrusel
+    console.log('Carrusel detenido.');
   }
 
   moveToNext() {

@@ -4,4 +4,5 @@ export interface Project {
     client: string;
     category: string;
     image: string;
+    originalOrder?: number;
 }

@@ -14,9 +14,10 @@
 
   <!-- Galería de Proyectos -->
   <div class="grid">
-    @for (project of sortedProjects(); track project.id) {
+    @for (project of projects(); track project.id) {
       <div class="project-container group"
-      [ngClass]="{ 'opacity-50': project.category !== activeCategory() && activeCategory() !== 'All' }">
+      [ngClass]="{ 'opacity-50': activeCategory() !== 'All' && project.category !== activeCategory() }"
+      [style.order]="activeCategory() === 'All' ? project.originalOrder : (project.category === activeCategory() ? 0 : 1)">
         <!-- Imagen -->
         <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
           <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
