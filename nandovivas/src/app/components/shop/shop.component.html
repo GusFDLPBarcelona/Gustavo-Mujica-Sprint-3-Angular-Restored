@@ -1,1 +1,33 @@
-<p>shop works!</p>
+<div class="filters-background"></div>
+<div class="shop-container">
+  <!-- Filtros por Categoría -->
+  <div class="filters-container">
+    @for (category of ['All', 'Clothing', 'Accessories', 'Prints', 'Books']; track category) {
+      <button
+        (click)="setActiveCategory(category)"
+        class="filter-link"
+        [class.active]="activeCategory === category">
+        {{ category }}
+      </button>
+    }
+  </div>
+
+  <!-- Galería de Productos -->
+  <div class="grid">
+    @for (product of filteredProducts; track product.id) {
+      <div class="product-container group">
+        <!-- Imagen del Producto -->
+        <div class="product-image-container">
+          <img [src]="product.image" alt="{{ product.name }}" class="product-image">
+        </div>
+
+        <!-- Detalles del Producto -->
+        <div class="product-details">
+          <p class="product-name">{{ product.name }}</p>
+          <p class="product-description">{{ product.description }}</p>
+          <p class="product-price">€ {{ product.price }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

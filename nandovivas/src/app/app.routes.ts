@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { ProjectResolver } from './resolvers/project.resolver';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { ProductResolver } from './resolvers/product.resolver';
 
 export const routes: Routes = [
 
@@ -23,10 +26,15 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/work/work.component').then((m) => m.WorkComponent),
   },
-  {    path: 'detail/:id',
-    loadComponent: () =>
-      import('./components/detail/detail.component').then((m) => m.DetailComponent),
-    resolve: { project: ProjectResolver },
+  {
+    path: 'project-detail/:id',
+    component: ProjectDetailComponent, // Cambia al nuevo nombre
+    resolve: { project: ProjectResolver }
+  },
+  {
+    path: 'product-detail/:id',
+    component: ProductDetailComponent,
+    resolve: { product: ProductResolver }
   },
   {
     path: '**',
