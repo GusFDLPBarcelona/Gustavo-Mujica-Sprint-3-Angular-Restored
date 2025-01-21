@@ -9,3 +9,7 @@ html, body {
     font-family: 'Inter', sans-serif !important;
   }
   
+  .mat-body-1, .mat-button, .mat-toolbar, .mat-card {
+    font-family: 'Inter', sans-serif !important;
+  }
+  

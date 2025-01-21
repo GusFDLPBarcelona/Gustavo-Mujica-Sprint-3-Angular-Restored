@@ -1,0 +1,269 @@
+/* Contenedor principal */
+.product-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgb(165, 165, 165); /* Fondo gris consistente */
+  }
+  
+  /* Botón de regreso */
+  .back-button {
+    align-self: flex-start; /* Alineado a la izquierda */
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #333; /* Color oscuro */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .back-button:hover {
+    background-color: #555; /* Cambio de color al pasar el mouse */
+  }
+  
+  /* Contenedor de la imagen principal */
+  .product-image-container {
+    width: 100%;
+    max-width: 400px; /* Tamaño máximo de la imagen principal */
+    height: 400px; /* Altura fija para mantener proporciones */
+    overflow: hidden;
+    border-radius: 8px; /* Bordes redondeados */
+    margin-bottom: 20px;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajuste de imagen */
+    display: block;
+  }
+  
+  /* Miniaturas */
+  .thumbnails-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .thumbnail-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* Asegura que la imagen no se deforme */
+    border: 2px solid transparent; /* Borde transparente por defecto */
+    cursor: pointer;
+    transition: border 0.3s;
+    border-radius: 5px; /* Bordes redondeados */
+  }
+  
+  .thumbnail-image:hover,
+  .thumbnail-image.active {
+    border-color: #333; /* Borde oscuro en hover o imagen activa */
+  }
+  
+  /* Contenedor de los detalles */
+  .product-details {
+    text-align: left; /* Alineación a la izquierda */
+    width: 100%;
+    max-width: 600px; /* Ancho máximo para los detalles */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  }
+  
+  /* Nombre del producto */
+  .product-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Precio del producto */
+  .product-price {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Descripción del producto */
+  .product-description {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  /* Opciones de tallas */
+  .product-sizes {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .size-option {
+    padding: 5px 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .size-option.active,
+  .size-option:hover {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  /* Opciones adicionales */
+  .product-options {
+    margin-bottom: 20px;
+  }
+  
+  .product-options label {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Botones de acción */
+  .product-actions {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .add-to-cart,
+  .buy-now {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+  }
+  
+  .add-to-cart {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .add-to-cart:hover {
+    background-color: #555;
+  }
+  
+  .buy-now {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .buy-now:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 1024px) {
+    .product-detail-container {
+      padding: 15px; /* Reducir padding para tablets */
+    }
+  
+    .product-image-container {
+      max-width: 350px;
+      height: 350px; /* Reducir ligeramente el tamaño de la imagen */
+    }
+  
+    .product-details {
+      max-width: 500px; /* Ajustar el ancho del detalle */
+      padding: 15px; /* Espaciado interno más pequeño */
+    }
+  
+    .product-name {
+      font-size: 1.6rem; /* Reducir tamaño del nombre */
+    }
+  
+    .product-price {
+      font-size: 1.2rem; /* Reducir tamaño del precio */
+    }
+  
+    .product-description {
+      font-size: 0.9rem; /* Texto más pequeño */
+    }
+  
+    .product-sizes .size-option {
+      padding: 4px 12px; /* Botones más compactos */
+      font-size: 0.8rem;
+    }
+  
+    .add-to-cart,
+    .buy-now {
+      font-size: 0.9rem; /* Botones más pequeños */
+      padding: 8px 16px;
+    }
+  }
+  
+  /* Teléfonos (ancho máximo de 768px) */
+  @media (max-width: 768px) {
+    .product-detail-container {
+      flex-direction: column; /* Coloca todos los elementos en columna */
+      align-items: center; /* Centrar todos los elementos */
+    }
+  
+    .product-image-container {
+      max-width: 100%; /* Ocupa todo el ancho disponible */
+      height: auto; /* Ajusta la altura automáticamente */
+    }
+  
+    .thumbnails-container {
+      justify-content: center; /* Centrar miniaturas */
+      gap: 5px; /* Menor separación entre miniaturas */
+    }
+  
+    .thumbnail-image {
+      width: 40px; /* Miniaturas más pequeñas */
+      height: 40px;
+    }
+  
+    .product-details {
+      max-width: 100%; /* Ocupa todo el ancho disponible */
+      padding: 10px;
+    }
+  
+    .product-name {
+      font-size: 1.4rem; /* Reducir aún más el tamaño del nombre */
+    }
+  
+    .product-price {
+      font-size: 1.1rem;
+    }
+  
+    .product-description {
+      font-size: 0.85rem;
+      line-height: 1.4; /* Reducir el espacio entre líneas */
+    }
+  
+    .product-sizes .size-option {
+      padding: 3px 10px; /* Botones más pequeños */
+      font-size: 0.75rem;
+    }
+  
+    .add-to-cart,
+    .buy-now {
+      font-size: 0.85rem; /* Botones más compactos */
+      padding: 6px 12px;
+      flex-grow: 1; /* Asegura que los botones ocupen el mismo ancho */
+    }
+  
+    .product-actions {
+      flex-direction: column; /* Botones uno encima del otro */
+      gap: 10px; /* Espaciado entre botones */
+    }
+  }
+
+  

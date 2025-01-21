@@ -113,6 +113,10 @@ body {
     margin: 0; /* Sin márgenes por defecto */
     padding: 0; /* Sin padding por defecto */
   }
+
+  a {
+    text-decoration: none;
+  }
   
   .product-name {
     font-size: 12px; /* Tamaño de fuente */
@@ -127,9 +131,10 @@ body {
   .product-description {
     font-size: 12px; /* Un poco más pequeña que el nombre */
     color: #666; /* Color gris claro */
-    margin-top: -3px; /* Eliminado espacio extra */
+    margin-top: 0px; /* Eliminado espacio extra */
     margin-bottom: 0;
     padding: 0;
+    line-height: 1.1;
   }
   
   .product-price {

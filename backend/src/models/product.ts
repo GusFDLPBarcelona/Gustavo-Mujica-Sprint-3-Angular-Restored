@@ -11,6 +11,19 @@ export const getProduct = async (id: number): Promise<Product | null> => {
     return rows.length > 0 ? rows[0] : null;
 };
 
+export const getProductById = async (id: number): Promise<Product | null> => {
+    const [productResult]: any = await connection.query('SELECT * FROM products WHERE id = ?', [id]);
+    const [imagesResult]: any = await connection.query('SELECT image_url FROM product_images WHERE product_id = ?', [id]);    
+
+    if (!productResult.length) {
+        throw new Error(`Producto no encontrado`);
+    }
+    const product = productResult[0];
+    const images = imagesResult.map((row: { image_url: string; }) => row.image_url);
+
+    return { ...product, images };
+};
+
 export const createProduct = async (product: Product): Promise<any> => {
     const { name, description, size, price, stock, image } = product;
     const [result] = await connection.query(
