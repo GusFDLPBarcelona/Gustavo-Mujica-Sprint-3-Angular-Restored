@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getProducts, getProduct, createProduct, updateProduct, deleteProduct } from '../models/product';
+import { getProducts, getProduct, createProduct, updateProduct, deleteProduct, getProductById } from '../models/product';
 import { Product } from '../interfaces/product';
 
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -15,7 +15,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
 export const getOneProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-        const product = await getProduct(Number(id));
+        const product = await getProductById(Number(id));
         if (!product) {
             return res.status(404).json({ msg: 'Producto no encontrado' });
         }
