@@ -1,53 +1,93 @@
 <div class="product-detail-container">
-    <button routerLink="/shop" class="back-button">Back</button>
-  
-    <!-- Imagen principal -->
-    <div class="product-image-container">
-      <img [src]="product?.image" [alt]="product?.name" class="product-image" />
-    </div>
-  
-    <!-- Miniaturas de Imágenes Adicionales -->
+  <!-- Botón para volver -->
+  <button routerLink="/shop" class="back-button">Back</button>
+
+  <!-- Imagen principal -->
+  <div class="product-image-container">
+    <img [src]="product!.image" [alt]="product!.name || 'Product Image'" class="product-image" />
+  </div>
+
+  <!-- Miniaturas de Imágenes Adicionales -->
+  @if (product!.images!.length > 0) {
     <div class="product-thumbnails">
-      @if (product!.images && product!.images!.length > 0) {
-      @for (image of product?.image; track image) {
+      @for (image of product!.images; track image) {
         <img
           [src]="image"
-          [alt]="product!.name"
+          [alt]="product?.name || 'Product Image'"
           (click)="changeMainImage(image)"
           class="thumbnail-image"
         />
       }
-    }
     </div>
-  
-    <!-- Información del Producto -->
-    <div class="product-details">
-      <h1 class="product-name">{{ product?.name }}</h1>
-      <p class="product-price">€ {{ product?.price }}</p>
-      <p class="product-description">{{ product?.description }}</p>
-  
-      <!-- Opciones de talla -->
+  }
+
+  <!-- Información del Producto -->
+  <div class="product-details">
+    <h1 class="product-name">{{ product?.name }}</h1>
+    <p class="product-price">€ {{ product?.price }}</p>
+    <p class="product-description">{{ product?.description }}</p>
+
+    <!-- Opciones de Talla -->
+    @if (product!.sizes!.length > 0) {
       <div class="product-sizes">
-        @for (size of ['XS', 'S', 'M', 'L', 'XL', 'XXL']; track size) {
-          <span class="size-option" [class.active]="size === product?.size">
-            {{ size }}
-          </span>
+        @for (size of product!.sizes; track size?.name) {
+          <button
+            class="size-option"
+            [class.active]="size?.name === product?.size"
+            [disabled]="size?.stock === 0 || product?.stock === 0"
+            (click)="selectSize(size!.name)"
+          >
+            {{ size?.name }}
+            @if (size?.stock === 0) {
+              <span>(Agotada)</span>
+            }
+          </button>
         }
       </div>
-  
-      <!-- Opciones adicionales -->
-      <div class="product-options">
-        <label>
-          Quantity:
-          <input type="number" min="1" value="1" />
-        </label>
-      </div>
-  
-      <!-- Botones de acción -->
-      <div class="product-actions">
-        <button class="add-to-cart">Add to Cart</button>
-        <button class="buy-now">Buy Now</button>
-      </div>
-    </div>
+    }
+
+    <!-- Stock General para Productos Sin Tallas -->
+    @if (!product!.sizes || product!.sizes.length === 0) {
+      <p class="product-stock" [class.out-of-stock]="product?.stock === 0">
+        Stock disponible:
+        @if (product!.stock && product!.stock > 0) {
+          <span>{{ product!.stock }}</span>
+        }
+        @if (product?.stock === 0) {
+          <span>(Agotado)</span>
+        }
+      </p>
+    }
   </div>
-  
+
+  <!-- Opciones de Cantidad -->
+  <div class="product-options">
+    <label>
+      Quantity:
+      <input
+        type="number"
+        min="1"
+        [value]="quantity"
+        (input)="onQuantityChange($event)"
+      />
+    </label>
+  </div>
+
+  <!-- Botones de Compra -->
+  <div class="product-actions">
+    <button
+      (click)="addToCart()"
+      [disabled]="isOutOfStock"
+      class="add-to-cart"
+    >
+      Add to Cart
+    </button>
+    <button
+      (click)="buyNow()"
+      [disabled]="isOutOfStock"
+      class="buy-now"
+    >
+      Buy Now
+    </button>
+  </div>
+</div>
