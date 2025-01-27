@@ -4,8 +4,9 @@ export interface Product {
     description: string;
     price: number;
     stock?: number;
-    image: string; // Imagen principal del producto
+    size?: string;
+    sizes?: { name: string; stock: number }[]; // Tallas con su stock
+    image: string;
     images?: string[];
     category: string;
-    size?: string;
-}
+  }
