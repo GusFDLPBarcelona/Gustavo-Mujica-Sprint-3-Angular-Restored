@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connection from './db/connection';
 import routesProject from './routes/project';
-import routesProduct from './routes/product';
+import routesProduct from './routes/product.routes';
 import routesGallery from './routes/gallery';
 
 

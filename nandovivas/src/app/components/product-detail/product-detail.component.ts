@@ -1,34 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductDetail } from '../../interfaces/product-detail';
+import { Product } from '../../interfaces/product';
+import { CommonModule } from '@angular/common';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
+  imports: [CommonModule], // 🔥 Necesario para directivas estructurales
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+  styleUrls: ['./product-detail.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush // 🔥 Optimización de rendimiento
 })
-
 export class ProductDetailComponent implements OnInit {
-  product: ProductDetail | null = null; // Producto resuelto
+  product: Product = { 
+    id: 0, 
+    name: '', 
+    description: '', 
+    price: 0, 
+    stock: 0, 
+    image: '', 
+    images: [], 
+    sizes: [],
+    colors: [], // 🔥 Inicialización adicional
+    categories: [],
+  };
   quantity: number = 1;
-  sizes: string[] = [];
-  images: string[] = [];
 
   constructor(private route: ActivatedRoute) {
     console.log('Inicializando el componente de detalle de producto...');
   }
 
   ngOnInit(): void {
-    console.log('Cargando producto en el detalle...');
     this.route.data.subscribe((data) => {
-      this.product = data['product'] || { sizes: [], images: [] };
-      console.log('Producto cargado en el detalle:', this.product);
+      this.product = data['product'] || { 
+        sizes: [], 
+        images: [], 
+        colors: [] // 🔥 Inicialización segura
+      };
     });
   }
 
   changeMainImage(image: string): void {
-    if (this.product?.images) {
+    if (this.product) {
       this.product.image = image; // Cambia la imagen principal
     }
   }
@@ -44,23 +58,21 @@ export class ProductDetailComponent implements OnInit {
 
   get isOutOfStock(): boolean {
     if (this.hasSizes) {
-      // Verifica si todas las tallas tienen stock 0
-      return this.product?.sizes?.every((size) => size.stock === 0) || false;
+      const selectedSize = this.product.sizes?.find(s => s.selected);
+      return selectedSize ? selectedSize.stock === 0 : true;
     }
-    // Si no tiene tallas, verifica el stock general
     return this.product?.stock === 0;
   }
-
   selectSize(size: string): void {
-    console.log('Talla seleccionada:', size);
-    if (this.product) {
-      this.product.size = size; // Actualiza la talla seleccionada
-    }
+    this.product.sizes = this.product.sizes?.map(s => ({
+      ...s,
+      selected: s.size === size
+    })) || [];
   }
 
   onQuantityChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.quantity = Math.max(1, Number(input.value)); // Garantiza que la cantidad no sea menor a 1
+    this.quantity = Math.max(1, Number(input.value)); // Evita valores menores a 1
   }
 
   addToCart(): void {

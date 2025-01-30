@@ -3,17 +3,23 @@
   <button routerLink="/shop" class="back-button">Back</button>
 
   <!-- Imagen principal -->
+  @if (product.image) {
   <div class="product-image-container">
-    <img [src]="product!.image" [alt]="product!.name || 'Product Image'" class="product-image" />
+      <img
+        [src]="product.image"
+        [alt]="product.name || 'Product Image'"
+        class="product-image"
+      />
+    }
   </div>
 
   <!-- Miniaturas de Imágenes Adicionales -->
-  @if (product!.images!.length > 0) {
+  @if (product?.images?.length) {
     <div class="product-thumbnails">
-      @for (image of product!.images; track image) {
+      @for (image of product.images; track image) {
         <img
           [src]="image"
-          [alt]="product?.name || 'Product Image'"
+          [alt]="product.name || 'Product Image'"
           (click)="changeMainImage(image)"
           class="thumbnail-image"
         />
@@ -28,37 +34,28 @@
     <p class="product-description">{{ product?.description }}</p>
 
     <!-- Opciones de Talla -->
-    @if (product!.sizes!.length > 0) {
-      <div class="product-sizes">
-        @for (size of product!.sizes; track size?.name) {
-          <button
-            class="size-option"
-            [class.active]="size?.name === product?.size"
-            [disabled]="size?.stock === 0 || product?.stock === 0"
-            (click)="selectSize(size!.name)"
-          >
-            {{ size?.name }}
-            @if (size?.stock === 0) {
-              <span>(Agotada)</span>
-            }
-          </button>
-        }
-      </div>
-    }
+  @if (product.sizes && product.sizes.length > 0) {
+    <div class="product-sizes">
+      @for (size of product.sizes; track size.size) {
+        <button class="size-option"
+                [class.active]="size.selected"
+                [disabled]="size.stock === 0"
+                (click)="selectSize(size.size)">
+          {{ size.size }}
+          @if (size.stock === 0) {
+            <span>(Agotada)</span>
+          }
+        </button>
+      }
+    </div>
+  }
 
     <!-- Stock General para Productos Sin Tallas -->
-    @if (!product!.sizes || product!.sizes.length === 0) {
-      <p class="product-stock" [class.out-of-stock]="product?.stock === 0">
-        Stock disponible:
-        @if (product!.stock && product!.stock > 0) {
-          <span>{{ product!.stock }}</span>
-        }
-        @if (product?.stock === 0) {
-          <span>(Agotado)</span>
-        }
+    @if (!product.sizes || product.sizes.length === 0) {
+      <p class="product-stock" [class.out-of-stock]="product.stock === 0">
+        Stock: {{ product.stock || 0 }}
       </p>
     }
-  </div>
 
   <!-- Opciones de Cantidad -->
   <div class="product-options">
