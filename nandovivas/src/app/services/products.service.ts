@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -9,83 +9,81 @@ import { ToastService } from './toast.service';
   providedIn: 'root',
 })
 export class ProductsService {
-  private apiUrl = 'http://localhost:4000/api/products'; // URL de la API para productos
-  private cache: Product[] | null = null; // Caché local de productos
-  public isLoading = new BehaviorSubject<boolean>(false); // Estado de carga
+  private apiUrl = 'http://localhost:4000/api/products';
+  private cache: Product[] | null = null;
+  public isLoading = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private toastService: ToastService) {}
 
-  // Obtener todos los productos
+  // Obtener todos los productos y parsear datos correctamente
   getProducts(): Observable<Product[]> {
     this.isLoading.next(true);
 
     return this.http.get<Product[]>(this.apiUrl).pipe(
+      map((products) => products.map(this.transformProduct)), // Transformamos los datos
       tap((products) => {
-        this.cache = products; // Guardar productos en caché si se obtienen desde el backend
+        this.cache = products;
         this.isLoading.next(false);
       }),
       catchError((error) => {
-        console.error('Error al cargar productos desde la API:', error);
+        console.error('Error al cargar productos:', error);
+        this.isLoading.next(false);
 
         if (this.cache) {
-          console.warn('Cargando productos desde la caché.');
-          this.isLoading.next(false);
-          return of(this.cache); // Retornar caché si existe
+          console.warn('Cargando desde caché.');
+          return of(this.cache);
         }
 
-        this.toastService.showError('Error al cargar productos. Intenta más tarde.');
-        this.isLoading.next(false);
-        return of([]); // Retornar lista vacía si no hay caché
+        this.toastService.showError('Error al cargar productos.');
+        return of([]);
       })
     );
   }
 
-  // Obtener imágenes de los productos
-  getProductImages(): Observable<string[]> {
-    return this.http.get<Product[]>(this.apiUrl).pipe(
-      map((products) => products.map((product) => product.image)), // Extraer URLs de las imágenes
-      catchError((error) => {
-        console.error('Error al cargar imágenes de productos:', error);
-        this.toastService.showError('Error al cargar imágenes de productos.');
-        return of([]); // Retornar lista vacía en caso de error
-      })
-    );
-  }
-
-  // Obtener un producto por su ID
+  // Obtener un producto por ID y parsear los datos
   getProductById(id: number): Observable<Product | null> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`).pipe(
+      map(this.transformProduct),
       catchError(() => {
         this.toastService.showError('No se pudo cargar el producto.');
-        return of(null); // Retornar `null` en caso de error
+        return of(null);
       })
     );
   }
 
-  // Crear un nuevo producto
+  // Transformar producto recibido del backend
+  private transformProduct(product: any): Product {
+    return {
+      ...product,
+      sizes: typeof product.sizes === 'string' ? JSON.parse(product.sizes) : product.sizes || [],
+      colors: typeof product.colors === 'string' ? JSON.parse(product.colors) : product.colors || [],
+      prices: typeof product.prices === 'string' ? JSON.parse(product.prices) : product.prices || [],
+      images: typeof product.images === 'string' ? JSON.parse(product.images) : product.images || []
+    };
+  }
+
+  // Crear un nuevo producto y convertir los datos a JSON antes de enviarlos
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product).pipe(
-      tap(() => {
-        this.toastService.showSuccess('Producto creado con éxito.');
-      }),
+    const transformedProduct = this.prepareProductForBackend(product);
+    return this.http.post<Product>(this.apiUrl, transformedProduct).pipe(
+      tap(() => this.toastService.showSuccess('Producto creado con éxito.')),
       catchError((error) => {
         console.error('Error al crear producto:', error);
-        this.toastService.showError('No se pudo crear el producto. Intenta más tarde.');
-        return of(product); // Retornar el producto enviado en caso de error
+        this.toastService.showError('No se pudo crear el producto.');
+        return of(transformedProduct);
       })
     );
   }
 
-  // Actualizar un producto existente
+  // Actualizar un producto
   updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product).pipe(
-      tap(() => {
-        this.toastService.showSuccess('Producto actualizado con éxito.');
-      }),
+    const transformedProduct = this.prepareProductForBackend(product);
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, transformedProduct).pipe(
+      tap(() => this.toastService.showSuccess('Producto actualizado con éxito.')),
       catchError((error) => {
         console.error('Error al actualizar producto:', error);
-        this.toastService.showError('No se pudo actualizar el producto. Intenta más tarde.');
-        return of(product); // Retornar el producto enviado en caso de error
+        this.toastService.showError('No se pudo actualizar el producto.');
+        return of(transformedProduct);
       })
     );
   }
@@ -93,14 +91,23 @@ export class ProductsService {
   // Eliminar un producto
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => {
-        this.toastService.showSuccess('Producto eliminado con éxito.');
-      }),
+      tap(() => this.toastService.showSuccess('Producto eliminado con éxito.')),
       catchError((error) => {
         console.error('Error al eliminar producto:', error);
-        this.toastService.showError('No se pudo eliminar el producto. Intenta más tarde.');
-        return of(undefined); // Retornar `undefined` en caso de error
+        this.toastService.showError('No se pudo eliminar el producto.');
+        return of(undefined);
       })
     );
+  }
+
+  // Preparar producto para enviarlo al backend
+  private prepareProductForBackend(product: Product): any {
+    return {
+      ...product,
+      sizes: JSON.stringify(product.sizes || []),
+      colors: JSON.stringify(product.colors || []),
+      prices: JSON.stringify(product.prices || []),
+      images: JSON.stringify(product.images || [])
+    };
   }
 }

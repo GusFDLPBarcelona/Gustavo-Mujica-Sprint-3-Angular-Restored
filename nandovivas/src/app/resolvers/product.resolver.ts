@@ -1,30 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { ProductsService } from '../services/products.service';
 import { Product } from '../interfaces/product';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ProductResolver implements Resolve<Product | null> {
   constructor(private productsService: ProductsService) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<Product | null> {
-    const id = Number(route.paramMap.get('id'));
-    if (!isNaN(id)) {
-      return this.productsService.getProductById(id).pipe(
-        catchError((error) => {
-          console.error('Error al resolver el producto:', error);
-          return of(null); // Retorna null en caso de error
-        })
-      );
+  resolve(route: ActivatedRouteSnapshot): Observable<Product | null> {
+    const idParam = route.paramMap.get('id');
+    
+    if (!idParam || isNaN(+idParam)) {
+      console.error('ID inválido');
+      return of(null); // 🔥 Mejor que EMPTY
     }
-    console.error('ID del producto inválido');
-    return of(null);
+
+    return this.productsService.getProductById(+idParam).pipe(
+      catchError(() => {
+        return of(null); 
+      })
+    );
   }
 }
