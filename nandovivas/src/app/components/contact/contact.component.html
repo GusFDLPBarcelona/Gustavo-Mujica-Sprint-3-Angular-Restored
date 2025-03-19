@@ -1,1 +1,49 @@
-<p>contact works!</p>
+<!-- Botón BACK (separado y arriba de Contact) -->
+<button mat-button class="back-button" (click)="closeContact()">← Back</button>
+
+<!-- Contenedor principal de Contact -->
+<div class="contact-container">
+  <!-- Información de contacto -->
+  <div class="contact-info">
+    <p>INFO@NANDOVIVAS.COM</p>
+    <p>INSTAGRAM • BEHANCE • COOKIES POLICY</p>
+  </div>
+
+  <!-- Descripción -->
+  <div class="contact-description">
+    <p>
+      I am a graphic designer and illustrator based in Barcelona. I specialize in communication, packaging, branding,
+      art direction, and editorial design projects. I also work as an instructor of graphic arts and design.
+    </p>
+    <p>
+      In every single project, I like exploring different paths and possibilities without restricting myself to any
+      style or trend: the client’s needs and goals will determine the final outcome. Do not hesitate to contact me via
+      email and share with me what you have in mind. Together we will turn your ideas into visual realities.
+    </p>
+  </div>
+
+  <!-- Lista de clientes destacados -->
+  <div class="clients-list">
+    <h3>Selected clients:</h3>
+    <ul>
+      <li>Estrella Damm</li>
+      <li>Nestlé</li>
+      <li>Hospital St Joan de Deu</li>
+      <li>Cities Alliance</li>
+      <li>AECOC</li>
+      <li>BCNMes</li>
+      <li>Ajuntament de Barcelona</li>
+    </ul>
+    <ul>
+      <li>Fundació “La Caixa”</li>
+      <li>Editorial Planeta</li>
+      <li>Swiss Airlines</li>
+      <li>Hotel Le Méridien</li>
+      <li>UCLA</li>
+      <li>Salvat</li>
+    </ul>
+  </div>
+
+  <!-- Botón para abrir el modal de email -->
+  <button mat-raised-button color="accent" (click)="openEmailModal()">Let’s Talk</button>
+</div>
