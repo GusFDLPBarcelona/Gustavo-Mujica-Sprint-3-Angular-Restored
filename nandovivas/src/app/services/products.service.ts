@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -13,7 +13,10 @@ export class ProductsService {
   private cache: Product[] | null = null;
   public isLoading = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private toastService: ToastService) {}
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastService
+  ) {}
 
   // Obtener todos los productos y parsear datos correctamente
   getProducts(): Observable<Product[]> {
@@ -43,7 +46,7 @@ export class ProductsService {
   // Obtener un producto por ID y parsear los datos
   getProductById(id: number): Observable<Product | null> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`).pipe(
-      map(this.transformProduct),
+      map((product) => this.transformProduct(product)),
       catchError(() => {
         this.toastService.showError('No se pudo cargar el producto.');
         return of(null);
@@ -55,10 +58,19 @@ export class ProductsService {
   private transformProduct(product: any): Product {
     return {
       ...product,
-      sizes: typeof product.sizes === 'string' ? JSON.parse(product.sizes) : product.sizes || [],
-      colors: typeof product.colors === 'string' ? JSON.parse(product.colors) : product.colors || [],
-      prices: typeof product.prices === 'string' ? JSON.parse(product.prices) : product.prices || [],
-      images: typeof product.images === 'string' ? JSON.parse(product.images) : product.images || []
+      price: Number(product.price), // Convertir a número
+      sizes: (typeof product.sizes === 'string' 
+        ? JSON.parse(product.sizes) 
+        : product.sizes || []).map((size: any) => ({
+          ...size,
+          selected: false // Inicializar selección
+        })),
+      colors: typeof product.colors === 'string' 
+        ? JSON.parse(product.colors) 
+        : product.colors || [],
+      images: typeof product.images === 'string' 
+        ? JSON.parse(product.images) 
+        : product.images || []
     };
   }
 
@@ -106,7 +118,6 @@ export class ProductsService {
       ...product,
       sizes: JSON.stringify(product.sizes || []),
       colors: JSON.stringify(product.colors || []),
-      prices: JSON.stringify(product.prices || []),
       images: JSON.stringify(product.images || [])
     };
   }

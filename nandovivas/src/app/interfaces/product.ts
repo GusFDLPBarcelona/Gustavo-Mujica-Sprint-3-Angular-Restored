@@ -1,11 +1,19 @@
 export interface Product {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   image: string;
-  prices?: { id: number; price: number }[]; // ✅ Lista de precios según variante
-  sizes?: { id: number; size: string; stock: number }[];
-  colors?: { id: number; color: string }[];
-  images?: string[];
-  category?: { id: number; name: string }; // ✅ Relación con la tabla `categories`
+  price: number;
+  stock?: number;
+  sizes: {
+    id: number | null;
+    size: string | null; 
+    stock: number;
+    selected?: boolean; 
+  }[];
+  colors: { id: number; color: string }[];
+  images: string[];
+  category: {
+    toLowerCase(): unknown; id: number; name: string 
+};
 }
