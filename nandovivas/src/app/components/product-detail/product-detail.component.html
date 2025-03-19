@@ -4,19 +4,19 @@
 
   <!-- Imagen principal -->
   @if (product.image) {
-  <div class="product-image-container">
+    <div class="product-image-container">
       <img
         [src]="product.image"
         [alt]="product.name || 'Product Image'"
         class="product-image"
       />
-    }
-  </div>
+    </div>
+  }
 
   <!-- Miniaturas de Imágenes Adicionales -->
-  @if (product?.images?.length) {
+  @if (product.images.length) {
     <div class="product-thumbnails">
-      @for (image of product.images; track image) {
+      @for (image of product.images; track $index) {
         <img
           [src]="image"
           [alt]="product.name || 'Product Image'"
@@ -29,26 +29,28 @@
 
   <!-- Información del Producto -->
   <div class="product-details">
-    <h1 class="product-name">{{ product?.name }}</h1>
-    <p class="product-price">€ {{ product?.price }}</p>
-    <p class="product-description">{{ product?.description }}</p>
+    <h1 class="product-name">{{ product.name }}</h1>
+    <p class="product-price">€ {{ product.price }}</p>
+    <p class="product-description">{{ product.description }}</p>
 
     <!-- Opciones de Talla -->
-  @if (product.sizes && product.sizes.length > 0) {
-    <div class="product-sizes">
-      @for (size of product.sizes; track size.size) {
-        <button class="size-option"
-                [class.active]="size.selected"
-                [disabled]="size.stock === 0"
-                (click)="selectSize(size.size)">
-          {{ size.size }}
-          @if (size.stock === 0) {
-            <span>(Agotada)</span>
-          }
-        </button>
-      }
-    </div>
-  }
+    @if (product.sizes && product.sizes.length > 0) {
+      <div class="product-sizes">
+        @for (size of product.sizes; track $index) {
+          <button
+            class="size-option"
+            [class.active]="size.selected"
+            [disabled]="size.stock === 0"
+            (click)="selectSize(size.size)"
+          >
+            {{ size.size || 'Talla única' }}
+            @if (size.stock === 0) {
+              <span>(Agotada)</span>
+            }
+          </button>
+        }
+      </div>
+    }
 
     <!-- Stock General para Productos Sin Tallas -->
     @if (!product.sizes || product.sizes.length === 0) {
@@ -57,34 +59,35 @@
       </p>
     }
 
-  <!-- Opciones de Cantidad -->
-  <div class="product-options">
-    <label>
-      Quantity:
-      <input
-        type="number"
-        min="1"
-        [value]="quantity"
-        (input)="onQuantityChange($event)"
-      />
-    </label>
-  </div>
+    <!-- Opciones de Cantidad -->
+    <div class="product-options">
+      <label>
+        Quantity:
+        <input
+          type="number"
+          min="1"
+          [value]="quantity"
+          (input)="onQuantityChange($event)"
+        />
+      </label>
+    </div>
 
-  <!-- Botones de Compra -->
-  <div class="product-actions">
-    <button
-      (click)="addToCart()"
-      [disabled]="isOutOfStock"
-      class="add-to-cart"
-    >
-      Add to Cart
-    </button>
-    <button
-      (click)="buyNow()"
-      [disabled]="isOutOfStock"
-      class="buy-now"
-    >
-      Buy Now
-    </button>
+    <!-- Botones de Compra -->
+    <div class="product-actions">
+      <button
+        (click)="addToCart()"
+        [disabled]="isOutOfStock"
+        class="add-to-cart"
+      >
+        Add to Cart
+      </button>
+      <button
+        (click)="buyNow()"
+        [disabled]="isOutOfStock"
+        class="buy-now"
+      >
+        Buy Now
+      </button>
+    </div>
   </div>
 </div>

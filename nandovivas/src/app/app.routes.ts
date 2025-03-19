@@ -3,6 +3,8 @@ import { ProjectResolver } from './resolvers/project.resolver';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductResolver } from './resolvers/product.resolver';
+import { HaupstadtComponent } from './components/haupstadt/haupstadt.component';
+import { HaupstadtResolver } from './resolvers/haupstadt.resolver';
 
 export const routes: Routes = [
 
@@ -21,10 +23,15 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/shop/shop.component').then((m) => m.ShopComponent),
   },
+  { path: 'haupstadt', loadComponent: () => 
+      import('./components/haupstadt/haupstadt.component').then((m) => m.HaupstadtComponent)
+  },
   {
     path: 'work',
     loadComponent: () =>
       import('./components/work/work.component').then((m) => m.WorkComponent),
+  },
+  { path: 'haupstadt', component: HaupstadtComponent, resolve: { products: HaupstadtResolver } 
   },
   {
     path: 'project-detail/:id',

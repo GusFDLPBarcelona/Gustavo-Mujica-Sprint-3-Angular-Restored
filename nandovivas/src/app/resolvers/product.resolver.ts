@@ -14,7 +14,7 @@ export class ProductResolver implements Resolve<Product | null> {
     
     if (!idParam || isNaN(+idParam)) {
       console.error('ID inválido');
-      return of(null); // 🔥 Mejor que EMPTY
+      return of(null); 
     }
 
     return this.productsService.getProductById(+idParam).pipe(

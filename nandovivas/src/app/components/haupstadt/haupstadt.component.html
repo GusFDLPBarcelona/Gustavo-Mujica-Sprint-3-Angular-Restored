@@ -1,0 +1,82 @@
+<p>haupstadt works!</p>
+<div class="haupstadt-container">
+    <!-- Barra de herramientas -->
+    <div class="toolbar">
+      <button (click)="openCreateModal()" class="btn-create">Crear Producto</button>
+      <div class="filters">
+        <select [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+          <option value="">Todas las categorías</option>
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+        <select [(ngModel)]="selectedSort" (change)="sortProducts()">
+          <option value="name">Ordenar por nombre</option>
+          <option value="stock">Ordenar por stock</option>
+          <option value="price">Ordenar por precio</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Tabla de productos -->
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of filteredProducts; track product.id) {
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category.name }}</td>
+            <td>€ {{ product.price | number:'1.2-2' }}</td>
+            <td>{{ getTotalStock(product) }}</td>
+            <td>
+              <button (click)="openEditModal(product)" class="btn-edit">Editar</button>
+              <button (click)="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  
+    <!-- Modal para crear/editar productos -->
+    @if (showModal) {
+      <div class="modal-overlay">
+        <div class="modal">
+          <h2>{{ isEditing ? 'Editar Producto' : 'Crear Producto' }}</h2>
+          <form (ngSubmit)="handleSubmit()">
+            <label>
+              Nombre:
+              <input [(ngModel)]="currentProduct.name" name="name" required />
+            </label>
+            <label>
+              Descripción:
+              <textarea [(ngModel)]="currentProduct.description" name="description"></textarea>
+            </label>
+            <label>
+              Precio:
+              <input type="number" [(ngModel)]="currentProduct.price" name="price" required />
+            </label>
+            <label>
+              Categoría:
+              <select [(ngModel)]="currentProduct.category.id" name="category">
+                @for (category of categories; track category.id) {
+                  <option [value]="category.id">{{ category.name }}</option>
+                }
+              </select>
+            </label>
+            <div class="modal-actions">
+              <button type="button" (click)="closeModal()">Cancelar</button>
+              <button type="submit">{{ isEditing ? 'Guardar Cambios' : 'Crear' }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    }
+  </div>
