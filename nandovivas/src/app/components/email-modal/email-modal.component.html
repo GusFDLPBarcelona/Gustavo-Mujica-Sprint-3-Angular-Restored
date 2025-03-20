@@ -1,0 +1,19 @@
+<div class="email-modal">
+    <h2>Send a Message</h2>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Your Email</mat-label>
+      <input matInput type="email" required>
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Your Message</mat-label>
+      <textarea matInput rows="4"></textarea>
+    </mat-form-field>
+  
+    <div class="modal-actions">
+      <button mat-button (click)="closeModal()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="closeModal()">Send</button>
+    </div>
+  </div>
+  

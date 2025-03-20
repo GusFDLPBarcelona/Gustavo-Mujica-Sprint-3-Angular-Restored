@@ -1,0 +1,11 @@
+.email-modal {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
