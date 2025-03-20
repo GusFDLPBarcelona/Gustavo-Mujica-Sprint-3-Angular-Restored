@@ -7,5 +7,5 @@ export interface Product {
   sizes?: { id: number; size: string; stock: number }[];
   colors?: { id: number; color: string }[];
   images?: string[];
-  category?: { id: number; name: string }; // ✅ Relación con la tabla `categories`
+  category?: { id: number; name: string }; // Relación con la tabla `categories`
 }

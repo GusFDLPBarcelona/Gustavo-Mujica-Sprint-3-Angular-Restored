@@ -31,6 +31,13 @@ export class WellcomeComponent implements OnInit, OnDestroy{
   loadGalleryItems() {
     this.wellcomeGalleryService.getGalleryItems().subscribe((data) => {
       console.log('Solicitud GET recibida en /api/gallery'); 
+  
+      if (!Array.isArray(data)) {
+        console.error('Error: la respuesta no es un array', data);
+        this.imagesGallery.set([]);
+        return;
+      }
+  
       this.imagesGallery.set(data); 
       console.log('Galería cargada:', data); 
       this.startCarousel(); 
@@ -65,20 +72,19 @@ export class WellcomeComponent implements OnInit, OnDestroy{
   }
 
   updateTrackPosition(withTransition: boolean) {
-    const track = document.querySelector('.carousel-track') as HTMLElement;
-    if (!track) {
-      console.error('Elemento .carousel-track no encontrado.');
-      return;
-    }
+    setTimeout(() => { // Retrasa la ejecución hasta que el DOM esté listo
+        const track = document.querySelector('.carousel-track') as HTMLElement;
+        if (!track) {
+            console.error('Advertencia: Elemento .carousel-track no encontrado. Asegúrate de que el HTML se ha cargado.');
+            return;
+        }
 
-    const currentIndex = this.currentIndex();
-    if (withTransition) {
-      track.style.transition = 'transform 1s ease-in-out'; // Transición suave
-    } else {
-      track.style.transition = 'none'; // Sin transición
-    }
-    track.style.transform = `translateX(-${currentIndex * 100}vw)`; // Mueve horizontalmente
-  }
+        const currentIndex = this.currentIndex();
+        track.style.transition = withTransition ? 'transform 1s ease-in-out' : 'none';
+        track.style.transform = `translateX(-${currentIndex * 100}vw)`;
+    }, 100); // Retraso mínimo para asegurar que el DOM esté listo
+}
+
 
   showAndHideArrows() {
     this.showArrows.set(true);

@@ -5,7 +5,7 @@ import {
     createProduct, 
     updateProduct, 
     deleteProduct 
-} from '../models/product.models';
+} from '../models/product';
 import { Product } from '../interfaces/product.backend';
 
 // Obtener todos los productos con variantes
@@ -38,7 +38,14 @@ export const getOneProduct = async (req: Request, res: Response) => {
 export const addProduct = async (req: Request<{}, {}, Product>, res: Response) => {
     try {
         const { name, description, image, sizes, colors, price } = req.body;
-        const newProduct = await createProduct({ name, description, image, sizes, colors, price });
+        const newProduct = await createProduct({
+            name,
+            description,
+            image,
+            price,
+            sizes: sizes ?? [], // Si `sizes` es undefined, usa un array vacío
+            colors: colors ?? [], // Si `colors` es undefined, usa un array vacío
+        });
         res.status(201).json({ msg: 'Producto creado con éxito', product: newProduct });
     } catch (error) {
         console.error('Error al crear producto:', error);
@@ -51,7 +58,14 @@ export const modifyProduct = async (req: Request<{ id: string }, {}, Product>, r
     const { id } = req.params;
     try {
         const { name, description, image, sizes, colors, price } = req.body;
-        const updatedProduct = await updateProduct(Number(id), { name, description, image, sizes, colors, price });
+        const updatedProduct = await updateProduct(Number(id), {
+            name,
+            description,
+            image,
+            price,
+            sizes: sizes ?? [],
+            colors: colors ?? [],
+        });
         res.status(200).json({ msg: 'Producto actualizado con éxito', product: updatedProduct });
     } catch (error) {
         console.error('Error al actualizar producto:', error);

@@ -1,4 +1,4 @@
-<!-- <div class="carousel-container">
+<div class="carousel-container">
   <div class="carousel-track">
     @for (image of imagesGallery(); track image.id) {
       <div class="carousel-item">
@@ -10,18 +10,18 @@
       </div>
     }
   </div>
-</div> -->
-
-<div class="carousel-container">
-  <div class="carousel-track">
-    @for (image of imagesGallery(); track image.id) {
-      <div class="carousel-item {{ imagesGallery().indexOf(image) === currentIndex() ? 'active' : '' }}">
-        <img [src]="image.image_path" alt="{{ image.title }}" class="carousel-image">
-        <div class="carousel-caption inter">
-          <p>{{ image.title }}</p>
-          <p>{{ image.client }}</p>
-        </div>
-      </div>
-    }
-  </div>
 </div>
+
+@if (imagesGallery() && imagesGallery().length) {
+  @for (image of imagesGallery(); track image.id) {
+    <div class="carousel-item {{ imagesGallery().indexOf(image) === currentIndex() ? 'active' : '' }}">
+      <img [src]="image.image_path" alt="{{ image.title }}" class="carousel-image">
+      <div class="carousel-caption inter">
+        <p>{{ image.title }}</p>
+        <p>{{ image.client }}</p>
+      </div>
+    </div>
+  }
+} @else {
+  <p>No hay imágenes disponibles.</p>
+}
