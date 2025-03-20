@@ -7,7 +7,7 @@
 
   <!-- Menú de navegación (visible en pantallas grandes) -->
   <nav class="navigation-menu">
-    <a routerLink="/haupstadt" class="admin-link">Acceso Administrador</a>
+    <!--<a routerLink="/haupstadt" class="admin-link">Acceso Administrador</a>-->
     <a routerLink="/work" class="menu-link">Work</a>
     <a routerLink="/contact" class="menu-link">Contact</a>
     <a routerLink="/shop" class="menu-link">
@@ -21,7 +21,7 @@
     <button (click)="toggleMenu()" class="menu-button">☰</button>
     @if (isMenuVisible) {
       <div class="dropdown-menu">
-        <a routerLink="/haupstadt" (click)="navigateAndCloseMenu()">Administrador</a>
+        <<!--<a routerLink="/haupstadt" (click)="navigateAndCloseMenu()">Administrador</a>-->
         <a routerLink="/work" (click)="navigateAndCloseMenu()">Work</a>
         <a routerLink="/shop" (click)="navigateAndCloseMenu()">Shop</a>
         <a routerLink="/contact" (click)="navigateAndCloseMenu()">Contact</a>
