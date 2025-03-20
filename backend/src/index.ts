@@ -51,12 +51,12 @@ const listRoutes = (app: express.Application) => {
 listRoutes(app); //Esto imprimirá todas las rutas correctamente
 
 connection.getConnection()
-    .then(conn => {
+    .then((conn: any) => { // Agregamos `any` para evitar el error de tipo
         console.log('Conectado a la base de datos');
         conn.release();
     })
-    .catch(err => {
-        console.error('ERROR al conectar a la base de datos:', err);
+    .catch((err: any) => { // También agregamos `any` aquí
+        console.error('Error al conectar a la base de datos:', err.message);
     });
 
 const PORT = process.env.PORT || 4000;

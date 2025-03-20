@@ -1,41 +1,39 @@
 import { Request, Response } from 'express';
-import db from '../db/connection';
-import { getGalleryImages } from '../models/wellcome_gallery'
+import { getGalleryImages, addGalleryItem, deleteGalleryItem } from '../models/wellcome_gallery';
 
+// Obtener todas las imágenes de la galería
 export const getAllGalleryImages = async (req: Request, res: Response) => {
     try {
         const rows = await getGalleryImages();
         if (!rows || rows.length === 0) {
             return res.status(404).json({ message: 'No hay imágenes disponibles en la galería.' });
         }
-        res.status(200).json(rows);
+        return res.status(200).json(rows); // Se usa return para evitar que el código continúe
     } catch (error) {
         console.error('Error al obtener las imágenes de la galería:', error);
-        res.status(500).json({ message: 'Error al obtener las imágenes de la galería', error });
+        return res.status(500).json({ message: 'Error al obtener las imágenes de la galería', error });
     }
 };
 
-export const addGalleryItem = async (req: Request, res: Response) => {
+// Agregar un nuevo elemento a la galería
+export const addGalleryItemController = async (req: Request, res: Response) => {
     try {
-        const { image_path, title, client } = req.body;
-        const [result]: any = await db.query(
-            'INSERT INTO wellcome_gallery (image_path, title, client) VALUES (?, ?, ?)',
-            [image_path, title, client]
-        );
-        res.status(201).json({ id: result.insertId, image_path, title, client });
+        const newId = await addGalleryItem(req.body);
+        res.status(201).json({ id: newId, message: 'Imagen añadida correctamente' });
     } catch (error) {
-        console.error('Error adding gallery item:', error);
-        res.status(500).json({ message: 'Error adding gallery item' });
+        console.error('Error al agregar imagen a la galería:', error);
+        res.status(500).json({ message: 'Error al agregar imagen a la galería' });
     }
 };
 
-export const deleteGalleryItem = async (req: Request, res: Response) => {
+// Eliminar una imagen de la galería por ID
+export const deleteGalleryItemController = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        await db.query('DELETE FROM wellcome_gallery WHERE id = ?', [id]);
-        res.status(204).send(); // Respuesta sin contenido
+        await deleteGalleryItem(Number(id));
+        res.status(204).send();
     } catch (error) {
-        console.error('Error deleting gallery item:', error);
-        res.status(500).json({ message: 'Error deleting gallery item' });
+        console.error('Error al eliminar imagen de la galería:', error);
+        res.status(500).json({ message: 'Error al eliminar imagen de la galería' });
     }
 };
