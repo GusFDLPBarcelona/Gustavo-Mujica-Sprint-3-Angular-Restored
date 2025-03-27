@@ -1,49 +1,35 @@
-<!-- Botón BACK (separado y arriba de Contact) -->
-<button mat-button class="back-button" (click)="closeContact()">← Back</button>
+<!-- Botón BACK -->
+<p class="back-button" (click)="close()">← Back</p>
 
-<!-- Contenedor principal de Contact -->
 <div class="contact-container">
-  <!-- Información de contacto -->
-  <div class="contact-info">
-    <p>INFO&#64;NANDOVIVAS.COM</p>
-    <p>INSTAGRAM • BEHANCE • COOKIES POLICY</p>
+  <!-- HEADER -->
+  <div class="contact-header">
+    <p class="contact-email"><strong>INFO&#64;NANDOVIVAS.COM</strong></p>
+
+    <div class="contact-links">
+      <a href="https://www.instagram.com/nando_vivas/?hl=es" target="_blank">INSTAGRAM</a>
+      <a href="https://www.behance.net/nandovivas" target="_blank">BEHANCE</a>
+      <a href="#" target="_blank">COOKIES POLICY</a> <!-- pendiente -->
+    </div>
   </div>
 
-  <!-- Descripción -->
-  <div class="contact-description">
-    <p>
-      I am a graphic designer and illustrator based in Barcelona. I specialize in communication, packaging, branding,
-      art direction, and editorial design projects. I also work as an instructor of graphic arts and design.
-    </p>
-    <p>
-      In every single project, I like exploring different paths and possibilities without restricting myself to any
-      style or trend: the client’s needs and goals will determine the final outcome. Do not hesitate to contact me via
-      email and share with me what you have in mind. Together we will turn your ideas into visual realities.
-    </p>
+  <!-- CENTRO (zona de animación) -->
+  <div class="contact-animation-zone">
+    <!-- Aquí irá el carousel o dibujo animado -->
   </div>
 
-  <!-- Lista de clientes destacados -->
-  <div class="clients-list">
-    <h3>Selected clients:</h3>
-    <ul>
-      <li>Estrella Damm</li>
-      <li>Nestlé</li>
-      <li>Hospital St Joan de Deu</li>
-      <li>Cities Alliance</li>
-      <li>AECOC</li>
-      <li>BCNMes</li>
-      <li>Ajuntament de Barcelona</li>
-    </ul>
-    <ul>
-      <li>Fundació “La Caixa”</li>
-      <li>Editorial Planeta</li>
-      <li>Swiss Airlines</li>
-      <li>Hotel Le Méridien</li>
-      <li>UCLA</li>
-      <li>Salvat</li>
-    </ul>
+  <!-- FOOTER -->
+  <div class="contact-footer">
+    <div class="bio-text">
+      <p>
+        I am a graphic designer and illustrator based in Barcelona. I specialize in communication, packaging,
+        branding, art direction, and editorial design projects. I also work as an instructor of graphic arts and design.
+        I like exploring different paths without restricting myself to a style or trend: the client’s needs determine
+        the final outcome.
+      </p>
+    </div>
+    <div class="footer-meta">
+      <p>© 2024 Nando Vivas | Code: JMG</p>
+    </div>
   </div>
-
-  <!-- Botón para abrir el modal de email -->
-  <button mat-raised-button color="accent" (click)="openEmailModal()">Let’s Talk</button>
 </div>

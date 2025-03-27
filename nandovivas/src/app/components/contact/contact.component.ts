@@ -1,32 +1,29 @@
-import { Component, Renderer2 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { EmailModalComponent } from '../email-modal/email-modal.component';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatBottomSheetRef, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-contact',
+  standalone: true,
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  styleUrls: ['./contact.component.css'],
+  imports: [
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatCardModule
+  ]
 })
 export class ContactComponent {
-  isVisible = false;
-  colors = ['#FF0000', '#FFD700', '#0000FF']; // Rojo, amarillo, azul
+  constructor(private bottomSheetRef: MatBottomSheetRef<ContactComponent>) {}
 
-  constructor(private renderer: Renderer2, public dialog: MatDialog) {}
-
-  openContact(): void {
-    this.isVisible = true;
-    const randomColor = this.colors[Math.floor(Math.random() * this.colors.length)];
-    this.renderer.setStyle(document.documentElement, '--contact-bg', randomColor);
-  }
-
-  closeContact(): void {
-    this.isVisible = false;
+  close(): void {
+    this.bottomSheetRef.dismiss();
   }
 
   openEmailModal(): void {
-    this.dialog.open(EmailModalComponent, {
-      width: '400px',
-      panelClass: 'custom-modal'
-    });
+    window.location.href = 'mailto:info@nandovivas.com';
   }
 }

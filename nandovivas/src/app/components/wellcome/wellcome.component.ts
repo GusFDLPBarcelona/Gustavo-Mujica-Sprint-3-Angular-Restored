@@ -1,142 +1,169 @@
-import { Component, OnInit, inject, signal, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, signal } from '@angular/core';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 import { WellcomeGalleryService } from '../../services/wellcome_gallery.service';
 import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
+import { ChangeDetectorRef } from '@angular/core';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { ViewChild } from '@angular/core';
+import { CarouselComponent } from 'ngx-owl-carousel-o';
+
 
 @Component({
   selector: 'app-wellcome',
   standalone: true,
+  imports: [CarouselModule],
   templateUrl: './wellcome.component.html',
   styleUrls: ['./wellcome.component.css'],
 })
-export class WellcomeComponent implements OnInit, OnDestroy{
-  imagesGallery = signal<WellcomeGallery[]>([]); // Imágenes y datos de wellcome_gallery
-  currentIndex = signal<number>(0);
+export class WellcomeComponent implements OnInit, OnDestroy {
+  imagesGallery = signal<WellcomeGallery[]>([]);
+  styledImages = signal<(WellcomeGallery & { color: string })[]>([]);
   intervalId!: number;
-  showArrows = signal<boolean>(false);
-  arrowTimeout!: number;
+  @ViewChild('owlCarousel', { static: false }) owlCarousel!: CarouselComponent;
+  primaryColors = [
+    '#007AFF', // azul
+    '#34C759', // verde
+    '#FF3B30', // rojo
+    '#FFFFFF'  // blanco
+  ];
 
-  constructor(private wellcomeGalleryService: WellcomeGalleryService) {}
+  carouselOptions: OwlOptions = {
+    loop: true,
+    margin: 0,
+    nav: false,
+    dots: false,
+    autoplay: true,
+    autoplayHoverPause: false,
+    autoplayTimeout:5000, 
+    smartSpeed: 1000, 
+    autoplaySpeed: 2000,
+    items: 1,
+    mouseDrag: true,
+    touchDrag: true,
+    responsive: {
+      0: { items: 1 },
+      600: { items: 1 },
+      1000: { items: 1 }
+    }
+  };
+
+  constructor(private wellcomeGalleryService: WellcomeGalleryService,
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     console.log('Componente Wellcome cargado.');
-    this.loadGalleryItems(); // Cargar imágenes y datos de wellcome_gallery
+    this.loadGalleryItems();
+
+    setTimeout(() => {
+      console.log('🔍 Verificando si el HTML detecta los datos...');
+      console.log('📸 imagesGallery en HTML:', this.imagesGallery());
+      this.cdr.detectChanges();
+    }, 200);
   }
 
   ngOnDestroy() {
     console.log('Componente Wellcome destruido.');
-    this.stopCarousel(); // Detener el carrusel
-    clearTimeout(this.arrowTimeout); // Limpiar el timeout de las flechas
+    this.stopCarousel();
   }
 
   loadGalleryItems() {
-    this.wellcomeGalleryService.getGalleryItems().subscribe((data) => {
-      console.log('Solicitud GET recibida en /api/gallery'); 
+    console.log('🚀 Iniciando carga de imágenes...'); 
   
-      if (!Array.isArray(data)) {
-        console.error('Error: la respuesta no es un array', data);
-        this.imagesGallery.set([]);
+    this.wellcomeGalleryService.getGalleryItems().subscribe((data) => {
+      console.log('Datos recibidos del servicio:', data); 
+  
+      if (!Array.isArray(data) || data.length === 0) {
+        console.error('Error: No hay imágenes para mostrar');
         return;
       }
   
+      console.log('Antes de asignar imágenes:', this.imagesGallery()); 
       this.imagesGallery.set(data); 
-      console.log('Galería cargada:', data); 
-      this.startCarousel(); 
+      console.log('Después de asignar imágenes:', this.imagesGallery());
+      this.assignColorsToImages(); 
+  
+      setTimeout(() => {
+        console.log('Forzando detección de cambios...');
+        this.cdr.detectChanges();
+        this.startCarousel();
+      }, 500);
     });
   }
 
+  getRandomColor(): string {
+    const index = Math.floor(Math.random() * this.primaryColors.length);
+    return this.primaryColors[index];
+  }
+  
+  getStyledImages() {
+    return this.imagesGallery().map((img) => ({
+      ...img,
+      color: this.getRandomColor(),
+    }));
+  }
+  
+  assignColorsToImages() {
+    const images = this.imagesGallery();
+    const result: (WellcomeGallery & { color: string })[] = [];
+    let lastColor = '';
+  
+    images.forEach((img) => {
+      let color = this.getRandomColor();
+  
+      // Evita repetir el mismo color justo después
+      while (color === lastColor && this.primaryColors.length > 1) {
+        color = this.getRandomColor();
+      }
+  
+      lastColor = color;
+  
+      result.push({
+        ...img,
+        color,
+      });
+    });
+  
+    this.styledImages.set(result);
+  }
+
   startCarousel() {
-    clearInterval(this.intervalId); // Limpia intervalos previos
+    clearInterval(this.intervalId);
     this.intervalId = window.setInterval(() => {
       console.log('Cambiando imagen automáticamente...');
-      this.moveToNext(); // Cambia automáticamente cada 3 segundos
+      this.nextSlide();
     }, 3000);
   }
 
   stopCarousel() {
-    clearInterval(this.intervalId); // Detiene el carrusel
+    clearInterval(this.intervalId);
     console.log('Carrusel detenido.');
-  }
-
-  moveToNext() {
-    const imagesLength = this.imagesGallery().length;
-    if (imagesLength === 0) return;
-    this.currentIndex.set((this.currentIndex() + 1) % imagesLength);
-    this.updateTrackPosition(true); // Con transición
-  }
-
-  moveToPrev() {
-    const imagesLength = this.imagesGallery().length;
-    if (imagesLength === 0) return;
-    this.currentIndex.set((this.currentIndex() - 1 + imagesLength) % imagesLength);
-    this.updateTrackPosition(true); // Con transición
-  }
-
-  updateTrackPosition(withTransition: boolean) {
-    setTimeout(() => { // Retrasa la ejecución hasta que el DOM esté listo
-        const track = document.querySelector('.carousel-track') as HTMLElement;
-        if (!track) {
-            console.error('Advertencia: Elemento .carousel-track no encontrado. Asegúrate de que el HTML se ha cargado.');
-            return;
-        }
-
-        const currentIndex = this.currentIndex();
-        track.style.transition = withTransition ? 'transform 1s ease-in-out' : 'none';
-        track.style.transform = `translateX(-${currentIndex * 100}vw)`;
-    }, 100); // Retraso mínimo para asegurar que el DOM esté listo
-}
-
-
-  showAndHideArrows() {
-    this.showArrows.set(true);
-    clearTimeout(this.arrowTimeout); // Limpia cualquier timeout previo
-    this.arrowTimeout = window.setTimeout(() => {
-      this.showArrows.set(false); // Oculta las flechas después de 1 segundo
-    }, 1000);
   }
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboard(event: KeyboardEvent) {
     console.log('Tecla presionada:', event.key);
-    const totalImages = this.imagesGallery().length;
-
-    if (event.key === 'ArrowLeft' && totalImages !== 0) {
-      this.moveToPrev();
-    } else if (event.key === 'ArrowRight' && totalImages !== 0) {
-      this.moveToNext();
+    if (event.key === 'ArrowLeft') {
+      this.previousSlide();
+    } else if (event.key === 'ArrowRight') {
+      this.nextSlide();
     }
-
-    this.showAndHideArrows();
-    this.startCarousel();
   }
 
-  onArrowClick(direction: 'prev' | 'next') {
-    if (direction === 'prev') {
-      this.moveToPrev();
-    } else if (direction === 'next') {
-      this.moveToNext();
+  nextSlide() {
+    console.log('Siguiente imagen');
+    if (this.owlCarousel && typeof this.owlCarousel.next === 'function') {
+      this.owlCarousel.next();
+    } else {
+      console.warn('No se puede avanzar: owlCarousel no está disponible');
     }
-    this.showAndHideArrows();
   }
-
-  backToTop() {
-    this.currentIndex.set(0);
-    this.updateTrackPosition(true);
-  }
-
-  backToEnd() {
-    const totalImages = this.imagesGallery().length;
-    this.currentIndex.set(totalImages - 1);
-    this.updateTrackPosition(true);
-  }
-
-  handleTransitionEnd() {
-    const track = document.querySelector('.carousel-track') as HTMLElement;
-    if (this.currentIndex() === this.imagesGallery().length) {
-      //track.style.transition = 'none';
-      this.currentIndex.set(0);
-      track.style.transform = `translateX(0)`;
-      void track.offsetWidth; // Forzar reflujo
-      track.style.transition = 'transform 3s ease-in-out';
+  
+  previousSlide() {
+    console.log('Imagen anterior');
+    if (this.owlCarousel && typeof this.owlCarousel.prev === 'function') {
+      this.owlCarousel.prev();
+    } else {
+      console.warn('No se puede retroceder: owlCarousel no está disponible');
     }
   }
 }

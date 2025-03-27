@@ -1,86 +1,57 @@
-/* Contenedor del carrusel */
-.carousel-container {
+/* Carrusel ocupa toda la pantalla */
+.fullscreen-carousel {
+  width: 100vw;
+  height: 100vh;
   position: relative;
-  width: 100vw; /* Toda la ventana */
-  height: 100vh; /* Toda la ventana */
   overflow: hidden;
+  background-color: black;
+  z-index: 1;
+}
+
+/* Estilo de cada slide */
+.carousel-item {
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #777; /* Fondo para cuando las imágenes cambian */
 }
 
-.carousel-track {
-  display: flex;
-  transition: transform 3s ease-in-out;
-  width: 100%;
-  height: 100%; /* Permite que las imágenes se dispongan horizontalmente */
-}
-
+/* Imagen dentro del carrusel */
 .carousel-image {
-  flex: 0 0 auto;
-  width: 100vw; /* Ocupa toda la ventana */
-  height: 100vh; /* Escala para ocupar toda la ventana */
-  object-fit: cover; /* Mantiene las proporciones sin dejar espacios */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.arrow {
+/* Texto superpuesto */
+.carousel-caption {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10000;
-}
-
-.arrow.left {
-  left: 10px;
-}
-
-.arrow.right {
-  right: 10px;
-}
-
-.arrow mat-icon {
-  font-size: 2rem;
+  bottom: 20px;
+  left: 20px;
   color: white;
-  transition: color 0.3s;
-}
-
-.arrow:hover mat-icon {
-  color: #f5f5f5;
-}
-
-
-/* Estilos Responsivos */
-@media (max-width: 1024px) {
-  /* Tablets */
-  .arrow {
-    padding: 0.8rem;
-    font-size: 1.2rem;
-  }
+  font-size: 10px;
+  font-family: inherit; 
+  text-transform: none; 
+  background: none;
+  padding: 0;
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {
-  .arrow {
-    display: block;
-    padding: 10px;
-    font-size: 1.2rem;
+  .carousel-caption {
+    font-size: 9px;
+    bottom: 12px;
+    left: 12px;
   }
 }
 
-@media (max-width: 450px) {
-  .arrow {
-    display: none; /* Oculta flechas en teléfonos */
+@media (max-width: 480px) {
+  .carousel-caption {
+    font-size: 8px;
+    bottom: 8px;
+    left: 8px;
   }
-}
-
-.carousel-image {
-    height: 100vh; /* Ajusta para pantallas verticales */
-  }
-
-
-@media (max-with: 450px) {
-  .carousel-image {
-    width: 100%;
-    object-fit: content;
-}
 }
