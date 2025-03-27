@@ -1,15 +1,19 @@
+
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; 
-    height: 100%;
-    font-family: 'Inter', sans-serif !important;
-  }
-  html, body, .mat-typography {
-    font-family: 'Inter', sans-serif !important;
-  }
-  
-  .mat-body-1, .mat-button, .mat-toolbar, .mat-card {
-    font-family: 'Inter', sans-serif !important;
-  }
-  
+  background-color: black !important;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+:root {
+  --contact-bg: #	#FFFF00; /* Color de fondo minimalista */
+}

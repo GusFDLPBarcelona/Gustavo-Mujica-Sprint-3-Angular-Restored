@@ -5,6 +5,7 @@ import { getGalleryImages, addGalleryItem, deleteGalleryItem } from '../models/w
 export const getAllGalleryImages = async (req: Request, res: Response) => {
     try {
         const rows = await getGalleryImages();
+        console.log("Imágenes obtenidas desde la base de datos:", rows);
         if (!rows || rows.length === 0) {
             return res.status(404).json({ message: 'No hay imágenes disponibles en la galería.' });
         }

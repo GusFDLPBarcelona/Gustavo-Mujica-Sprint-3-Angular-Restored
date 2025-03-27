@@ -9,7 +9,7 @@
   <nav class="navigation-menu">
     <!--<a routerLink="/haupstadt" class="admin-link">Acceso Administrador</a>-->
     <a routerLink="/work" class="menu-link">Work</a>
-    <a routerLink="/contact" class="menu-link">Contact</a>
+    <a class="menu-link" (click)="openContactSheet()">Contact</a>
     <a routerLink="/shop" class="menu-link">
       Shop
       <img src="/flechaShopIcon.svg" alt="Arrow" class="arrow-icon">
@@ -24,7 +24,7 @@
         <<!--<a routerLink="/haupstadt" (click)="navigateAndCloseMenu()">Administrador</a>-->
         <a routerLink="/work" (click)="navigateAndCloseMenu()">Work</a>
         <a routerLink="/shop" (click)="navigateAndCloseMenu()">Shop</a>
-        <a routerLink="/contact" (click)="navigateAndCloseMenu()">Contact</a>
+        <a (click)="openContactSheet()">Contact</a>
       </div>
     }
   </div>
