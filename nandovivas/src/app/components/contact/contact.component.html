@@ -4,12 +4,12 @@
 <div class="contact-container">
   <!-- HEADER -->
   <div class="contact-header">
-    <p class="contact-email"><strong>INFO&#64;NANDOVIVAS.COM</strong></p>
+    <a class="contact-email link-hover-effect" (click)="openEmailForm()">INFO&#64;NANDOVIVAS.COM</a>
 
     <div class="contact-links">
-      <a href="https://www.instagram.com/nando_vivas/?hl=es" target="_blank">INSTAGRAM</a>
-      <a href="https://www.behance.net/nandovivas" target="_blank">BEHANCE</a>
-      <a href="#" target="_blank">COOKIES POLICY</a> <!-- pendiente -->
+      <a class="link-hover-effect" href="https://www.instagram.com/nando_vivas/?hl=es" target="_blank">INSTAGRAM</a>
+      <a class="link-hover-effect" href="https://www.behance.net/nandovivas" target="_blank">BEHANCE</a>
+      <a class="link-hover-effect" href="#" target="_blank">COOKIES POLICY</a> <!-- pendiente -->
     </div>
   </div>
 
@@ -29,7 +29,9 @@
       </p>
     </div>
     <div class="footer-meta">
-      <p>© 2024 Nando Vivas | Code: JMG</p>
+      <p>© 2024 Nando Vivas | Code: 
+        <a class="code-link" (click)="openEmailForm()">JMG</a>
+      </p>   
     </div>
   </div>
 </div>

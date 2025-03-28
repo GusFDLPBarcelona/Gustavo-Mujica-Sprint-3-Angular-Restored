@@ -3,15 +3,25 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { importProvidersFrom } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes), 
+    provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(),
-    importProvidersFrom(MatSnackBarModule)
+    importProvidersFrom(
+      ReactiveFormsModule,
+      MatSnackBarModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule
+    )
   ]
 }).catch(err => console.error(err));

@@ -17,3 +17,41 @@ html, body {
 :root {
   --contact-bg: #	#FFFF00; /* Color de fondo minimalista */
 }
+
+/* ======= TOAST STYLES ======= */
+
+.toast-success {
+  background-color: #4caf50 !important; /* Verde Material */
+  color: #fff !important;
+}
+
+.toast-error {
+  background-color: #f44336 !important; /* Rojo Material */
+  color: #fff !important;
+}
+
+.toast-info {
+  background-color: #2196f3 !important; /* Azul Material */
+  color: #fff !important;
+}
+
+.toast-warning {
+  background-color: #ff9800 !important; /* Naranja Material */
+  color: #000 !important;
+}
+.toast-default {
+  background-color: #9e9e9e !important; /* Gris Material */
+  color: #fff !important;
+}
+
+::ng-deep .mat-bottom-sheet-container {
+  background: #fff;         /* Este será el único fondo */
+  padding: 0;
+  border-radius: 0;
+  width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

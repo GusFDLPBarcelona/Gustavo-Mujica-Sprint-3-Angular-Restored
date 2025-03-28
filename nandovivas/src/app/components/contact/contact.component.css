@@ -1,6 +1,13 @@
+
+.back-button {
+  color: yellow; /* o red, blue, #00ffff, etc. */
+  cursor: pointer;
+  padding-left: 18px;
+}
 .contact-container {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   background-color: red;
   color: black;
   width: 100vw;
@@ -18,12 +25,15 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 24px;
-  font-weight: bold;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .contact-email {
-  flex: 1;
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
 }
 
 .contact-links {
@@ -37,7 +47,7 @@
 }
 
 .contact-links a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .contact-animation-zone {
@@ -79,3 +89,25 @@
   box-shadow: none !important;
   border-radius: 0 !important;
 }
+
+.link-hover-effect {
+  transition: transform 0.2s ease-in-out;
+}
+
+.link-hover-effect:hover {
+  transform: translateY(1px) scale(1.05); 
+}
+
+.code-link {
+  display: inline-block; 
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.code-link:hover {
+  transform: translateY(1px);
+  text-decoration: none;
+}
+

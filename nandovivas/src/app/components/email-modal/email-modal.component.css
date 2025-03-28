@@ -1,11 +1,93 @@
-.email-modal {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .modal-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-  }
-  
+.modal-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  padding: 1rem 1rem;
+  font-family: 'Inter', sans-serif;
+  background-color: transparent; 
+  box-shadow: none;
+}
+
+.custom-form-field .mat-mdc-text-field-wrapper,
+.custom-form-field .mat-mdc-form-field-infix {
+  background-color: transparent !important;
+}
+
+.custom-form-field .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+  border: none !important; 
+  box-shadow: none !important; 
+}
+
+.custom-form-field .mdc-line-ripple {
+  display: block; 
+}
+
+.custom-form-field .mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important;
+}
+
+.full-width,
+.mat-form-field {
+  width: 100%;
+}
+
+.custom-form-field .mat-mdc-text-field-wrapper {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.custom-form-field .mat-mdc-form-field-focus-overlay {
+  background-color: transparent;
+}
+
+.custom-form-field .mat-mdc-form-field-infix {
+  background-color: transparent !important;
+}
+
+.custom-form-field .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+textarea.mat-input-element {
+  resize: none;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.button-group button[mat-button] {
+  width: 100%;
+  padding: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  background-color: green;
+  color: white;
+  font-weight: 600;
+  padding: 0.8rem;
+  border-radius: 0;
+  border: none;
+  box-shadow: 00 0 0 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+::ng-deep .mat-bottom-sheet-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: yellow !important;
+}
+
+
