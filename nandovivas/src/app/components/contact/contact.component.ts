@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { MatBottomSheetRef, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatBottomSheet, MatBottomSheetRef, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { EmailModalComponent } from '../email-modal/email-modal.component';
 
 @Component({
   selector: 'app-contact',
@@ -17,13 +18,30 @@ import { MatBottomSheetRef, MatBottomSheetModule } from '@angular/material/botto
   ]
 })
 export class ContactComponent {
-  constructor(private bottomSheetRef: MatBottomSheetRef<ContactComponent>) {}
+  constructor(
+    private bottomSheetRef: MatBottomSheetRef<ContactComponent>,
+    private bottomSheet: MatBottomSheet
+  ) {}
 
   close(): void {
     this.bottomSheetRef.dismiss();
   }
 
-  openEmailModal(): void {
-    window.location.href = 'mailto:info@nandovivas.com';
+  openEmailForm(): void {
+    const ref = this.bottomSheet.open(EmailModalComponent);
+  
+    ref.afterDismissed().subscribe(() => {
+      this.bottomSheet.open(ContactComponent);
+    });
+  }
+
+  openEmailToJMG(): void {
+    const ref = this.bottomSheet.open(EmailModalComponent, {
+      data: { toEmail: 'gustavoejmg@gmail.com' }
+    });
+  
+    ref.afterDismissed().subscribe(() => {
+      this.bottomSheet.open(ContactComponent);
+    });
   }
 }
