@@ -1,7 +1,8 @@
-
+/* ===== Owl Carousel (mantenemos tal cual) ===== */
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
+/* ===== Reset general ===== */
 * {
   margin: 0;
   padding: 0;
@@ -12,40 +13,36 @@ html, body {
   background-color: black !important;
   overflow-x: hidden;
   height: 100%;
+  font-family: 'Inter', sans-serif;
 }
 
+/* ===== Color base para futuras variables CSS ===== */
 :root {
-  --contact-bg: #	#FFFF00; /* Color de fondo minimalista */
+  --contact-bg: #ffff00; /* amarillo de fondo si se usa */
 }
 
-/* ======= TOAST STYLES ======= */
-
-.toast-success {
-  background-color: #4caf50 !important; /* Verde Material */
-  color: #fff !important;
-}
-
-.toast-error {
-  background-color: #f44336 !important; /* Rojo Material */
-  color: #fff !important;
-}
-
-.toast-info {
-  background-color: #2196f3 !important; /* Azul Material */
-  color: #fff !important;
-}
-
-.toast-warning {
-  background-color: #ff9800 !important; /* Naranja Material */
-  color: #000 !important;
-}
+/* ===== TOAST STYLES (limpios y con sombra) ===== */
+.toast-success,
+.toast-error,
+.toast-info,
+.toast-warning,
 .toast-default {
-  background-color: #9e9e9e !important; /* Gris Material */
-  color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  color: white !important;
 }
 
+/* Colores específicos */
+.toast-success  { background-color: #4caf50 !important; }
+.toast-error    { background-color: #f44336 !important; }
+.toast-info     { background-color: #2196f3 !important; }
+.toast-warning  { background-color: #ff9800 !important; color: black !important; }
+.toast-default  { background-color: #9e9e9e !important; }
+
+/* ===== Ajustes globales de Angular Material Bottom Sheet ===== */
 ::ng-deep .mat-bottom-sheet-container {
-  background: #fff;         /* Este será el único fondo */
+  background: #fff;
   padding: 0;
   border-radius: 0;
   width: 100vw;

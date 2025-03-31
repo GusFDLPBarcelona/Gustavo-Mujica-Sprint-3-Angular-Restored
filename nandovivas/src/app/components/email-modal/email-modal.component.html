@@ -1,58 +1,62 @@
 <div class="modal-wrapper">
-@if (state === 'form') {
-  <h2 class="modal-title">Let's talk!</h2>
-}
+  @if (state === 'form') {
+    <h2 class="modal-title">Let's talk!</h2>
 
-@if (state === 'form') {
-  <form [formGroup]="emailForm" (submit)="sendEmail()" class="email-form">
-    <!-- Campo: Email -->
-    <mat-form-field appearance="fill" class="custom-form-field full-width">
-      <mat-label>Your mail</mat-label>
-      <input matInput type="email" formControlName="fromEmail" />
-      @if (fromEmail?.invalid && fromEmail?.touched) {
-        <mat-hint class="error-hint">
-          Please type a valid email, exaple: your_mail&#64;domain.com
+    <form [formGroup]="emailForm" (submit)="sendEmail()" class="email-form">
+      <!-- Campo: Email -->
+      <mat-form-field appearance="fill" class="custom-form-field full-width">
+        <mat-label>Your mail</mat-label>
+        <input matInput type="email" formControlName="fromEmail" />
+        @if (fromEmail?.invalid && fromEmail?.touched) {
+          <mat-hint class="error-hint">
+            Please type a valid email (example: your_mail&#64;domain.com)
+          </mat-hint>
+        }
+      </mat-form-field>
+
+      <!-- Campo: Mensaje -->
+      <mat-form-field appearance="fill" class="custom-form-field full-width">
+        <mat-label>Message here...</mat-label>
+        <textarea
+          matInput
+          rows="5"
+          formControlName="message"
+          maxlength="1000"
+        ></textarea>
+        <mat-hint align="end">
+          {{ message?.value?.length || 0 }}/1000
         </mat-hint>
-      }
-    </mat-form-field>
-    <!-- Campo: Mensaje -->
-    <mat-form-field appearance="fill" class="custom-form-field full-width">
-      <mat-label>Message here...</mat-label>
-      <textarea
-        matInput
-        rows="5"
-        formControlName="message"
-        maxlength="1000"
-      ></textarea>
-      <mat-hint align="end">
-        {{ message?.value?.length || 0 }}/1000
-      </mat-hint>
-    </mat-form-field>
-  <!-- Botones -->
-    <div class="button-group">
-      <button mat-button type="submit" [disabled]="emailForm.invalid">Send</button>
-      <button mat-button type="button" (click)="close()">Cancel</button>
-    </div>
-  </form>
+      </mat-form-field>
 
-} @else if (state === 'success') {
-  <div class="thank-you-message">
-    <h2 class="modal-title">Message sent</h2>
-    <p>Thanks for getting in touch. I’ll reply as soon as possible.</p>
-    <div class="button-group">
-      <button mat-button type="button" (click)="retry()">Send another</button>
-      <button mat-button type="button" (click)="close()">Done</button>
-    </div>
-  </div>
+      <!-- Botones -->
+      <div class="button-group">
+        <button mat-button type="submit" [disabled]="emailForm.invalid" class="emailForm.invalid">
+          Send
+        </button>
+        <button mat-button type="button" (click)=close() class="cancel">Cancel</button>
+      </div>
+    </form>
+  }
 
-} @else if (state === 'error') {
-  <div class="error-message">
-    <p><strong>Something went wrong...</strong></p>
-    <p>It is possible that a network or server error occurs</p>
-    <div class="button-group">
-      <button mat-button type="button" (click)="retry()">Back to message</button>
-      <button mat-button type="button" (click)="close()">Done</button>
+  @else if (state === 'success') {
+    <div class="thank-you-message">
+      <h2 class="modal-title">Message sent</h2>
+      <p>Thanks for getting in touch. I’ll reply as soon as possible.</p>
+      <div class="button-group">
+        <button mat-button type="button" (click)="retry()" class="send-another">Send another</button>
+        <button mat-button type="button" (click)="close()" class="done">Done</button>
+      </div>
     </div>
-  </div>
-}
+  }
+
+  @else if (state === 'error') {
+    <div class="error-message">
+      <p><strong>Something went wrong...</strong></p>
+      <p>It is possible that a network or server error occurred.</p>
+      <div class="button-group">
+        <button mat-button type="button" (click)="retry()" class="send-another">Back to message</button>
+        <button mat-button type="button" (click)="close()" class="done">Done</button>
+      </div>
+    </div>
+  }
 </div>
