@@ -6,9 +6,12 @@
   padding: 16px;
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   z-index: 1000;
-  background-color: transparent; /* Navbar siempre transparente */
+  background-color: transparent; 
+  box-sizing: border-box;
 }
 
 /* Estilo del logo */
@@ -30,6 +33,7 @@
   text-decoration: none;
   color: #777;
   padding: 8px 16px;
+  cursor: pointer;
 }
 
 .arrow-icon {
