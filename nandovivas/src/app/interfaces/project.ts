@@ -5,4 +5,5 @@ export interface Project {
     category: string;
     image: string;
     originalOrder?: number;
+    matchesFilter?: boolean;
 }

@@ -1,29 +1,29 @@
-<div class="filters-background"></div> 
+<!-- work.component.html -->
+<div class="filters-background"></div>
 <div class="work-container">
-  <!-- Filtros por Categoría -->
+  <!-- Filtros -->
   <div class="filters-container">
-    @for (category of ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM']; track category) {
-      <button
-        (click)="setActiveCategory(category)"
-        class="filter-link"
-        [class.active]="activeCategory() === category">
-        {{ category }}
-      </button>
-    }
+    <div class="filters-observer-anchor" #observerAnchor></div>
+      @for (category of ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM']; track category) {
+        <button
+          (click)="setActiveCategory(category)"
+          class="filter-link"
+          [class.active]="activeCategory() === category">
+          <span class="filter-label">{{ category }}</span>
+        </button>
+      }
   </div>
+ 
 
-  <!-- Galería de Proyectos -->
+  <!-- Grid -->
   <div class="grid">
-    @for (project of projects(); track project.id) {
+    @for (project of filteredProjects(); track project.id) {
       <div class="project-container group"
-      [ngClass]="{ 'opacity-50': activeCategory() !== 'All' && project.category !== activeCategory() }"
-      [style.order]="activeCategory() === 'All' ? project.originalOrder : (project.category === activeCategory() ? 0 : 1)">
-        <!-- Imagen -->
+           [attr.data-category]="project.category"
+           [class.opacity-50]="activeCategory() !== 'All' && project.category !== activeCategory()">
         <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
-          <img [src]="project.image" alt="{{ project.title }}" class="project-image transition-transform group-hover:scale-105">
+          <img [src]="project.image" alt="{{ project.title }}" class="project-image">
         </a>
-
-        <!-- Contenedor de Detalles -->
         <div class="project-details-container">
           <div class="project-details">
             <span class="project-title">{{ project.title }}</span>
@@ -34,4 +34,3 @@
     }
   </div>
 </div>
-

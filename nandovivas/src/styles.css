@@ -52,3 +52,20 @@ html, body {
   justify-content: center;
   align-items: center;
 }
+
+/* Oculta scrollbars en navegadores WebKit (Chrome, Safari) */
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Oculta scrollbars en Firefox */
+body, html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+
+.navbar-wrapper {
+  backface-visibility: hidden;
+  will-change: transform;
+}
