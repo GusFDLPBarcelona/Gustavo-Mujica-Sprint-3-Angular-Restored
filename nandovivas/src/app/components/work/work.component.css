@@ -1,189 +1,200 @@
 /* Fondo de la página */
 body {
-  margin: 0; /* Elimina el margen predeterminado del body */
-  padding: 0; /* Elimina el padding predeterminado del body */
-  min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la pantalla */
-  overflow-y: scroll; /* Habilita el scroll vertical */
-  box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
-}
-
-.project-container {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.project-container.hidden {
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-y: hidden; /* Ocultamos scroll */
+  box-sizing: border-box;
 }
 
 /* Contenedor principal */
 .work-container {
-  padding: 1px 15px 0; /* Espaciado interno: arriba, laterales y abajo */
-  min-height: 100vh; /* Asegura que el contenedor ocupe toda la pantalla */
-  background-color: rgb(165, 165, 165); /* Color de fondo gris */
+  padding: 30px 15px 0;
+  min-height: 100vh;
+  background-color: rgb(165, 165, 165);
 }
 
 .filters-background {
-  position: fixed; /* Fija el fondo de los filtros en la parte superior */
-  top: 0; /* Posición superior */
-  left: 0; /* Posición izquierda */
-  right: 0; /* Posición derecha */
-  background-color: rgb(165, 165, 165); /* Color de fondo gris */
-  z-index: 2000; /* Asegura que esté detrás de los filtros */
-  box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
-  padding: 0 15px; /* Espaciado interno en los laterales */
-  overflow-x: clip; /* Oculta cualquier contenido que desborde horizontalmente */
+  position: relative;
+  background-color: rgb(165, 165, 165);
+  box-sizing: border-box;
+  padding: 0 15px;
+  overflow-x: clip;
+  height: 60px;
+  margin-top: 0; /* Ajustamos su aparición después del logo */
+  z-index: 1;
 }
 
 /* Filtros */
 .filters-container {
-  position: fixed; /* Fija los filtros en la parte superior */
-  top: 0; /* Posición superior */
-  left: 0; /* Posición izquierda */
-  right: 0; /* Posición derecha */
-  z-index: 999; /* Asegura que los filtros estén por encima del fondo */
-  display: flex; /* Usa flexbox para alinear los filtros */
-  justify-content: center; /* Centra los filtros horizontalmente */
-  gap: 5px; /* Espaciado entre los filtros */
-  padding: 0 15px; /* Espaciado interno en los laterales */
-  margin-top: 75px; /* Espaciado superior desde el borde */
-  margin-bottom: 48px; /* Espaciado inferior */
-  box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
-  overflow-x: clip; /* Oculta cualquier contenido que desborde horizontalmente */
-  max-width: 100vw; /* Asegura que no exceda el ancho de la ventana */
+  position: sticky;
+  top: 0px; /* altura precisa para quedar justo debajo del logo */
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 0 15px;
+  margin-top: 0;
+  margin-bottom: 48px;
+  box-sizing: border-box;
+  overflow-x: clip;
+  max-width: 100vw;
+  background-color: rgb(165, 165, 165);
+  height: 60px;
+  transition: top 0.3s ease-in-out;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 .filter-link {
-  font-size: 14px; /* Tamaño de fuente */
-  color: #646464; /* Color gris */
-  text-transform: uppercase; /* Convierte el texto a mayúsculas */
-  text-decoration: none; /* Elimina el subrayado */
-  font-weight: 400; /* Peso de fuente normal */
-  padding: 8px 12px; /* Espaciado interno: vertical y horizontal */
-  border: none; /* Sin borde */
-  background: none; /* Sin fondo */
-  cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el enlace */
-  transition: color 0.3s ease; /* Transición suave para el cambio de color */
-  white-space: nowrap; /* Evita que el texto baje de línea */
-  box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
+  position: relative;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  color: #646464;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.filter-link:hover {
-  color: #000; /* Cambia el color a negro al pasar el cursor */
+.filter-link .filter-label {
+  position: relative;
+  display: inline-block;
+}
+.filter-link.active .filter-label::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; /* ajusta si quieres más o menos pegado */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: black;
 }
 
-.filter-link.active {
-  border-bottom: 2px solid #000; /* Agrega un subrayado negro para el filtro activo */
-  color: #000; /* Cambia el color a negro para el filtro activo */
-  transition: border-bottom 0.3s ease; /* Transición suave para el subrayado */
+.filters-observer-anchor {
+  height: 1px;
+  width: 100%;
+  z-index: 1;
+  margin-top: -80px; /* Mueve el trigger del observer justo tras los filtros */
 }
 
 /* Galería de proyectos */
 .grid {
-  display: grid; /* Usa grid layout para organizar los proyectos */
-  gap: 15px; /* Espaciado entre los elementos del grid */
-  margin-top: 136px; /* Espaciado superior desde los filtros */
-  row-gap: 25px; /* Espaciado entre filas */
-}
-
-.project-image {
-  width: 100%; /* La imagen ocupa todo el ancho del contenedor */
-  display: block; /* Evita espacios en blanco por imágenes inline */
-  transition: transform 0.3s ease; /* Transición suave para el zoom */
-  object-fit: cover; /* Ajusta la imagen para llenar el contenedor */
-  position: relative; /* Posiciona la imagen dentro del contenedor */
-  height: auto; /* Mantiene la proporción de la imagen */
-  overflow: hidden; /* Oculta cualquier contenido que desborde */
-}
-
-.project-container:hover .project-image {
-  transform: scale(1.05); /* Aplica un zoom suave al pasar el cursor */
+  display: grid;
+  gap: 15px;
+  margin-top: 75px; /* Ajustamos para no superponer la primera fila */
+  row-gap: 25px;
+  position: relative;
+  will-change: transform, opacity;
 }
 
 .project-container {
-  background: transparent; /* Fondo transparente */
-  padding: 0; /* Sin espaciado interno */
-  overflow: hidden; /* Oculta cualquier contenido que desborde */
-  position: relative; /* Posiciona el contenedor dentro de su padre */
-  display: flex; /* Usa flexbox para organizar los elementos */
-  flex-direction: column; /* Coloca la imagen y los detalles en columnas */
-  transition: transform 0.4s ease, opacity 0.4s ease; /* Transiciones suaves */
+  background: transparent;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.4s ease;
+  will-change: transform, opacity;
+  contain: layout;
+}
+
+.project-image {
+  width: 100%;
+  display: block;
+  transition: transform 0.3s ease;
+  object-fit: cover;
+  position: relative;
+  height: auto;
+  overflow: hidden;
+}
+
+.project-container:hover .project-image {
+  transform: scale(1.05);
 }
 
 .project-container.opacity-50 {
-  opacity: 0.5; /* Reduce la opacidad */
-  visibility: visible; /* Asegura que el elemento sea visible */
-  pointer-events: auto; /* Permite la interacción */
-  transition: opacity 0.3s ease; /* Transición suave para la opacidad */
+  opacity: 0.5;
+  pointer-events: all;
+}
+
+.project-container.opacity-50 a {
+  pointer-events: auto;
 }
 
 .project-details-container {
-  display: flex; /* Usa flexbox para organizar los detalles */
-  flex-direction: column; /* Coloca los detalles en columnas */
-  background: rgb(165, 165, 165); /* Fondo gris */
-  margin-top: 0px; /* Sin margen superior */
-  padding: 0; /* Sin espaciado interno */
-  width: 100%; /* Asegura que coincida con el ancho del contenedor */
-  z-index: 1; /* Coloca los detalles por encima de la imagen */
-  height: auto; /* Ajusta la altura automáticamente */
+  display: flex;
+  flex-direction: column;
+  background: rgb(165, 165, 165);
+  margin-top: 0px;
+  padding: 0;
+  width: 100%;
+  z-index: 1;
+  height: auto;
 }
 
 .project-details {
-  display: flex; /* Usa flexbox para alinear los detalles */
-  justify-content: space-between; /* Título a la izquierda, cliente a la derecha */
-  margin-top: -3px; /* Ajusta el espacio entre el título y el cliente */
+  display: flex;
+  justify-content: space-between;
 }
 
 .project-title,
 .project-client {
-  font-size: 10px; /* Tamaño de fuente pequeño */
-  margin-top: 0; /* Sin margen superior */
-  overflow: hidden; /* Oculta el contenido que desborde */
-  white-space: nowrap; /* Evita que el texto baje de línea */
-  text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es muy largo */
+  font-size: 14px;
+  margin-top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .project-title {
-  font-weight: bold; /* Texto en negrita */
-  color: #000; /* Color negro */
+  font-weight: bold;
+  color: #000;
 }
 
 .project-client {
-  color: #616161; /* Color gris claro */
+  color: #616161;
 }
 
 /* Responsividad */
 @media (max-width: 767px) {
   .grid {
-    grid-template-columns: repeat(1, 1fr); /* 1 columna en pantallas pequeñas */
+    grid-template-columns: repeat(1, 1fr);
   }
   .filters-container {
-    flex-direction: column; /* Cambia de fila a columna */
-    align-items: center; /* Centra los filtros en la columna */
+    flex-direction: column;
+    align-items: center;
   }
 
   .filter-link {
-    width: 100%; /* Los botones ocupan todo el ancho disponible */
-    text-align: center; /* Centra el texto en cada botón */
+    width: 100%;
+    text-align: center;
   }
 
   .filter-link.active {
-    border-bottom: 2px solid #000; /* Subrayado activo */
-    width: auto; /* Ajusta el ancho automáticamente */
+    border-bottom: 2px solid #000;
+    width: auto;
   }
 }
 
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+    grid-template-columns: repeat(3, 1fr);
   }
 }

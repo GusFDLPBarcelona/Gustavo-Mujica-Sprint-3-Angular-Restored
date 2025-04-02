@@ -1,11 +1,12 @@
 import {
   Component,
   OnInit,
-  signal,
-  computed,
-  inject,
+  AfterViewInit,
   ElementRef,
-  AfterViewInit
+  ViewChild,
+  inject,
+  signal,
+  computed
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
@@ -13,8 +14,7 @@ import { Project } from '../../interfaces/project';
 import { ToastService } from '../../services/toast.service';
 import { CommonModule } from '@angular/common';
 import autoAnimate from '@formkit/auto-animate';
-import gsap from 'gsap';
-import Flip from 'gsap/Flip';
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-work',
@@ -23,58 +23,72 @@ import Flip from 'gsap/Flip';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent implements AfterViewInit, OnInit {
-  allProjects = [];
-  visibleProjects = [];
-  
+export class WorkComponent implements OnInit, AfterViewInit {
+  private el = inject(ElementRef);
+  private projectsService = inject(ProjectsService);
+  private navbarService = inject(NavbarService);
+  private toastService = inject(ToastService);
 
-  constructor(
-    private el: ElementRef,
-    private projectsService: ProjectsService
-  ) {
-    console.log('WorkComponent initialized');
-  }
+  @ViewChild('observerAnchor') observerAnchorRef!: ElementRef;
 
   projects = signal<Project[]>([]);
   activeCategory = signal<string>('All');
-  isLoading = computed(() => this.projectService.isLoading.value);
-  private projectService = inject(ProjectsService);
+  isLoading = computed(() => this.projectsService.isLoading.value);
+  showNavbar = signal(true);
 
-  ngOnInit() {
-    this.projectService.getProjects().subscribe((projects: Project[]) => {
-      console.log('Projects:', projects);
+  filteredProjects = computed(() => {
+    const category = this.activeCategory();
+    return this.projects()
+      .map((project, index) => ({
+        ...project,
+        matchesFilter: category === 'All' || project.category === category,
+        originalOrder: index
+      }))
+      .sort((a, b) => {
+        if (a.matchesFilter && !b.matchesFilter) return -1;
+        if (!a.matchesFilter && b.matchesFilter) return 1;
+        return a.originalOrder - b.originalOrder;
+      });
+  });
+
+  ngOnInit(): void {
+    this.projectsService.getProjects().subscribe((projects: Project[]) => {
       if (projects.length === 0) {
-        const toastService = inject(ToastService);
-        toastService.showInfo('No hay proyectos disponibles para mostrar.');
+        this.toastService.showInfo('No hay proyectos disponibles para mostrar.');
       } else {
-        const projectsWithOrder = projects.map((project, index) => ({
-          ...project,
-          originalOrder: index,
-        }));
-        this.projects.set(projectsWithOrder);
+        const ordered = projects.map((p, index) => ({ ...p, originalOrder: index }));
+        this.projects.set(ordered);
       }
     });
   }
 
-  
-
-  // ✅ CAMBIO AQUÍ: animación con duración más visible
   ngAfterViewInit(): void {
+    // Animación con autoAnimate
     const grid = this.el.nativeElement.querySelector('.grid');
-    if (grid) {
-      autoAnimate(grid, {
-        duration: 1200,  
-        easing: 'ease-in-out cubic-bezier(0.25, 0.8, 0.25, 1)',
-      });
+    if (grid) autoAnimate(grid, { duration: 600, easing: 'ease-in-out' });
+
+    // Observador de visibilidad del ancla
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isVisible = entry.isIntersecting;
+        this.navbarService.setShowNavbar(isVisible);
+      },
+      {
+        root: null,
+        threshold: 0.01
+      }
+    );
+
+    if (this.observerAnchorRef?.nativeElement) {
+      observer.observe(this.observerAnchorRef.nativeElement);
     }
   }
 
-  setActiveCategory(category: string) {
-    console.log('Categoría activa:', category);
-    this.activeCategory.set(category);
-
-    // Animación suave al top
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+  setActiveCategory(category: string): void {
+    if (this.activeCategory() !== category) {
+      this.activeCategory.set(category);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+    }
   }
 }

@@ -6,6 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ViewChild } from '@angular/core';
 import { CarouselComponent } from 'ngx-owl-carousel-o';
+import { NavbarService } from '../../services/navbar.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     autoplay: true,
     autoplayHoverPause: false,
     autoplayTimeout:5000, 
-    smartSpeed: 1000, 
+    smartSpeed: 3000, 
     autoplaySpeed: 2000,
     items: 1,
     mouseDrag: true,
@@ -48,15 +49,16 @@ export class WellcomeComponent implements OnInit, OnDestroy {
   };
 
   constructor(private wellcomeGalleryService: WellcomeGalleryService,
-    private cdr: ChangeDetectorRef) {}
+    private cdr: ChangeDetectorRef, private navbarService: NavbarService) {}
 
   ngOnInit() {
+    this.navbarService.setShowNavbar(true);
     console.log('Componente Wellcome cargado.');
     this.loadGalleryItems();
 
     setTimeout(() => {
-      console.log('🔍 Verificando si el HTML detecta los datos...');
-      console.log('📸 imagesGallery en HTML:', this.imagesGallery());
+      console.log('Verificando si el HTML detecta los datos...');
+      console.log('imagesGallery en HTML:', this.imagesGallery());
       this.cdr.detectChanges();
     }, 200);
   }
