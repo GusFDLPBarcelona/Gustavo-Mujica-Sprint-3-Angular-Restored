@@ -1,19 +1,44 @@
-<!-- work.component.html -->
 <div class="filters-background"></div>
 <div class="work-container">
   <!-- Filtros -->
   <div class="filters-container">
     <div class="filters-observer-anchor" #observerAnchor></div>
-      @for (category of ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM']; track category) {
-        <button
-          (click)="setActiveCategory(category)"
-          class="filter-link"
-          [class.active]="activeCategory() === category">
-          <span class="filter-label">{{ category }}</span>
-        </button>
-      }
+
+    <!-- Versión móvil (dropdown) -->
+    @if (isMobile()) {
+      <details class="filters-dropdown" [open]="dropdownOpen()">
+        <summary class="main-filter-summary" (click)="toggleDropdown()">
+          {{ activeCategory() }}
+        </summary>
+        <div class="filters-dropdown-options">
+          @for (category of categories; track category) {
+            <button
+              (click)="setActiveCategory(category)"
+              class="filter-link"
+              [class.active]="activeCategory() === category">
+              <span class="filter-label">{{ category }}</span>
+            </button>
+          }
+        </div>
+      </details>
+    }
+
+    <!-- Versión tablet/desktop (fila horizontal) -->
+    @if (!isMobile()) {
+      <div class="filters-horizontal">
+        @for (category of categories; track category) {
+          <button
+            (click)="setActiveCategory(category)"
+            class="filter-link"
+            [class.active]="activeCategory() === category">
+            <span class="filter-label">{{ category }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <div class="filters-observer-anchor" #observerAnchor></div>
   </div>
- 
 
   <!-- Grid -->
   <div class="grid">

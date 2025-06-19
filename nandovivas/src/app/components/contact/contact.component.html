@@ -1,37 +1,57 @@
-<!-- Botón BACK -->
-<!-- <a class="back-button" (click)="goBack()"><img src="assets/icons/back.svg" alt="Back"></a> -->
-
 <div class="contact-container">
-  <!-- HEADER -->
+  <!-- HEADER: links arriba a la izquierda -->
   <div class="contact-header">
-    <a class="contact-email link-hover-effect" (click)="openEmailForm()">INFO&#64;NANDOVIVAS.COM</a>
-
-    <div class="contact-links">
-      <a class="link-hover-effect" href="https://www.instagram.com/nando_vivas/?hl=es" target="_blank">INSTAGRAM</a>
+    <div class="contact-links-left">
+      <a class="contact-email link-hover-effect" (click)="openEmailForm()">INFO&#64;NANDOVIVAS.COM</a>
       <a class="link-hover-effect" href="https://www.behance.net/nandovivas" target="_blank">BEHANCE</a>
-      <a class="link-hover-effect" href="#" target="_blank">COOKIES POLICY</a> <!-- pendiente -->
+      <a class="link-hover-effect" href="https://www.instagram.com/nando_vivas/?hl=es" target="_blank">INSTAGRAM</a>
+      <a class="link-hover-effect" href="#">COOKIES POLICY</a>
+    </div>
+  
+    <div class="contact-clients-title">
+      <h3>Selected clients:</h3>
     </div>
   </div>
 
-  <!-- CENTRO (zona de animación) -->
-  <div class="contact-animation-zone">
-    <!-- Aquí irá el carousel o dibujo animado -->
-  </div>
-
-  <!-- FOOTER -->
-  <div class="contact-footer">
-    <div class="bio-text">
+  <!-- CUERPO PRINCIPAL: bio a la izquierda, clientes a la derecha -->
+  <div class="contact-main-row">
+    <div class="contact-bio">
       <p>
-        I am a graphic designer and illustrator based in Barcelona. I specialize in communication, packaging,
-        branding, art direction, and editorial design projects. I also work as an instructor of graphic arts and design.
-        I like exploring different paths without restricting myself to a style or trend: the client’s needs determine
-        the final outcome.
+        I am a graphic designer and illustrator based in Barcelona. I specialize in communication,
+        packaging, branding, art direction, and editorial design projects. I also work as an instructor
+        of graphic arts and design. In every single project, I like exploring different paths and possibilities
+        without restricting myself to any style or trend: the client’s needs and goals will determine the final
+        outcome. Do not hesitate to contact me via email and share with me what you have in mind.
+        Together we will turn your ideas into visual realities.
       </p>
     </div>
-    <div class="footer-meta">
-      <p>© 2024 Nando Vivas | Code: 
-        <a class="code-link" (click)="openEmailForm()">JMG</a>
-      </p>   
+    
+    <div class="contact-clients-right">
+      
+      <div class="clients-list">
+        <ul>
+          <li>UCLA</li>
+          <li>Estrella Damm</li>
+          <li>Hotel Le Méridien</li>
+          <li>Nestlé</li>
+
+          <li>Fundació “La Caixa”</li>
+          <li>Ajuntament de Barcelona</li>
+          <li>Hospital St Joan de Deu</li>
+        </ul>
+        <ul>
+          <li>BCNMes</li>
+          <li>Cities Alliance</li>
+          <li>Editorial Planeta</li>
+          <li>AECOC</li>
+          <li>Swiss Airlines</li>
+          <li>Salvat</li>          
+        </ul>
+      </div>
+      <div class="clients-footer">
+        <p>© 2024 Nando Vivas        
+        </p>
+      </div>
     </div>
   </div>
 </div>

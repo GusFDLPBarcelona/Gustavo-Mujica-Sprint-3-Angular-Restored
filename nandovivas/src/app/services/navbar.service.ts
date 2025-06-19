@@ -11,7 +11,7 @@ export class NavbarService {
   showNavbar = this.showNavbarSignal;
 
   // Setter para cambiar visibilidad
-  setShowNavbar(value: boolean) {
+  setShowNavbar(value: boolean): void {
     this.showNavbarSignal.set(value);
   }
 
