@@ -6,27 +6,31 @@
 }
 .contact-container {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   background-color: red;
   color: black;
   width: 100vw;
   height: 100%;
-  padding: 40px;
+  padding: 20px 40px 40px 40px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  position: relative;
+  gap: 10px;
 }
 
 .contact-header {
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 24px;
-  text-transform: uppercase;
-  font-weight: bold;
+  flex-wrap: nowrap;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 65% 35%;
+  align-items: center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+
 }
 
 .contact-email {
@@ -63,6 +67,43 @@
   gap: 40px;
 }
 
+.contact-links-left {
+  display: flex;
+  gap: 32px;
+  text-transform: uppercase;
+  font-weight: bold;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.contact-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  height: auto;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.contact-bio {
+  position: relative;
+  flex: 65;
+  display: flex;
+  align-items: flex-end; 
+  justify-content: flex-end; 
+  font-weight: normal;
+  line-height: 1.6;
+  font-size: 14px;
+  height: 100%;
+}
+
+.contact-bio p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+}
+
 .bio-text {
   flex: 3;
   line-height: 1.6;
@@ -73,8 +114,7 @@
   font-size: 12px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: flex-end;  
   text-align: right;
 }
 
@@ -92,22 +132,106 @@
 
 .link-hover-effect {
   transition: transform 0.2s ease-in-out;
+  text-decoration: none;
 }
 
 .link-hover-effect:hover {
   transform: translateY(1px) scale(1.05); 
 }
 
+.code-link:hover {
+  transform: translateY(1px);
+  text-decoration: none;
+}
+
+.contact-links-left {
+  flex: 65;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  text-transform: uppercase;
+  font-weight: bold;
+  white-space: nowrap; 
+}
+
+.contact-clients-title {
+  flex: 35;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  margin-left: 14px;
+}
+
+.contact-clients-title h3 {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  text-align: left;
+}
+
+.contact-clients-right {
+  position: relative;
+  flex: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 10px;
+  max-height: 100%;
+  justify-content: flex-start;
+}
+
+.clients-list {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  align-items: flex-start;
+  gap: 48px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.clients-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.clients-footer {
+  width: 100%;
+  height: 100%; /* Solo si el padre tiene altura definida, si no, podés omitir */
+  font-size: 18px;
+  border-style: solid;
+}
+
+.clients-footer-wrapper {
+  position: absolute;
+  right: 0px;
+  bottom: 40px;
+  text-align: right;
+  width: 100%;
+}
+
+.clients-footer p {
+  bottom: 0;
+  right: 0;
+  margin: 0;
+}
+
 .code-link {
+  font-size: 12px;
   display: inline-block; 
   color: black;
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-}
-
-.code-link:hover {
-  transform: translateY(1px);
-  text-decoration: none;
 }
 

@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  overflow-y: hidden; /* Ocultamos scroll */
+  overflow-y: hidden;
   box-sizing: border-box;
 }
 
@@ -21,14 +21,14 @@ body {
   padding: 0 15px;
   overflow-x: clip;
   height: 60px;
-  margin-top: 0; /* Ajustamos su aparición después del logo */
+  margin-top: 0;
   z-index: 1;
 }
 
 /* Filtros */
 .filters-container {
   position: sticky;
-  top: 0px; /* altura precisa para quedar justo debajo del logo */
+  top: 0px;
   z-index: 998;
   display: flex;
   justify-content: center;
@@ -70,10 +70,11 @@ body {
   position: relative;
   display: inline-block;
 }
+
 .filter-link.active .filter-label::after {
-  content: '';
+  content: "";
   position: absolute;
-  bottom: -2px; /* ajusta si quieres más o menos pegado */
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 1px;
@@ -84,14 +85,24 @@ body {
   height: 1px;
   width: 100%;
   z-index: 1;
-  margin-top: -80px; /* Mueve el trigger del observer justo tras los filtros */
+  margin-top: -80px;
+}
+
+/* Filtros horizontales (tablet/desktop) */
+.filters-horizontal {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  width: 100%;
+  justify-content: center;
+  padding: 0 15px;
 }
 
 /* Galería de proyectos */
 .grid {
   display: grid;
   gap: 15px;
-  margin-top: 75px; /* Ajustamos para no superponer la primera fila */
+  margin-top: 75px;
   row-gap: 25px;
   position: relative;
   will-change: transform, opacity;
@@ -166,35 +177,145 @@ body {
   color: #616161;
 }
 
-/* Responsividad */
+/* Versión móvil (dropdown) */
 @media (max-width: 767px) {
-  .grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
   .filters-container {
-    flex-direction: column;
+    padding: 0;
+    justify-content: center;
     align-items: center;
+    scrollbar-width: none;
+    margin-bottom: 48px;
   }
+
+  .filters-dropdown {
+    width: 100%;
+    background-color: rgb(165, 165, 165);
+    border: none;
+  }
+
+  .main-filter-summary {
+    padding: 12px 15px;
+    text-align: center;
+    background-color: rgb(165, 165, 165);
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #ccc;
+  }
+
+  .filters-dropdown[open] .filters-dropdown-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .filters-dropdown-options {
+    display: none;
+  }
+
+  .filters-observer-anchor {
+    margin-top: -100px;
+  }
+
+  /* Ocultar filtros horizontales en móvil */
+  .filters-horizontal {
+    display: none !important;
+  }
+}
+
+/* Versión tablet (768px a 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hidden {
+    opacity: 0;
+    transform: translateY(-5px);
+    pointer-events: none;
+    transition: opacity 0.1s ease, transform 0.1s ease;
+  }
+
+  .filters-observer-anchor {
+    margin-top: -80px !important;
+    height: 10px !important;
+  }
+
+  .filters-horizontal {
+    flex-wrap: wrap !important; /* Asegura que los filtros no hagan overflow */
+    justify-content: center !important;
+    padding-bottom: 10px !important;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+
+  /* Estilos para filtros en tablet */
+  .filters-container {
+    position: sticky;
+    top: 0 !important;
+    gap:12px;
+    white-space: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: visible !important;
+    margin-bottom: 48px;
+    width: 100%;
+    padding: 0 10px;
+    margin-top: 30px;
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+  }
+
+
 
   .filter-link {
-    width: 100%;
-    text-align: center;
+    flex: 0 0 auto;
+    font-size: 12px;
+    padding: 6px 8px;
   }
 
-  .filter-link.active {
-    border-bottom: 2px solid #000;
-    width: auto;
-  }
-}
-
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  /* Ocultar dropdown en tablet */
+  .filters-dropdown {
+    display: none !important;
   }
 }
 
+/* Versión desktop (1024px en adelante) */
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
+  
+  /* Filtros horizontales para desktop */
+  .filters-container {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-link {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  /* Ocultar dropdown en desktop */
+  .filters-dropdown {
+    display: none !important;
+  }
+}
+
+/* Asegura el scroll suave */
+.work-container {
+  scroll-behavior: smooth;
+}
+
+/* Refuerza la estructura del grid sin afectar el diseño */
+.grid {
+  contain: layout;
+  will-change: transform;
+}
+
+.work-container {
+  scroll-snap-type: y proximity; /* Mejora el scroll */
+}
+
+.project-container {
+  scroll-snap-align: start; /* Alinea correctamente */
 }
