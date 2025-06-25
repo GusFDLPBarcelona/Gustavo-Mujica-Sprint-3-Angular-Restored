@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { Output, EventEmitter } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-email-modal',
@@ -21,12 +23,22 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatInputModule,
     MatButtonModule,
     MatBottomSheetModule
+  ],
+    animations: [
+    trigger('slideUp', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+      ])
+    ])
   ]
 })
 
 export class EmailModalComponent implements OnInit {
   emailForm!: FormGroup;
   state: 'form' | 'success' | 'error' = 'form';
+
+  @Output() contactBack = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -82,4 +94,11 @@ export class EmailModalComponent implements OnInit {
   close(): void {
     this.bottomSheetRef.dismiss();
   }
+
+  backToContact() {
+    this.contactBack.emit();
+  }
+  cancel() {
+  this.emailForm.reset();
+}
 }
