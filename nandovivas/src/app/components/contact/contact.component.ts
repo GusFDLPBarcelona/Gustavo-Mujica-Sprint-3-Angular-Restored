@@ -1,9 +1,6 @@
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatCardModule } from '@angular/material/card';
-import { MatBottomSheet, MatBottomSheetRef, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { Component, signal } from '@angular/core';
 import { EmailModalComponent } from '../email-modal/email-modal.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-contact',
@@ -11,37 +8,20 @@ import { EmailModalComponent } from '../email-modal/email-modal.component';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   imports: [
-    MatBottomSheetModule,
     MatButtonModule,
-    MatDividerModule,
-    MatCardModule
-  ]
+    EmailModalComponent,
+  ],
 })
 export class ContactComponent {
-  constructor(
-    private bottomSheetRef: MatBottomSheetRef<ContactComponent>,
-    private bottomSheet: MatBottomSheet
-  ) {}
+  showForm = signal(false);
 
-  close(): void {
-    this.bottomSheetRef.dismiss();
+  openEmailForm() {
+    this.showForm.set(true);
   }
 
-  openEmailForm(): void {
-    const ref = this.bottomSheet.open(EmailModalComponent);
-  
-    ref.afterDismissed().subscribe(() => {
-      this.bottomSheet.open(ContactComponent);
-    });
-  }
-
-  openEmailToJMG(): void {
-    const ref = this.bottomSheet.open(EmailModalComponent, {
-      data: { toEmail: 'gustavoejmg@gmail.com' }
-    });
-  
-    ref.afterDismissed().subscribe(() => {
-      this.bottomSheet.open(ContactComponent);
-    });
+  closeEmailForm() {
+    this.showForm.set(false);
   }
 }
+// This component handles the contact section of the application.
+// It allows users to open a modal form to send an email.

@@ -1,62 +1,40 @@
-<div class="modal-wrapper">
+<div [@slideUp]>
+<div class="contact-container" style="background-color: yellow;">
   @if (state === 'form') {
-    <h2 class="modal-title">Let's talk!</h2>
+    <div class="email-layout">
+      <!-- Formulario a la izquierda -->
+      <form [formGroup]="emailForm" (submit)="sendEmail()" class="email-form">
+        <mat-form-field appearance="fill" class="custom-form-field full-width">
+          <mat-label>Your mail</mat-label>
+          <input matInput type="email" formControlName="fromEmail" />
+          @if (fromEmail?.invalid && fromEmail?.touched) {
+            <mat-hint class="error-hint">
+              Please type a valid email (example: your_mail&#64;domain.com)
+            </mat-hint>
+          }
+        </mat-form-field>
 
-    <form [formGroup]="emailForm" (submit)="sendEmail()" class="email-form">
-      <!-- Campo: Email -->
-      <mat-form-field appearance="fill" class="custom-form-field full-width">
-        <mat-label>Your mail</mat-label>
-        <input matInput type="email" formControlName="fromEmail" />
-        @if (fromEmail?.invalid && fromEmail?.touched) {
-          <mat-hint class="error-hint">
-            Please type a valid email (example: your_mail&#64;domain.com)
+        <mat-form-field appearance="fill" class="custom-form-field full-width">
+          <mat-label>Message here...</mat-label>
+          <textarea matInput rows="3" formControlName="message" maxlength="1000"></textarea>
+          <mat-hint align="end">
+            {{ message?.value?.length || 0 }}/1000
           </mat-hint>
-        }
-      </mat-form-field>
+        </mat-form-field>
+      </form>
 
-      <!-- Campo: Mensaje -->
-      <mat-form-field appearance="fill" class="custom-form-field full-width">
-        <mat-label>Message here...</mat-label>
-        <textarea
-          matInput
-          rows="5"
-          formControlName="message"
-          maxlength="1000"
-        ></textarea>
-        <mat-hint align="end">
-          {{ message?.value?.length || 0 }}/1000
-        </mat-hint>
-      </mat-form-field>
-
-      <!-- Botones -->
-      <div class="button-group">
-        <button mat-button type="submit" [disabled]="emailForm.invalid" class="emailForm.invalid">
+      <!-- Botones a la derecha -->
+      <div class="email-buttons">
+        <button mat-button type="submit" [disabled]="emailForm.invalid" (click)="sendEmail()">
           Send
         </button>
-        <button mat-button type="button" (click)=close() class="cancel">Cancel</button>
-      </div>
-    </form>
-  }
-
-  @else if (state === 'success') {
-    <div class="thank-you-message">
-      <h2 class="modal-title">Message sent</h2>
-      <p>Thanks for getting in touch. I’ll reply as soon as possible.</p>
-      <div class="button-group">
-        <button mat-button type="button" (click)="retry()" class="send-another">Send another</button>
-        <button mat-button type="button" (click)="close()" class="done">Done</button>
+        <button mat-button type="button" (click)="cancel()" class="cancel">
+          Cancel
+        </button>
+          <button mat-button type="button" (click)="backToContact()" class="back">
+          Back
+        </button>
       </div>
     </div>
   }
-
-  @else if (state === 'error') {
-    <div class="error-message">
-      <p><strong>Something went wrong...</strong></p>
-      <p>It is possible that a network or server error occurred.</p>
-      <div class="button-group">
-        <button mat-button type="button" (click)="retry()" class="send-another">Back to message</button>
-        <button mat-button type="button" (click)="close()" class="done">Done</button>
-      </div>
-    </div>
-  }
-</div>
+  </div>
