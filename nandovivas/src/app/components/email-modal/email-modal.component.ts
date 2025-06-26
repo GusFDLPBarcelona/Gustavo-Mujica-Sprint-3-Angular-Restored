@@ -24,7 +24,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     MatButtonModule,
     MatBottomSheetModule
   ],
-    animations: [
+  animations: [
     trigger('slideUp', [
       transition(':enter', [
         style({ transform: 'translateY(100%)', opacity: 0 }),
@@ -33,7 +33,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ]
 })
-
 export class EmailModalComponent implements OnInit {
   emailForm!: FormGroup;
   state: 'form' | 'success' | 'error' = 'form';
@@ -52,19 +51,15 @@ export class EmailModalComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(
-            /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/
-          )
+          Validators.pattern(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/)
         ]
       ],
       message: ['', [Validators.required, Validators.maxLength(500)]]
     });
   }
 
-
   sendEmail(): void {
     if (this.emailForm.valid) {
-      // Simulamos envío real — aquí va API call
       try {
         this.toast.showSuccess('Message sent');
         this.state = 'success';
@@ -80,11 +75,10 @@ export class EmailModalComponent implements OnInit {
   get fromEmail() {
     return this.emailForm.get('fromEmail');
   }
-  
+
   get message() {
     return this.emailForm.get('message');
   }
-  
 
   retry(): void {
     this.state = 'form';
@@ -98,7 +92,8 @@ export class EmailModalComponent implements OnInit {
   backToContact() {
     this.contactBack.emit();
   }
+
   cancel() {
-  this.emailForm.reset();
-}
+    this.emailForm.reset();
+  }
 }
