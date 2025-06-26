@@ -8,38 +8,58 @@ export class ToastService {
   constructor(private snackBar: MatSnackBar) {}
 
   showSuccess(message: string): void {
-    this.snackBar.open(message, 'Cerrar', {
-        duration: 5000, 
-        panelClass: ['toast-success'], 
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
+    const ref = this.snackBar.open(message, '✖', {
+      duration: 3000,
+      panelClass: 'custom-toast',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
     });
-}
 
-showError(message: string): void {
-    this.snackBar.open(message, 'Cerrar', {
-        duration: 5000,
-        panelClass: ['toast-error'],
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
+    ref.onAction().subscribe(() => {
+    console.log('Toast cerrado manualmente');
+    ref.dismiss();
+  });
+  }
+
+  showError(message: string): void {
+    const ref = this.snackBar.open(message, '✖', {
+      duration: 3000,
+      panelClass: 'custom-toast',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
     });
-}
+
+    ref.onAction().subscribe(() => {
+    console.log('Toast cerrado manualmente');
+    ref.dismiss();
+   });
+  }
 
 showInfo(message: string): void {
-    this.snackBar.open(message, 'Cerrar', {
+    const ref = this.snackBar.open(message, '✖', {
         duration: 5000,
         panelClass: ['toast-info'],
-        horizontalPosition: 'left',
+        horizontalPosition: 'center',
         verticalPosition: 'bottom',
     });
+
+    ref.onAction().subscribe(() => {
+    console.log('Toast cerrado manualmente');
+    ref.dismiss();
+  });
 }
 
 showCriticalError(message: string): void {
-  this.snackBar.open(message, 'Cerrar', {
+  const ref = this.snackBar.open(message, '✖', {
     duration: 4000, 
     panelClass: ['toast-error'], 
     horizontalPosition: 'center',
     verticalPosition: 'top',
+  });
+  
+    ref.onAction().subscribe(() => {
+    console.log('Toast cerrado manualmente');
+    ref.dismiss();
   });
  }
 }

@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
-import { EmailModalComponent } from '../email-modal/email-modal.component';
+import { Component } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
+import { EmailModalComponent } from '../email-modal/email-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
@@ -8,18 +10,14 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   imports: [
+    CommonModule,
     MatButtonModule,
-    EmailModalComponent,
   ],
 })
 export class ContactComponent {
-  showForm = signal(false);
+  constructor(private bottomSheet: MatBottomSheet) {}
 
-  openEmailForm() {
-    this.showForm.set(true);
-  }
-
-  closeEmailForm() {
-    this.showForm.set(false);
+  openEmailModal(): void {
+    this.bottomSheet.open(EmailModalComponent);
   }
 }
