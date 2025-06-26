@@ -23,5 +23,3 @@ export class ContactComponent {
     this.showForm.set(false);
   }
 }
-// This component handles the contact section of the application.
-// It allows users to open a modal form to send an email.
