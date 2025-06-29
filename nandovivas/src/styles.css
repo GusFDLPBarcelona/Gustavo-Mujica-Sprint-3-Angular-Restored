@@ -2,6 +2,14 @@
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
+.cdk-overlay-container {
+  z-index: 10000 !important; /* Mayor que el z-index de tu navbar (9999) */
+}
+
+.mat-mdc-snack-bar-container {
+  margin-top: 70px !important; /* Ajusta este valor según la altura de tu navbar */
+}
+
 /* ===== Reset general ===== */
 * {
   margin: 0;
@@ -28,7 +36,7 @@ html, body {
 .toast-warning,
 .toast-default {
   border: none !important;
-  border-radius: 4px !important;
+  border-radius: 2px !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   color: white !important;
 }
