@@ -70,7 +70,7 @@ export class EmailModalComponent implements OnInit {
 
   private handleCloseAttempt(): void {
     if (this.hasText()) {
-      this.toast.showError('You have unsaved text. Please save or cancel before closing.');
+      this.toast.showError('You have unsent text. Please send or cancel before closing.');
       return;
     }
     this.closeAndOpenContact();
@@ -146,7 +146,7 @@ export class EmailModalComponent implements OnInit {
     if (!this.hasText()) {
       this.closeAndOpenContact();
     } else {
-      this.toast.showError('You have unsaved text. Please save or cancel before going back.');
+      this.toast.showError('You have unsent text. Please send or cancel before going back.');
     }
   }
 

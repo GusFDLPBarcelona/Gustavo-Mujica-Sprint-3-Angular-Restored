@@ -7,7 +7,7 @@
 }
 
 .mat-mdc-snack-bar-container {
-  margin-top: 70px !important; /* Ajusta este valor según la altura de tu navbar */
+  margin-top: 16px !important; /* Ajusta este valor según la altura de tu navbar */
 }
 
 /* ===== Reset general ===== */
@@ -66,7 +66,7 @@ body, html {
 }
 
 ::ng-deep .mat-snack-bar-container.custom-toast {
-  z-index: 12000 !important;
+  z-index: 1100 !important;
   position: fixed !important;
   top: 16px !important;
   left: 50% !important;

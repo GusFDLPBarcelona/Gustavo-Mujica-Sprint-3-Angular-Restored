@@ -16,7 +16,6 @@ export class ToastService {
     });
 
     ref.onAction().subscribe(() => {
-    console.log('Toast cerrado manualmente');
     ref.dismiss();
   });
   }
@@ -30,7 +29,6 @@ export class ToastService {
     });
 
     ref.onAction().subscribe(() => {
-    console.log('Toast cerrado manualmente');
     ref.dismiss();
    });
   }
@@ -44,7 +42,6 @@ showInfo(message: string): void {
     });
 
     ref.onAction().subscribe(() => {
-    console.log('Toast cerrado manualmente');
     ref.dismiss();
   });
 }
@@ -58,7 +55,6 @@ showCriticalError(message: string): void {
   });
   
     ref.onAction().subscribe(() => {
-    console.log('Toast cerrado manualmente');
     ref.dismiss();
   });
  }
