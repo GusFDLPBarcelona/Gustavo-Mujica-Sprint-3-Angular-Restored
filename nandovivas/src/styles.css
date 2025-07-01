@@ -2,6 +2,8 @@
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
+
+
 .cdk-overlay-container {
   z-index: 10000 !important; /* Mayor que el z-index de tu navbar (9999) */
 }
@@ -26,7 +28,11 @@ html, body {
 
 /* ===== Color base para futuras variables CSS ===== */
 :root {
-  --contact-bg: #ffff00; /* amarillo de fondo si se usa */
+  --contact-bg: #ffff00;
+  --z-index-navbar: 1000;
+  --z-index-filters: 950;
+  --z-index-filters-bg: 949;
+  --z-index-content: 1;
 }
 
 /* ===== TOAST STYLES (limpios y con sombra) ===== */

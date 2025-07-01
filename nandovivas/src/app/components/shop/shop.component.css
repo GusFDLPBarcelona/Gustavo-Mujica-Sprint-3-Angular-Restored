@@ -28,7 +28,7 @@ body {
   .filters-container {
     position: fixed;
     width: 100%;
-    z-index: 999;
+    z-index: 950;
     display: flex;
     justify-content: center;
     gap: 5px;
