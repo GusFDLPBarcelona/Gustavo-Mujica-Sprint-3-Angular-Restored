@@ -37,7 +37,7 @@
   color: red;
   background-color: yellow;
   padding: 2px;
-  z-index: 99999;
+  z-index: 1001;
 }
 
 /* Estilo del logo */
