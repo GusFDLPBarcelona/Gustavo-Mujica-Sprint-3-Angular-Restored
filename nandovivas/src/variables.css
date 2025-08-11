@@ -1,0 +1,39 @@
+@import '@fontsource/inter';
+
+
+
+/* Colores principales  */
+:root {
+  --font-color-black: #1a1a1a;
+  --contact-bg: #ffff00;
+  --z-index-navbar: 1000;
+  --z-index-filters: 950;
+  --z-index-filters-bg: 949;
+  --z-index-content: 1;
+  /* Pie de foto */
+  --client-font-color: #ffffff;
+  /* Filtros */
+  --filter-font-color: #0d5f1b;
+  /* Texto secundario */
+  --secondary-text-font-color: #7c7c7c;
+  /* Fondo de la página */
+  --background-color: #c7c7c7;
+  /* Fondo de contact */
+  --contact-bg-color: #ff8e8e;
+
+
+
+
+
+
+
+
+
+
+  /* Tipografia */
+  --font-family: 'Inter', sans-serif  !important;
+  --font-size:16px;
+  --small-font-size: 14px;
+  --font-weight-medium: 500 !important;
+  --font-weight-bold: 700;
+}

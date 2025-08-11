@@ -42,7 +42,6 @@ export class WorkComponent implements OnInit, AfterViewInit {
   projects = signal<Project[]>([]);
   activeCategory = signal<string>('All');
   isLoading = computed(() => this.projectsService.isLoading.value);
-  showNavbar = signal(true);
     
   isMobile = signal(window.innerWidth <= 767);
   dropdownOpen = signal(false);
@@ -114,6 +113,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
             );
     
             if (shouldHide) {
+              debugger;
               this.isNavbarHidden = true;
               this.navbarService.setShowNavbar(false);
             } else if (shouldShow) {
