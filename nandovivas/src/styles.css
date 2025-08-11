@@ -1,7 +1,21 @@
 /* ===== Owl Carousel (mantenemos tal cual) ===== */
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import './variables.css';
 
+.mat-typography,
+.mat-body-1,
+.mat-body-2,
+.mat-subheading-1,
+.mat-subheading-2,
+.mat-title,
+.mat-headline,
+.mat-caption,
+.mat-button,
+.mat-card-title,
+.mat-card-subtitle {
+  font-family: 'Inter', sans-serif !important;
+}
 
 
 .cdk-overlay-container {
@@ -20,20 +34,15 @@
 }
 
 html, body {
-  background-color: black !important;
+  background-color: var(--background-color) !important;
   overflow-x: hidden;
   height: 100%;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
 }
 
 /* ===== Color base para futuras variables CSS ===== */
-:root {
-  --contact-bg: #ffff00;
-  --z-index-navbar: 1000;
-  --z-index-filters: 950;
-  --z-index-filters-bg: 949;
-  --z-index-content: 1;
-}
+
 
 /* ===== TOAST STYLES (limpios y con sombra) ===== */
 .toast-success,

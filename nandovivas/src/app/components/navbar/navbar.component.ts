@@ -14,21 +14,19 @@ import { NavbarService } from '../../services/navbar.service'; // 👈 Asegurate
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  navigateHome(): void {
-    console.log('JODER NO SE SI NAVEGA A HOME O NO');
-    this.navbarService.setShowNavbar(true); // por si acaso
-    this.router.navigateByUrl('/', { skipLocationChange: false });
-  }
+
 
   @HostBinding('style.position') position = 'fixed';
   @HostBinding('style.top') top = '0';
   @HostBinding('style.left') left = '0';
   @HostBinding('style.right') right = '0';
   @HostBinding('style.zIndex') zIndex = '9999';
-  isMenuVisible = false;
+  isMenuVisible = true;
   private router = inject(Router);
   private bottomSheet = inject(MatBottomSheet);
-  navbarService = inject(NavbarService);
+
+constructor( private navbarService: NavbarService) {};  
+
   
   ngOnInit(): void {
     console.log('🧭 NavbarComponent montado');
@@ -37,6 +35,8 @@ export class NavbarComponent implements OnInit {
     const isWorkRoute = initialUrl.includes('/work');
     if (!isWorkRoute) {
       this.navbarService.setShowNavbar(true);
+      this.isMenuVisible = this.navbarService.showNavbar();
+
     }
   
     // Luego seguimos escuchando cambios de ruta
@@ -50,13 +50,19 @@ export class NavbarComponent implements OnInit {
     });
   }
   
-
-  toggleMenu(): void {
+    toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
   navigateAndCloseMenu(): void {
     this.isMenuVisible = false;
+  }
+
+  navigateHome(): void {
+    console.log('NAVEGA A HOME');
+    this.navbarService.setShowNavbar(true);
+    this.router.navigateByUrl('/');
+
   }
 
   openContactSheet(): void {

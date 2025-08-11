@@ -38,6 +38,7 @@
   background-color: yellow;
   padding: 2px;
   z-index: 1001;
+  width: 100%;
 }
 
 /* Estilo del logo */
@@ -49,24 +50,27 @@
 }
 
 .navigation-menu {
+  width: 100%;
   display: flex;
   justify-content: flex-end; /* Alinear los links a la derecha */
   gap: 32px; /* Espaciado entre los links */
-  padding-right: 33px; /* Espaciado adicional desde el borde derecho */
+  padding-right: -4px; /* Espaciado adicional desde el borde derecho */
 }
 
 .menu-link {
+  display: flex;
+  align-items: right;
   font-size: 16px;
   text-decoration: none;
-  color: #777;
-  padding: 8px 16px;
+  color: #000000;
+  padding: 8px 8px;
   cursor: pointer;
 }
 
 .arrow-icon {
   width: 11px; /* Ajusta el tamaño del ícono */
   height: auto; /* Mantiene las proporciones */
-  color: #777; /* Gris claro por defecto */
+  color: #000000; /* Gris claro por defecto */
   transition: color 0.3s; /* Transición suave */
   stroke: currentColor; /* Colorea el ícono con el color actual */
 }

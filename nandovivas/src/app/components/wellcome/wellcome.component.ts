@@ -53,6 +53,7 @@ export class WellcomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.navbarService.setShowNavbar(true);
+    this.cdr.detectChanges();    
     console.log('Componente Wellcome cargado.');
     this.loadGalleryItems();
 

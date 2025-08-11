@@ -28,11 +28,11 @@
 /* Texto superpuesto */
 .carousel-caption {
   position: absolute;
-  bottom: 20px;
+  bottom: -4px;
   left: 20px;
-  color: white;
+  color: var(--client-font-color);
   font-size: 10px;
-  font-family: inherit; 
+ 
   text-transform: none; 
   background: none;
   padding: 0;

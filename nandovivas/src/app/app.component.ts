@@ -2,22 +2,23 @@ import { Component, inject } from '@angular/core';
 import { Router, NavigationStart, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NavbarService } from './services/navbar.service'; 
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'nandovivas';
-  navbarService = inject(NavbarService);
-
+  showNavbar: boolean = true;
   router = inject(Router);
 
-  constructor() {
+  constructor(public navbarService: NavbarService) {
     this.router.events.subscribe((event) => {
+      console.log('Navbar en appcomponent:', this.showNavbar);
       if (event instanceof NavigationStart) {
         console.log('Navigating to:', event.url);
       }
