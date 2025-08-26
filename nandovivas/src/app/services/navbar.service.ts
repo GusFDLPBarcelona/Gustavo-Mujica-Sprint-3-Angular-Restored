@@ -1,4 +1,4 @@
-import { Injectable, signal, inject, effect } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -7,14 +7,26 @@ import { Router } from '@angular/router';
 export class NavbarService {
   public showNavbarSignal = signal(true);
 
+  constructor(
+    private router: Router
+  ) {}
+
   // Getter reactivo para el binding en el template
   showNavbar = this.showNavbarSignal;
 
   // Setter para cambiar visibilidad
   setShowNavbar(value: boolean): void {
-    console.log("Cambiando visibilidad de la navbar a:", value);
-    this.showNavbarSignal.set(value);
-    console.log("signal en servicio",this.showNavbarSignal());
+    if (!value) {
+      if (this.router.url === '/') {
+      console.log("Ruta '', no se oculta la navbar.");
+      } else {
+        this.showNavbarSignal.set(value);
+      }
+    } else {
+      console.log("Cambiando visibilidad de la navbar a:", value);
+      this.showNavbarSignal.set(value);
+    }
+
   }
 
 

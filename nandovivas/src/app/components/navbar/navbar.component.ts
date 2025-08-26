@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ContactComponent } from '../contact/contact.component';
 import { CommonModule } from '@angular/common';
-import { NavbarService } from '../../services/navbar.service'; // 👈 Asegurate que esté bien la ruta
+import { NavbarService } from '../../services/navbar.service'; 
 
 @Component({
   selector: 'app-navbar',
@@ -29,7 +29,7 @@ constructor( private navbarService: NavbarService) {};
 
   
   ngOnInit(): void {
-    console.log('🧭 NavbarComponent montado');
+    console.log('NavbarComponent montado');
     // Mostrar la navbar al iniciar (por si entramos directo a /)
     const initialUrl = this.router.url;
     const isWorkRoute = initialUrl.includes('/work');
