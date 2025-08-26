@@ -1,5 +1,5 @@
 .back-button {
-  color: yellow;
+  color: var(--contact-bg-color);
   cursor: pointer;
   padding-left: 18px;
 }
@@ -46,28 +46,32 @@
   text-decoration: none;
   cursor: pointer;
   color: var(--font-color-black);
+  font-size: var(--big-font-size);
 }
 
 .contact-main-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 40px;
   height: auto;
   margin-top: 0;
   padding-top: 0;
+  p {
+    margin: 0 0 0 0;
+  }
 }
 
 .contact-bio {
   position: relative;
-  flex: 65;
+  flex: 15;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   font-weight: normal;
   line-height: 1.6;
-  font-size: 14px;
+  font-size: var(--font-size);
   height: 100%;
+  margin-top: 26px;
 }
 
 .contact-bio p {
@@ -97,7 +101,7 @@
 
 .contact-clients-right {
   position: relative;
-  flex: 35;
+  flex: 25;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -105,25 +109,19 @@
   gap: 10px;
   max-height: 100%;
   justify-content: flex-start;
+  margin-top: 100px;
 }
 
 .clients-list {
-  flex: 1;
+  flex: 25;
   display: flex;
   flex-direction: row;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: var(--font-size);
   margin: 0;
   align-items: flex-start;
   gap: 48px;
   width: 100%;
   max-width: 100%;
-}
-
-.clients-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 .clients-footer {
@@ -144,6 +142,11 @@
   bottom: 0;
   right: 0;
   margin: 0;
+}
+
+.conejito {
+  max-height: 350px;
+  max-width: 350px;
 }
 
 .link-hover-effect {

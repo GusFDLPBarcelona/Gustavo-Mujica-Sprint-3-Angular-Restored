@@ -62,7 +62,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
     return this.projects()
       .map((project, index) => ({
         ...project,
-        matchesFilter: category === 'All' || project.category === category,
+        matchesFilter: project.category === category,
         originalOrder: index
       }))
       .sort((a, b) => {
@@ -123,11 +123,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
           });
         },
         
-        {
-          root: null,
-          rootMargin: '80px 0px 0px 0px',
-          threshold: [0, 0.1, 0.5, 1],
-        }
+       
       );
 
     if (this.observerAnchorRef?.nativeElement) {
@@ -146,11 +142,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
           });
         }
         
-        // Opción de respaldo: scroll de ventana
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        
       } catch (error) {
         console.warn('Error en scroll:', error);
       }

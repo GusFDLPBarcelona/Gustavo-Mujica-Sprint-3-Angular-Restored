@@ -1,7 +1,7 @@
 .contact-container {
   width: 100vw;
   height: 45vh;
-  background-color: yellow;
+  background-color: var(--contact-bg-color);
   padding: 40px;
   box-sizing: border-box;
   display: flex;

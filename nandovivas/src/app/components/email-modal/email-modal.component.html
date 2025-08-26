@@ -1,41 +1,50 @@
 <div [@slideUp]>
-  <div class="contact-container" style="background-color: yellow;">
+  <div class="contact-container">
     @if (state === 'form') {
-      <div class="email-layout">
-        <!-- Formulario a la izquierda -->
-        <form [formGroup]="emailForm" (submit)="sendEmail()" class="email-form">
-          <mat-form-field appearance="fill" class="custom-form-field full-width">
-            <mat-label>Your mail</mat-label>
-            <input matInput type="email" formControlName="fromEmail" />
-            @if (fromEmail?.invalid && fromEmail?.touched) {
-              <mat-hint class="error-hint">
-                Please type a valid email (example: your_mail&#64;domain.com)
-              </mat-hint>
-            }
-          </mat-form-field>
+    <div class="email-layout">
+      <!-- Formulario a la izquierda -->
+      <form [formGroup]="emailForm" (submit)="sendEmail()" class="email-form">
+        <mat-form-field appearance="fill" class="custom-form-field full-width">
+          <mat-label>Your mail</mat-label>
+          <input matInput type="email" formControlName="fromEmail" />
+          @if (fromEmail?.invalid && fromEmail?.touched) {
+          <mat-hint class="error-hint">
+            Please type a valid email (example: your_mail&#64;domain.com)
+          </mat-hint>
+          }
+        </mat-form-field>
 
-          <mat-form-field appearance="fill" class="custom-form-field full-width">
-            <mat-label>Message here...</mat-label>
-            <textarea matInput rows="3" formControlName="message" maxlength="1000"></textarea>
-            <mat-hint align="end">
-              {{ message?.value?.length || 0 }}/1000
-            </mat-hint>
-          </mat-form-field>
-        </form>
-
-        <!-- Botones a la derecha -->
-        <div class="email-buttons">
-          <button mat-button type="submit" [disabled]="emailForm.invalid" (click)="sendEmail()">
-            Send
-          </button>
-          <button mat-button type="button" (click)="cancel()" class="cancel">
-            Cancel
-          </button>
-          <button mat-button type="button" (click)="backToContact()" class="back">
-            Back
-          </button>
-        </div>
+        <mat-form-field appearance="fill" class="custom-form-field full-width">
+          <mat-label>Message here...</mat-label>
+          <textarea
+            matInput
+            rows="3"
+            formControlName="message"
+            maxlength="1000"
+          ></textarea>
+          <mat-hint align="end">
+            {{ message?.value?.length || 0 }}/1000
+          </mat-hint>
+        </mat-form-field>
+      </form>
+      <!-- Botones a la derecha -->
+      <div class="email-buttons">
+        <button
+          mat-button
+          type="submit"
+          [disabled]="emailForm.invalid"
+          (click)="sendEmail()"
+        >
+          Send
+        </button>
+        <button mat-button type="button" (click)="cancel()" class="cancel">
+          Cancel
+        </button>
+        <button mat-button type="button" (click)="backToContact()" class="back">
+          Back
+        </button>
       </div>
+    </div>
     }
   </div>
 </div>
