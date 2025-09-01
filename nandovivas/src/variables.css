@@ -22,14 +22,6 @@
   --contact-bg-color: #ff8e8e;
 
 
-
-
-
-
-
-
-
-
   /* Tipografia */
   --font-family: 'Inter', sans-serif  !important;
   --font-size:16px;
@@ -37,4 +29,8 @@
   --big-font-size: 20px;
   --font-weight-medium: 500 !important;
   --font-weight-bold: 700;
+
+
+  /* Espaciado */
+  --line-height: 1.6;
 }
