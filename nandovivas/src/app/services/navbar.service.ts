@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class NavbarService {
-  private showNavbarSignal = signal<boolean>(true);
+  public showNavbarSignal = signal<boolean>(true);
 
   constructor(
     private router: Router
