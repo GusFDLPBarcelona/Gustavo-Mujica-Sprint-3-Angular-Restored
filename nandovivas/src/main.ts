@@ -22,6 +22,6 @@ bootstrapApplication(AppComponent, {
       MatFormFieldModule,
       MatInputModule,
       MatButtonModule
-    )
+    ), provideAnimationsAsync()
   ]
 }).catch(err => console.error(err));
