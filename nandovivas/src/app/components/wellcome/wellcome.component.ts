@@ -17,7 +17,6 @@ import { NavbarService } from '../../services/navbar.service';
 })
 export class WellcomeComponent implements OnInit, OnDestroy {
   imagesGallery = signal<WellcomeGallery[]>([]);
-  // ✅ ELIMINADO: styledImages ya no se usa
   intervalId!: number;
   @ViewChild('owlCarousel', { static: false }) owlCarousel!: CarouselComponent;
 
@@ -28,8 +27,8 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     dots: false,
     autoplay: true,
     autoplayHoverPause: false,
-    autoplayTimeout: 8000, 
-    smartSpeed: 4000, 
+    autoplayTimeout: 8000,
+    smartSpeed: 4000,
     autoplaySpeed: 4000,
     items: 1,
     mouseDrag: true,
@@ -62,7 +61,7 @@ export class WellcomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('Componente Wellcome destruido.');
-    this.stopCarousel();
+    clearInterval(this.intervalId);
   }
 
   loadGalleryItems() {
@@ -79,26 +78,12 @@ export class WellcomeComponent implements OnInit, OnDestroy {
       console.log('Antes de asignar imágenes:', this.imagesGallery()); 
       this.imagesGallery.set(data); 
       console.log('Después de asignar imágenes:', this.imagesGallery());
-      // ✅ ELIMINADO: this.assignColorsToImages(); 
   
       setTimeout(() => {
         console.log('Forzando detección de cambios...');
         this.cdr.detectChanges();
       }, 500);
     });
-  }
-
-  startCarousel() {
-    clearInterval(this.intervalId);
-    this.intervalId = window.setInterval(() => {
-      console.log('Cambiando imagen automáticamente...');
-      this.nextSlide();
-    }, 8000);
-  }
-
-  stopCarousel() {
-    clearInterval(this.intervalId);
-    console.log('Carrusel detenido.');
   }
 
   @HostListener('window:keydown', ['$event'])

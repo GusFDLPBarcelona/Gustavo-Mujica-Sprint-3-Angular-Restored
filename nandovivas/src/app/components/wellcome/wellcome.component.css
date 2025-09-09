@@ -8,20 +8,20 @@
   z-index: 1;
 }
 
-/* Estilo de cada slide - SIN display flex que interfiere */
+/* Estilo de cada slide */
 .carousel-item {
   width: 100%;
   height: 100vh;
-  position: relative; /* Cambio: de flex a relative */
+  position: relative;
 }
 
-/* Imagen dentro del carrusel - PERMITE eventos del mouse */
+/* Imagen dentro del carrusel */
 .carousel-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Eliminado: display: block que bloquea eventos */
-  cursor: pointer; /* Añadido: indica que es clickeable */
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 /* Texto superpuesto */
@@ -35,8 +35,8 @@
   background: none;
   padding: 0;
   margin: 0;
-  letter-spacing: 0.2px;
-  pointer-events: none; /* Añadido: el texto no bloquea eventos del mouse */
+  letter-spacing: 0.5px;
+  pointer-events: none;
 }
 
 .image-info {
@@ -49,15 +49,13 @@
 .image-title {
   font-weight: var(--font-weight-medium);
   color: var(--client-font-color);
-  font-size: var(--font-size);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-size: 10px;
 }
 
 .image-client {
   font-weight: var(--font-weight-medium);
   color: var(--client-font-color);
-  font-size: var(--small-font-size);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-size: 10px;
 }
 
 /* Asegurar que Owl Carousel funcione correctamente */
