@@ -14,7 +14,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "declaration": false,
     "sourceMap": true,
-    "types": []
+    "types": ["jest"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

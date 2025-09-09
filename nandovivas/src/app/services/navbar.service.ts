@@ -9,7 +9,7 @@ export class NavbarService {
 
   constructor(
     private router: Router
-  ) {}
+  ) { }
 
   // Getter reactivo para el binding en el template
   showNavbar = this.showNavbarSignal;
@@ -18,7 +18,7 @@ export class NavbarService {
   setShowNavbar(value: boolean): void {
     if (!value) {
       if (this.router.url === '/') {
-      console.log("Ruta '', no se oculta la navbar.");
+        console.log("Ruta '', no se oculta la navbar.");
       } else {
         this.showNavbarSignal.set(value);
       }
@@ -26,8 +26,10 @@ export class NavbarService {
       console.log("Cambiando visibilidad de la navbar a:", value);
       this.showNavbarSignal.set(value);
     }
-
   }
 
-
+  forceSetShowNavbar(value: boolean) {
+    console.log("Forzando visibilidad de la navbar a:", value);
+    this.showNavbarSignal.set(value);
+  }
 }
