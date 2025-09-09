@@ -8,7 +8,6 @@ import { ViewChild } from '@angular/core';
 import { CarouselComponent } from 'ngx-owl-carousel-o';
 import { NavbarService } from '../../services/navbar.service';
 
-
 @Component({
   selector: 'app-wellcome',
   standalone: true,
@@ -18,15 +17,9 @@ import { NavbarService } from '../../services/navbar.service';
 })
 export class WellcomeComponent implements OnInit, OnDestroy {
   imagesGallery = signal<WellcomeGallery[]>([]);
-  styledImages = signal<(WellcomeGallery & { color: string })[]>([]);
+  // ✅ ELIMINADO: styledImages ya no se usa
   intervalId!: number;
   @ViewChild('owlCarousel', { static: false }) owlCarousel!: CarouselComponent;
-  primaryColors = [
-    '#007AFF', // azul
-    '#34C759', // verde
-    '#FF3B30', // rojo
-    '#FFFFFF'  // blanco
-  ];
 
   carouselOptions: OwlOptions = {
     loop: true,
@@ -35,9 +28,9 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     dots: false,
     autoplay: true,
     autoplayHoverPause: false,
-    autoplayTimeout:5000, 
-    smartSpeed: 3000, 
-    autoplaySpeed: 2000,
+    autoplayTimeout: 8000, 
+    smartSpeed: 4000, 
+    autoplaySpeed: 4000,
     items: 1,
     mouseDrag: true,
     touchDrag: true,
@@ -48,8 +41,11 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private wellcomeGalleryService: WellcomeGalleryService,
-    private cdr: ChangeDetectorRef, private navbarService: NavbarService) {}
+  constructor(
+    private wellcomeGalleryService: WellcomeGalleryService,
+    private cdr: ChangeDetectorRef, 
+    private navbarService: NavbarService
+  ) {}
 
   ngOnInit() {
     this.navbarService.setShowNavbar(true);
@@ -83,50 +79,13 @@ export class WellcomeComponent implements OnInit, OnDestroy {
       console.log('Antes de asignar imágenes:', this.imagesGallery()); 
       this.imagesGallery.set(data); 
       console.log('Después de asignar imágenes:', this.imagesGallery());
-      this.assignColorsToImages(); 
+      // ✅ ELIMINADO: this.assignColorsToImages(); 
   
       setTimeout(() => {
         console.log('Forzando detección de cambios...');
         this.cdr.detectChanges();
-        this.startCarousel();
       }, 500);
     });
-  }
-
-  getRandomColor(): string {
-    const index = Math.floor(Math.random() * this.primaryColors.length);
-    return this.primaryColors[index];
-  }
-  
-  getStyledImages() {
-    return this.imagesGallery().map((img) => ({
-      ...img,
-      color: this.getRandomColor(),
-    }));
-  }
-  
-  assignColorsToImages() {
-    const images = this.imagesGallery();
-    const result: (WellcomeGallery & { color: string })[] = [];
-    let lastColor = '';
-  
-    images.forEach((img) => {
-      let color = this.getRandomColor();
-  
-      // Evita repetir el mismo color justo después
-      while (color === lastColor && this.primaryColors.length > 1) {
-        color = this.getRandomColor();
-      }
-  
-      lastColor = color;
-  
-      result.push({
-        ...img,
-        color,
-      });
-    });
-  
-    this.styledImages.set(result);
   }
 
   startCarousel() {
@@ -134,7 +93,7 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     this.intervalId = window.setInterval(() => {
       console.log('Cambiando imagen automáticamente...');
       this.nextSlide();
-    }, 3000);
+    }, 8000);
   }
 
   stopCarousel() {

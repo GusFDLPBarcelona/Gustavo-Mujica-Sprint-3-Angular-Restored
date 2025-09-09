@@ -1,10 +1,10 @@
-@if (styledImages().length > 0) {
+@if (imagesGallery().length > 0) {
   <owl-carousel-o
     #owlCarousel
     [options]="carouselOptions"
     class="fullscreen-carousel">
 
-    @for (image of styledImages(); track image.id) {
+    @for (image of imagesGallery(); track image.id) {
       <ng-template carouselSlide>
         <div class="carousel-item">
           <img
@@ -12,8 +12,11 @@
             alt="{{ image.title }}"
             class="carousel-image" />
 
-          <div class="carousel-caption" [style.color]="image.color">
-            <p>{{ image.title.toUpperCase() }} {{ image.client }}</p>
+          <div class="carousel-caption">
+            <p class="image-info">
+              <span class="image-title">{{ image.title.toUpperCase() }}</span>
+              <span class="image-client">{{ image.client }}</span>
+            </p>
           </div>
         </div>
       </ng-template>
