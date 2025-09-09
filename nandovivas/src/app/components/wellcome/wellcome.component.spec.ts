@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WellcomeComponent } from './wellcome.component';
 
 describe('WellcomeComponent', () => {

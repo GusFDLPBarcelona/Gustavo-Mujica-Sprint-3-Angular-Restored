@@ -8,8 +8,7 @@ import {
   signal,
   computed,
   HostListener,
-  effect,
-  ChangeDetectorRef
+  OnDestroy
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
@@ -26,36 +25,25 @@ import { NavbarService } from '../../services/navbar.service';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent implements OnInit, AfterViewInit {
+export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
   private el = inject(ElementRef);
   private projectsService = inject(ProjectsService);
   private navbarService = inject(NavbarService);
   private toastService = inject(ToastService);
-  private cdRef = inject(ChangeDetectorRef);
   private lastScrollPosition = 0;
   private isNavbarHidden = false;
+  private observer: IntersectionObserver | null = null;
 
-  
   @ViewChild('observerAnchor') observerAnchorRef!: ElementRef;
   @ViewChild('gridContainer', { read: ElementRef }) gridContainer!: ElementRef;
 
   projects = signal<Project[]>([]);
   activeCategory = signal<string>('All');
   isLoading = computed(() => this.projectsService.isLoading.value);
-    
+
   isMobile = signal(window.innerWidth <= 767);
   dropdownOpen = signal(false);
   categories = ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
-
-  // Efecto para manejar el scroll después de filtrar
-  private scrollEffect = effect(() => {
-    const category = this.activeCategory();
-    const projects = this.filteredProjects();
-    
-    if (category && projects.length > 0) {
-      this.handleScrollAfterFilter();
-    }
-  });
 
   filteredProjects = computed(() => {
     const category = this.activeCategory();
@@ -85,68 +73,53 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const grid = this.el.nativeElement.querySelector('.grid');
-    if (grid) autoAnimate(grid, { duration: 600, easing: 'ease-in-out' });
+    if (grid) autoAnimate(grid, { duration: 400, easing: 'ease-in-out' });
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!this.isTablet()) {
-            this.navbarService.setShowNavbar(entry.isIntersecting);
-            return;
+    this.observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!this.isTablet()) {
+          this.navbarService.setShowNavbar(entry.isIntersecting);
+          return;
+        }
+
+        requestAnimationFrame(() => {
+          const currentPosition = entry.boundingClientRect.top;
+          const scrollDirection = currentPosition < this.lastScrollPosition ? 'down' : 'up';
+          this.lastScrollPosition = currentPosition;
+
+          const shouldHide = (
+            scrollDirection === 'down' &&
+            currentPosition < -30 &&
+            !this.isNavbarHidden
+          );
+
+          const shouldShow = (
+            scrollDirection === 'up' &&
+            currentPosition > -15 &&
+            this.isNavbarHidden
+          );
+
+          if (shouldHide) {
+            this.isNavbarHidden = true;
+            this.navbarService.setShowNavbar(false);
+          } else if (shouldShow) {
+            this.isNavbarHidden = false;
+            this.navbarService.setShowNavbar(true);
           }
-    
-          requestAnimationFrame(() => {
-            const currentPosition = entry.boundingClientRect.top;
-            const scrollDirection = currentPosition < this.lastScrollPosition ? 'down' : 'up';
-            this.lastScrollPosition = currentPosition;
-    
-            // Lógica de visibilidad mejorada
-            const shouldHide = (
-              scrollDirection === 'down' && 
-              currentPosition < -30 && 
-              !this.isNavbarHidden
-            );
-            
-            const shouldShow = (
-              scrollDirection === 'up' && 
-              currentPosition > -15 && 
-              this.isNavbarHidden
-            );
-    
-            if (shouldHide) {
-              debugger;
-              this.isNavbarHidden = true;
-              this.navbarService.setShowNavbar(false);
-            } else if (shouldShow) {
-              this.isNavbarHidden = false;
-              this.navbarService.setShowNavbar(true);
-            }
-          });
-        },
-        
-       
-      );
+        });
+      },
+      { threshold: 0.1 }
+    );
 
     if (this.observerAnchorRef?.nativeElement) {
-      observer.observe(this.observerAnchorRef.nativeElement);
+      this.observer.observe(this.observerAnchorRef.nativeElement);
     }
   }
 
-  private handleScrollAfterFilter(): void {
-    // Opción 1: Usando ViewChild del contenedor
-    setTimeout(() => {
-      try {
-        if (this.gridContainer?.nativeElement) {
-          this.gridContainer.nativeElement.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }
-        
-        
-      } catch (error) {
-        console.warn('Error en scroll:', error);
-      }
-    }, 50);
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 
   isTablet(): boolean {
@@ -158,25 +131,42 @@ export class WorkComponent implements OnInit, AfterViewInit {
     this.isMobile.set(window.innerWidth <= 767);
   }
 
+  // 👇 ÚNICO MÉTODO MODIFICADO 👇
   setActiveCategory(category: string): void {
-    if (this.activeCategory() !== category) {
-      this.activeCategory.set(category);
-      this.dropdownOpen.set(false);
-      
-      // Triple estrategia de seguridad
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-        
-        requestAnimationFrame(() => {
-          const container = document.querySelector('.work-container');
-          container?.scrollTo({ top: 0, behavior: 'smooth' });
-          
-          setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: 'auto' });
-          }, 100);
-        });
-      }, 50);
+    if (this.activeCategory() === category) {
+      return;
     }
+
+    // 1. Desconectar el observer para evitar cualquier efecto secundario.
+    if (this.observer && this.observerAnchorRef?.nativeElement) {
+      this.observer.disconnect();
+    }
+
+    // 2. Actualizar la categoría PRIMERO para que Angular empiece a recalcular el DOM.
+    this.activeCategory.set(category);
+    if (this.isMobile()) {
+      this.dropdownOpen.set(false);
+    }
+
+    // 3. Esperar al siguiente frame de animación. En este punto, el DOM ya se ha actualizado con el nuevo grid.
+    requestAnimationFrame(() => {
+      const filtersContainer = this.el.nativeElement.querySelector('.filters-container');
+      
+      // 4. Y AHORA sí, calculamos la posición correcta y hacemos el scroll.
+      if (filtersContainer) {
+        window.scrollTo({
+          top: filtersContainer.offsetTop,
+          behavior: 'auto'
+        });
+      }
+
+      // 5. Volver a conectar el observer después de que todo se haya estabilizado.
+      setTimeout(() => {
+        if (this.observer && this.observerAnchorRef?.nativeElement) {
+          this.observer.observe(this.observerAnchorRef.nativeElement);
+        }
+      }, 100);
+    });
   }
 
   toggleDropdown(): void {
