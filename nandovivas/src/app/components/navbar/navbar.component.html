@@ -1,4 +1,4 @@
-<div class="navbar-container">
+<div class="navbar-container" [class.welcome-theme]="navbarService.isWelcomeRoute()">
     <!-- Logo -->
     <div class="logo-container">
       <a (click)="navigateHome()">
@@ -21,13 +21,10 @@
       <button (click)="toggleMenu()" class="menu-button">☰</button>
       @if (isMenuVisible) {
         <div class="dropdown-menu">
-          <!--<a routerLink="/haupstadt" (click)="navigateAndCloseMenu()">Administrador</a>-->
           <a routerLink="/work" (click)="navigateAndCloseMenu()">Work</a>
           <a routerLink="/shop" (click)="navigateAndCloseMenu()">Shop</a>
           <a (click)="openContactSheet()">Contact</a>
         </div>
       }
     </div>
-  </div>
-
-
+</div>
