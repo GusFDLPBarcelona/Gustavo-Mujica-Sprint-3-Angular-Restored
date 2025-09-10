@@ -93,6 +93,7 @@ body {
   row-gap: 25px;
   contain: strict; /* Aisla el grid y previene reflows externos */
   will-change: transform;
+  padding-top: 0px;
 }
 
 .project-container {
