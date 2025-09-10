@@ -40,7 +40,7 @@
       <div class="project-container group"
            [attr.data-category]="project.category"
            [class.opacity-50]="activeCategory() !== 'All' && project.category !== activeCategory()">
-        <a [routerLink]="['/detail', project.id]" class="block relative overflow-hidden">
+        <a [routerLink]="['/project-detail', project.id]" class="block relative overflow-hidden">
           <img [src]="project.image" alt="{{ project.title }}" class="project-image">
         </a>
         <div class="project-details-container">
