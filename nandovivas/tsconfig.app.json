@@ -3,6 +3,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "outDir": "./out-tsc/app",
     "types": []
   },
