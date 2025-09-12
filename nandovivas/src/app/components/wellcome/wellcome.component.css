@@ -12,9 +12,7 @@
 .carousel-item {
   width: 100%;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 }
 
 /* Imagen dentro del carrusel */
@@ -22,22 +20,55 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 /* Texto superpuesto */
 .carousel-caption {
   position: absolute;
-  bottom: -4px;
-  left: 20px;
+  bottom: 10px;
+  left: 30px;
   color: var(--client-font-color);
-  font-size: 10px;
- 
+  font-weight: var(--font-weight-medium);
   text-transform: none; 
   background: none;
   padding: 0;
   margin: 0;
   letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+.image-info {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.image-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--client-font-color);
+  font-size: 10px;
+}
+
+.image-client {
+  font-weight: var(--font-weight-medium);
+  color: var(--client-font-color);
+  font-size: 10px;
+}
+
+/* Asegurar que Owl Carousel funcione correctamente */
+::ng-deep .owl-stage-outer {
+  height: 100vh !important;
+}
+
+::ng-deep .owl-stage {
+  height: 100vh !important;
+}
+
+::ng-deep .owl-item {
+  height: 100vh !important;
 }
 
 @media (max-width: 768px) {
@@ -55,4 +86,3 @@
     left: 8px;
   }
 }
-

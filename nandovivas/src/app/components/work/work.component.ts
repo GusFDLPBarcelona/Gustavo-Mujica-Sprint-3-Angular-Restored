@@ -8,8 +8,7 @@ import {
   signal,
   computed,
   HostListener,
-  effect,
-  ChangeDetectorRef
+  OnDestroy
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
@@ -26,23 +25,22 @@ import { NavbarService } from '../../services/navbar.service';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent implements OnInit, AfterViewInit {
+export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
   private el = inject(ElementRef);
   private projectsService = inject(ProjectsService);
   private navbarService = inject(NavbarService);
   private toastService = inject(ToastService);
-  private cdRef = inject(ChangeDetectorRef);
   private lastScrollPosition = 0;
   private isNavbarHidden = false;
+  private observer: IntersectionObserver | null = null;
 
-  
   @ViewChild('observerAnchor') observerAnchorRef!: ElementRef;
   @ViewChild('gridContainer', { read: ElementRef }) gridContainer!: ElementRef;
 
   projects = signal<Project[]>([]);
   activeCategory = signal<string>('All');
   isLoading = computed(() => this.projectsService.isLoading.value);
-    
+
   isMobile = signal(window.innerWidth <= 767);
   dropdownOpen = signal(false);
   categories = ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
@@ -97,49 +95,46 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const grid = this.el.nativeElement.querySelector('.grid');
-    if (grid) autoAnimate(grid, { duration: 600, easing: 'ease-in-out' });
+    if (grid) autoAnimate(grid, { duration: 400, easing: 'ease-in-out' });
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!this.isTablet()) {
-            this.navbarService.setShowNavbar(entry.isIntersecting);
-            return;
+    this.observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!this.isTablet()) {
+          this.navbarService.setShowNavbar(entry.isIntersecting);
+          return;
+        }
+
+        requestAnimationFrame(() => {
+          const currentPosition = entry.boundingClientRect.top;
+          const scrollDirection = currentPosition < this.lastScrollPosition ? 'down' : 'up';
+          this.lastScrollPosition = currentPosition;
+
+          const shouldHide = (
+            scrollDirection === 'down' &&
+            currentPosition < -30 &&
+            !this.isNavbarHidden
+          );
+
+          const shouldShow = (
+            scrollDirection === 'up' &&
+            currentPosition > -15 &&
+            this.isNavbarHidden
+          );
+
+          if (shouldHide) {
+            this.isNavbarHidden = true;
+            this.navbarService.setShowNavbar(false);
+          } else if (shouldShow) {
+            this.isNavbarHidden = false;
+            this.navbarService.setShowNavbar(true);
           }
-    
-          requestAnimationFrame(() => {
-            const currentPosition = entry.boundingClientRect.top;
-            const scrollDirection = currentPosition < this.lastScrollPosition ? 'down' : 'up';
-            this.lastScrollPosition = currentPosition;
-    
-            // Lógica de visibilidad mejorada
-            const shouldHide = (
-              scrollDirection === 'down' && 
-              currentPosition < -30 && 
-              !this.isNavbarHidden
-            );
-            
-            const shouldShow = (
-              scrollDirection === 'up' && 
-              currentPosition > -15 && 
-              this.isNavbarHidden
-            );
-    
-            if (shouldHide) {
-              debugger;
-              this.isNavbarHidden = true;
-              this.navbarService.setShowNavbar(false);
-            } else if (shouldShow) {
-              this.isNavbarHidden = false;
-              this.navbarService.setShowNavbar(true);
-            }
-          });
-        },
-        
-       
-      );
+        });
+      },
+      { threshold: 0.1 }
+    );
 
     if (this.observerAnchorRef?.nativeElement) {
-      observer.observe(this.observerAnchorRef.nativeElement);
+      this.observer.observe(this.observerAnchorRef.nativeElement);
     }
   }
 
@@ -165,6 +160,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
         console.warn('Error en scroll:', error);
       }
     }, 50);
+ 
   }
 
   isTablet(): boolean {
@@ -176,6 +172,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
     this.isMobile.set(window.innerWidth <= 767);
   }
 
+  // 👇 ÚNICO MÉTODO MODIFICADO 👇
   setActiveCategory(category: string): void {
     if (this.activeCategory() !== category) {
       this.activeCategory.set(category);

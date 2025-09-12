@@ -3,6 +3,7 @@ import { ProjectResolver } from './resolvers/project.resolver';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductResolver } from './resolvers/product.resolver';
+import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
 //import { HaupstadtComponent } from './components/haupstadt/haupstadt.component';
 //import { HaupstadtResolver } from './resolvers/haupstadt.resolver';
 
@@ -21,7 +22,7 @@ export const routes: Routes = [
   {
     path: 'shop',
     loadComponent: () =>
-      import('./components/shop/shop.component').then((m) => m.ShopComponent),
+      import('./components/under-construction/under-construction.component').then((m) => m.UnderConstructionComponent),
   },
   //{ path: 'haupstadt', loadComponent: () => 
   //    import('./components/haupstadt/haupstadt.component').then((m) => m.HaupstadtComponent)
@@ -33,10 +34,17 @@ export const routes: Routes = [
   },
   //{ path: 'haupstadt', component: HaupstadtComponent, resolve: { products: HaupstadtResolver } 
   //},
-  {
+  // {
+  //   path: 'project-detail/:id',
+  //    component: ProjectDetailComponent, // Cambia al nuevo nombre
+  //    resolve: { project: ProjectResolver }
+  //  },
+ {
     path: 'project-detail/:id',
-    component: ProjectDetailComponent, // Cambia al nuevo nombre
-    resolve: { project: ProjectResolver }
+    loadComponent: () => {
+      console.log('Navigating to project-detail route'); // ✅ Console.log correcto
+      return import('./components/under-construction/under-construction.component').then((m) => m.UnderConstructionComponent);
+    },
   },
   {
     path: 'product-detail/:id',
