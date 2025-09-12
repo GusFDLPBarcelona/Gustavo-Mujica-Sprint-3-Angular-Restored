@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ContactComponent } from '../contact/contact.component';
 import { CommonModule } from '@angular/common';
-import { NavbarService } from '../../services/navbar.service'; 
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,55 +14,32 @@ import { NavbarService } from '../../services/navbar.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
-
   @HostBinding('style.position') position = 'fixed';
   @HostBinding('style.top') top = '0';
   @HostBinding('style.left') left = '0';
   @HostBinding('style.right') right = '0';
   @HostBinding('style.zIndex') zIndex = '9999';
-  isMenuVisible = true;
+
+  isMenuVisible = false;
   private router = inject(Router);
   private bottomSheet = inject(MatBottomSheet);
+  public navbarService = inject(NavbarService); // Hazlo público para el template
 
-constructor( private navbarService: NavbarService) {};  
-
-  
   ngOnInit(): void {
-    console.log('NavbarComponent montado');
-    // Mostrar la navbar al iniciar (por si entramos directo a /)
-    const initialUrl = this.router.url;
-    const isWorkRoute = initialUrl.includes('/work');
-    if (!isWorkRoute) {
-      this.navbarService.setShowNavbar(true);
-      this.isMenuVisible = this.navbarService.showNavbar();
-
-    }
-  
-    // Luego seguimos escuchando cambios de ruta
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        const isWork = event.urlAfterRedirects.includes('/work');
-        if (!isWork) {
-          this.navbarService.setShowNavbar(true);
-        }
-      }
-    });
+    console.log('🧭 NavbarComponent montado');
   }
-  
-    toggleMenu(): void {
+
+  navigateHome(): void {
+    console.log('NAVEGA A HOME');
+    this.router.navigateByUrl('/', { skipLocationChange: false });
+  }
+
+  toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
   navigateAndCloseMenu(): void {
     this.isMenuVisible = false;
-  }
-
-  navigateHome(): void {
-    console.log('NAVEGA A HOME');
-    this.navbarService.setShowNavbar(true);
-    this.router.navigateByUrl('/');
-
   }
 
   openContactSheet(): void {

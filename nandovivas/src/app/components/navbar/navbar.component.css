@@ -133,3 +133,22 @@
     display: flex; /* Mostrar menú desplegable */
   }
 }
+
+/* ...tu CSS existente... */
+
+/* Estilos para cuando está en welcome */
+.navbar-container.welcome-theme .menu-link {
+  color: #ffffff !important; /* Letras blancas */
+}
+
+.navbar-container.welcome-theme .menu-link:hover {
+  color: #e5e5e5 !important; /* Hover gris claro */
+}
+
+.navbar-container.welcome-theme .menu-button {
+  color: #ffffff !important; /* Botón hamburguesa blanco */
+}
+
+.navbar-container.welcome-theme .arrow-icon {
+  filter: brightness(0) invert(1); /* Hace el ícono blanco */
+}
