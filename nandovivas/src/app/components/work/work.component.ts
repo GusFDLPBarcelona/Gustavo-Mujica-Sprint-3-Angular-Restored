@@ -52,7 +52,8 @@ export class WorkComponent implements OnInit, AfterViewInit {
     const category = this.activeCategory();
     const projects = this.filteredProjects();
     
-    if (category && projects.length > 0) {
+    // Solo hacer scroll si no es la categoría inicial 'All' y hay proyectos
+    if (category && category !== 'All' && projects.length > 0) {
       this.handleScrollAfterFilter();
     }
   });
@@ -73,6 +74,17 @@ export class WorkComponent implements OnInit, AfterViewInit {
   });
 
   ngOnInit(): void {
+    // Asegurar que la navbar esté visible al entrar al componente
+    this.navbarService.setShowNavbar(true);
+    
+    // Scroll inicial al entrar al componente - completamente arriba para mostrar navbar
+    setTimeout(() => {
+      document.documentElement.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
+    }, 0);
+
     this.projectsService.getProjects().subscribe((projects: Project[]) => {
       if (projects.length === 0) {
         this.toastService.showInfo('No hay proyectos disponibles para mostrar.');
@@ -132,16 +144,22 @@ export class WorkComponent implements OnInit, AfterViewInit {
   }
 
   private handleScrollAfterFilter(): void {
-    // Opción 1: Usando ViewChild del contenedor
+    // Hacer scroll en el elemento HTML principal ya que body tiene overflow-y: hidden
     setTimeout(() => {
       try {
-        if (this.gridContainer?.nativeElement) {
-          this.gridContainer.nativeElement.scrollTo({
-            top: 0,
+        // Intentar scroll en document.documentElement (html) - posición que no muestre navbar
+        document.documentElement.scrollTo({
+          top: 100,
+          behavior: 'smooth'
+        });
+        
+        // Fallback: scroll en body si el anterior no funciona - misma posición
+        setTimeout(() => {
+          document.body.scrollTo({
+            top: 100,
             behavior: 'smooth'
           });
-        }
-        
+        }, 100);
         
       } catch (error) {
         console.warn('Error en scroll:', error);
@@ -162,20 +180,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
     if (this.activeCategory() !== category) {
       this.activeCategory.set(category);
       this.dropdownOpen.set(false);
-      
-      // Triple estrategia de seguridad
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-        
-        requestAnimationFrame(() => {
-          const container = document.querySelector('.work-container');
-          container?.scrollTo({ top: 0, behavior: 'smooth' });
-          
-          setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: 'auto' });
-          }, 100);
-        });
-      }, 50);
+      // El scroll se maneja automáticamente en handleScrollAfterFilter() via effect
     }
   }
 
