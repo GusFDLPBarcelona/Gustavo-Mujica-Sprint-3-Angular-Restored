@@ -43,7 +43,7 @@ body {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  color: var(--filter-font-color);
+  color: var(--font-color-black);
   text-transform: uppercase;
   white-space: nowrap;
   box-sizing: border-box;
