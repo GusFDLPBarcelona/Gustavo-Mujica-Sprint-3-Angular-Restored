@@ -8,7 +8,7 @@ import {
   signal,
   computed,
   HostListener,
-  OnDestroy
+  effect
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
@@ -25,7 +25,7 @@ import { NavbarService } from '../../services/navbar.service';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WorkComponent implements OnInit, AfterViewInit {
   private el = inject(ElementRef);
   private projectsService = inject(ProjectsService);
   private navbarService = inject(NavbarService);
