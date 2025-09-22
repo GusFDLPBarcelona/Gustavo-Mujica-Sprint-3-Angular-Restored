@@ -8,7 +8,7 @@ import {
   signal,
   computed,
   HostListener,
-  OnDestroy
+  effect
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
@@ -25,7 +25,7 @@ import { NavbarService } from '../../services/navbar.service';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WorkComponent implements OnInit, AfterViewInit {
   private el = inject(ElementRef);
   private projectsService = inject(ProjectsService);
   private navbarService = inject(NavbarService);
@@ -45,6 +45,17 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
   dropdownOpen = signal(false);
   categories = ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
 
+  // Efecto para manejar el scroll después de filtrar
+  private scrollEffect = effect(() => {
+    const category = this.activeCategory();
+    const projects = this.filteredProjects();
+    
+    // Solo hacer scroll si no es la categoría inicial 'All' y hay proyectos
+    if (category && category !== 'All' && projects.length > 0) {
+      this.handleScrollAfterFilter();
+    }
+  });
+
   filteredProjects = computed(() => {
     const category = this.activeCategory();
     return this.projects()
@@ -61,6 +72,17 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   ngOnInit(): void {
+    // Asegurar que la navbar esté visible al entrar al componente
+    this.navbarService.setShowNavbar(true);
+    
+    // Scroll inicial al entrar al componente - completamente arriba para mostrar navbar
+    setTimeout(() => {
+      document.documentElement.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
+    }, 0);
+
     this.projectsService.getProjects().subscribe((projects: Project[]) => {
       if (projects.length === 0) {
         this.toastService.showInfo('No hay proyectos disponibles para mostrar.');
@@ -116,10 +138,29 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
+  private handleScrollAfterFilter(): void {
+    // Hacer scroll en el elemento HTML principal ya que body tiene overflow-y: hidden
+    setTimeout(() => {
+      try {
+        // Intentar scroll en document.documentElement (html) - posición que no muestre navbar
+        document.documentElement.scrollTo({
+          top: 100,
+          behavior: 'smooth'
+        });
+        
+        // Fallback: scroll en body si el anterior no funciona - misma posición
+        setTimeout(() => {
+          document.body.scrollTo({
+            top: 100,
+            behavior: 'smooth'
+          });
+        }, 100);
+        
+      } catch (error) {
+        console.warn('Error en scroll:', error);
+      }
+    }, 50);
+ 
   }
 
   isTablet(): boolean {
@@ -133,40 +174,11 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // 👇 ÚNICO MÉTODO MODIFICADO 👇
   setActiveCategory(category: string): void {
-    if (this.activeCategory() === category) {
-      return;
-    }
-
-    // 1. Desconectar el observer para evitar cualquier efecto secundario.
-    if (this.observer && this.observerAnchorRef?.nativeElement) {
-      this.observer.disconnect();
-    }
-
-    // 2. Actualizar la categoría PRIMERO para que Angular empiece a recalcular el DOM.
-    this.activeCategory.set(category);
-    if (this.isMobile()) {
+    if (this.activeCategory() !== category) {
+      this.activeCategory.set(category);
       this.dropdownOpen.set(false);
+      // El scroll se maneja automáticamente en handleScrollAfterFilter() via effect
     }
-
-    // 3. Esperar al siguiente frame de animación. En este punto, el DOM ya se ha actualizado con el nuevo grid.
-    requestAnimationFrame(() => {
-      const filtersContainer = this.el.nativeElement.querySelector('.filters-container');
-      
-      // 4. Y AHORA sí, calculamos la posición correcta y hacemos el scroll.
-      if (filtersContainer) {
-        window.scrollTo({
-          top: filtersContainer.offsetTop,
-          behavior: 'auto'
-        });
-      }
-
-      // 5. Volver a conectar el observer después de que todo se haya estabilizado.
-      setTimeout(() => {
-        if (this.observer && this.observerAnchorRef?.nativeElement) {
-          this.observer.observe(this.observerAnchorRef.nativeElement);
-        }
-      }, 100);
-    });
   }
 
   toggleDropdown(): void {
