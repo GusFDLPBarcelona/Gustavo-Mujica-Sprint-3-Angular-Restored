@@ -89,7 +89,7 @@ body {
 .grid {
   display: grid;
   gap: 15px;
-  margin-top: 0px;
+  margin-top: 1rem;
   row-gap: 25px;
   contain: strict; /* Aisla el grid y previene reflows externos */
   will-change: transform;
