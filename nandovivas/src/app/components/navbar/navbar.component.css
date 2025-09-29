@@ -67,6 +67,7 @@
   cursor: pointer;
 }
 
+
 .arrow-icon {
   width: 11px; /* Ajusta el tamaño del ícono */
   height: auto; /* Mantiene las proporciones */
@@ -134,7 +135,7 @@
   }
 }
 
-/* ...tu CSS existente... */
+
 
 /* Estilos para cuando está en welcome */
 .navbar-container.welcome-theme .menu-link {
@@ -149,6 +150,94 @@
   color: #ffffff !important; /* Botón hamburguesa blanco */
 }
 
-.navbar-container.welcome-theme .arrow-icon {
-  filter: brightness(0) invert(1); /* Hace el ícono blanco */
+/* Hacer la transición de la navbar más suave */
+.navbar-wrapper {
+  /* ...propiedades existentes... */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Estados de la navbar */
+.navbar-wrapper.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0.95; /* Ligeramente transparente durante la transición */
+}
+
+.navbar-wrapper.navbar-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ===== FIX ESPECÍFICO PARA FIREFOX - ROUTER LINKS ===== */
+
+/* Forzar menu-link (la clase real) sin subrayados */
+.menu-link {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  background: none !important;
+  outline: none !important;
+}
+
+/* ESPECÍFICO para routerLink + menu-link */
+.menu-link[routerLink] {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  text-decoration-line: none !important;
+  text-decoration-color: transparent !important;
+  text-decoration-style: none !important;
+}
+
+/* BLOQUEAR pseudo-elementos en menu-link */
+.menu-link::after,
+.menu-link::before {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ESPECÍFICO para las rutas problemáticas */
+a[routerLink="/work"],
+a[routerLink="/shop"] {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  text-decoration-line: none !important;
+}
+
+a[routerLink="/work"]::after,
+a[routerLink="/shop"]::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Para el dropdown móvil */
+.dropdown-menu a {
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+.dropdown-menu a::after {
+  display: none !important;
+  content: none !important;
+}
+
+.navbar-container .menu-link,
+.navbar-container .menu-link:link,
+.navbar-container .menu-link:visited,
+.navbar-container .menu-link:any-link {
+  text-decoration: none !important;
+}
+
+.navbar-container .menu-link,
+.navbar-container .menu-link:link,
+.navbar-container .menu-link:visited,
+.navbar-container .menu-link:any-link,
+.navbar-container a[routerLink],
+.navbar-container a[routerLink]:link,
+.navbar-container a[routerLink]:visited,
+.navbar-container a[routerLink]:any-link {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  border-bottom: none !important;
+  background: none !important;
 }

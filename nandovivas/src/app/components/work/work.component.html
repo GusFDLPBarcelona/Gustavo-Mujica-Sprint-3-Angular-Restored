@@ -1,27 +1,14 @@
 <div class="work-container">
-  <div class="filters-container">
-    <div class="filters-observer-anchor" #observerAnchor></div>
+  <!-- Fondo fijo para navbar -->
+  <div class="filters-container"></div>
 
-    @if (isMobile()) {
-      <details class="filters-dropdown" [open]="dropdownOpen()">
-        <summary class="main-filter-summary" (click)="toggleDropdown()">
-          {{ activeCategory() }}
-        </summary>
-        <div class="filters-dropdown-options">
-          @for (category of categories; track category) {
-            <button
-              (click)="setActiveCategory(category)"
-              class="filter-link"
-              [class.active]="activeCategory() === category">
-              <span class="filter-label">{{ category }}</span>
-            </button>
-          }
-        </div>
-      </details>
-    }
-
-    @if (!isMobile()) {
-      <div class="filters-horizontal">
+  <!-- Filtros móviles -->
+  @if (isMobile()) {
+    <details class="filters-dropdown" [open]="dropdownOpen()">
+      <summary class="main-filter-summary" (click)="toggleDropdown()">
+        {{ activeCategory() }}
+      </summary>
+      <div class="filters-dropdown-options">
         @for (category of categories; track category) {
           <button
             (click)="setActiveCategory(category)"
@@ -31,11 +18,25 @@
           </button>
         }
       </div>
-    }
+    </details>
+  }
 
-  </div>
+  <!-- Filtros desktop/tablet -->
+  @if (!isMobile()) {
+    <div class="filters-horizontal">
+      @for (category of categories; track category) {
+        <button
+          (click)="setActiveCategory(category)"
+          class="filter-link"
+          [class.active]="activeCategory() === category">
+          <span class="filter-label">{{ category }}</span>
+        </button>
+      }
+    </div>
+  }
 
-  <div #gridContainer class="grid">
+  <!-- Grid de proyectos -->
+  <div class="grid" #gridContainer>
     @for (project of filteredProjects(); track project.id) {
       <div class="project-container group"
            [attr.data-category]="project.category"
