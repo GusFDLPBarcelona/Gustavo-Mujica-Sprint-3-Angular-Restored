@@ -1,15 +1,21 @@
+* {
+  font-family: "Inter", sans-serif !important;
+}
+
 .construction-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa;
+  background-color: var(--background-color);
   padding: 20px;
+  font-family: "Inter", sans-serif !important;
 }
 
 .construction-content {
   text-align: center;
   max-width: 500px;
+  font-family: "Inter", sans-serif !important;
 }
 
 .construction-image {
@@ -23,25 +29,34 @@
   font-weight: var(--font-weight-medium);
   color: var(--font-color-black);
   margin-bottom: 1rem;
+  font-family: "Inter", sans-serif !important;
 }
 
 .construction-subtitle {
   font-size: 1.2rem;
   color: #666;
   margin-bottom: 2rem;
+  font-family: "Inter", sans-serif !important;
 }
 
 .back-button {
   display: inline-block;
+  width: 100%;
   padding: 12px 24px;
   background-color: var(--contact-bg);
   color: var(--font-color-black);
   text-decoration: none;
-  border-radius: 5px;
+  border: 1px solid transparent;
   font-weight: var(--font-weight-medium);
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif !important;
+  box-sizing: border-box;
 }
 
 .back-button:hover {
-  transform: translateY(-2px);
+  background-color: transparent; /* ← NUEVO: Fondo transparente */
+  border: 1px solid black; /* ← NUEVO: Borde negro */
+  color: var(--font-color-black); /* ← MANTENER: Color del texto */
+  transform: none; /* ← ELIMINAR: movimiento */
+  font-family: "Inter", sans-serif !important;
 }

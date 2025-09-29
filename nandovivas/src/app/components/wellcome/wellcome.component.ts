@@ -6,7 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ViewChild } from '@angular/core';
 import { CarouselComponent } from 'ngx-owl-carousel-o';
-import { NavbarService } from '../../services/navbar.service';
+// ❌ ELIMINADO: import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-wellcome',
@@ -42,14 +42,15 @@ export class WellcomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private wellcomeGalleryService: WellcomeGalleryService,
-    private cdr: ChangeDetectorRef, 
-    private navbarService: NavbarService
+    private cdr: ChangeDetectorRef
+    // ❌ ELIMINADO: private navbarService: NavbarService
   ) {}
 
   ngOnInit() {
-    this.navbarService.setShowNavbar(true);
+    // ❌ ELIMINADO: this.navbarService.setShowNavbar(true);
     this.cdr.detectChanges();    
-    console.log('Componente Wellcome cargado.', this.navbarService.showNavbarSignal());
+    // ❌ ELIMINADO: console.log('Componente Wellcome cargado.', this.navbarService.showNavbarSignal());
+    console.log('Componente Wellcome cargado.');
     this.loadGalleryItems();
 
     setTimeout(() => {

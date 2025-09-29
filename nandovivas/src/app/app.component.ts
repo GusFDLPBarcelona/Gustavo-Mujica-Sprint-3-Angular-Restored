@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, NavigationStart, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { NavbarService } from './services/navbar.service'; 
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,9 +15,8 @@ export class AppComponent {
   showNavbar: boolean = true;
   router = inject(Router);
 
-  constructor(public navbarService: NavbarService) {
+  constructor() {
     this.router.events.subscribe((event) => {
-      console.log('Navbar en appcomponent:', this.showNavbar);
       if (event instanceof NavigationStart) {
         console.log('Navigating to:', event.url);
       }

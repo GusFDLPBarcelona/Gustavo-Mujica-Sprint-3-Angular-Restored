@@ -1,9 +1,39 @@
 /* ===== Owl Carousel (mantenemos tal cual) ===== */
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
-@import './variables.css';
+@import "ngx-owl-carousel-o/lib/styles/scss/owl.carousel";
+@import "ngx-owl-carousel-o/lib/styles/scss/owl.theme.default";
+@import "./variables.css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+/* ===== FORZAR INTER EN TODO EL SITIO ===== */
+* {
+  font-family: "Inter", sans-serif !important;
+}
+
+html,
+body {
+  font-family: "Inter", sans-serif !important;
+}
 
 .mat-typography,
+.mat-typography *,
+html,
+body {
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Específico para snackbars/toasts */
+.mat-mdc-snack-bar-container,
+.mat-mdc-snack-bar-container *,
+.mdc-snackbar,
+.mdc-snackbar * {
+  font-family: "Inter", sans-serif !important;
+}
+
+/* ===== SOBRESCRIBIR ANGULAR MATERIAL COMPLETAMENTE ===== */
+.mat-typography,
+.mat-typography *,
+.mat-bottom-sheet-container,
+.mat-bottom-sheet-container *,
 .mat-body-1,
 .mat-body-2,
 .mat-subheading-1,
@@ -13,17 +43,55 @@
 .mat-caption,
 .mat-button,
 .mat-card-title,
-.mat-card-subtitle {
-  font-family: 'Inter', sans-serif !important;
+.mat-card-subtitle,
+.mat-typography h1,
+.mat-typography h2,
+.mat-typography h3,
+.mat-typography h4,
+.mat-typography h5,
+.mat-typography h6,
+.mat-typography p,
+.mat-typography div,
+.mat-form-field,
+.mat-form-field *,
+.mat-input-element,
+.mat-select,
+.mat-option,
+.mat-optgroup,
+.mat-label,
+.mat-hint,
+.mat-error {
+  font-family: "Inter", sans-serif !important;
 }
 
+/* ===== BLOQUEAR ROBOTO COMPLETAMENTE ===== */
+@font-face {
+  font-family: "Roboto";
+  src: local("Inter"), local("Inter-Regular");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: local("Inter"), local("Inter-Medium");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: local("Inter"), local("Inter-Bold");
+  font-weight: bold;
+  font-style: normal;
+}
 
 .cdk-overlay-container {
-  z-index: 10000 !important; /* Mayor que el z-index de tu navbar (9999) */
+  z-index: 10000 !important;
 }
 
 .mat-mdc-snack-bar-container {
-  margin-top: 16px !important; /* Ajusta este valor según la altura de tu navbar */
+  margin-top: 16px !important;
 }
 
 /* ===== Reset general ===== */
@@ -33,46 +101,55 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   background-color: var(--background-color) !important;
   overflow-x: hidden;
   height: 100%;
-  font-family: var(--font-family);
+  font-family: "Inter", sans-serif !important;
   font-weight: var(--font-weight-medium);
 }
 
-/* ===== Color base para futuras variables CSS ===== */
-
-
-/* ===== TOAST STYLES (limpios y con sombra) ===== */
+/* ===== TOAST STYLES ===== */
 .toast-success,
 .toast-error,
 .toast-info,
 .toast-warning,
 .toast-default {
   border: none !important;
-  border-radius: 2px !important;
+  border-radius: 0 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   color: white !important;
+  font-family: "Inter", sans-serif !important;
 }
 
-/* Colores específicos */
-.toast-success  { background-color: #4caf50 !important; }
-.toast-error    { background-color: #f44336 !important; }
-.toast-info     { background-color: #2196f3 !important; }
-.toast-warning  { background-color: #ff9800 !important; color: black !important; }
-.toast-default  { background-color: #9e9e9e !important; }
+.toast-success {
+  background-color: #4caf50 !important;
+}
+.toast-error {
+  background-color: #f44336 !important;
+}
+.toast-info {
+  background-color: #2196f3 !important;
+}
+.toast-warning {
+  background-color: #9c9c9c !important;
+  color: black !important;
+}
+.toast-default {
+  background-color: #9e9e9e !important;
+}
 
-/* Oculta scrollbars en navegadores WebKit (Chrome, Safari) */
+/* Oculta scrollbars */
 body::-webkit-scrollbar,
 html::-webkit-scrollbar {
   display: none;
 }
 
-/* Oculta scrollbars en Firefox */
-body, html {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE y Edge */
+body,
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .navbar-wrapper {
@@ -80,17 +157,3 @@ body, html {
   will-change: transform;
 }
 
-::ng-deep .mat-snack-bar-container.custom-toast {
-  z-index: 1100 !important;
-  position: fixed !important;
-  top: 16px !important;
-  left: 50% !important;
-  transform: translateX(-50%);
-  max-width: 90vw;
-  pointer-events: auto !important; /* 👈 asegura clics */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
