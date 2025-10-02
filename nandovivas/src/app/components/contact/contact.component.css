@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 /* FORZAR INTER EN TODO EL COMPONENTE - REGLA ÚNICA */
 *,
@@ -17,7 +17,7 @@
 .cookies-policy-column-2 *,
 .btn-cancel,
 .btn-send {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .contact-container {
@@ -27,6 +27,7 @@
   display: grid;
   grid-template-columns: 1.5fr 1.5fr 1fr;
   grid-template-rows: auto 1fr;
+  padding: 0px 0px 0px 3px;
 }
 
 /* Header - fila 1, ocupa columnas 1 y 2 */
@@ -91,7 +92,9 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-left: 10px;
+  width: 100%;
+  height: 100%;
+  left: 5px;
 }
 
 img {
@@ -102,11 +105,10 @@ img {
 /* Copyright dentro del área del GIF */
 .clients-footer {
   position: absolute;
-  bottom: 180px;
-  right: 0;
+  bottom: 191px;
+  right: -10px;
   transform: rotate(270deg);
   transform-origin: bottom right;
-  left: 20;
 }
 
 /* Formulario de email - ocupa las 2 primeras columnas */
@@ -242,9 +244,10 @@ img {
   background-color: var(--contact-bg-color);
   box-shadow: none !important;
   border-radius: 0 !important;
-  top: 0;
+  top: auto;
   left: 0 !important;
   right: 0 !important;
+  bottom: 0;
 }
 
 /* Cookies policy - 2 columnas como bio y clients */
@@ -311,7 +314,6 @@ img {
   max-width: 100%;
   overflow: hidden;
 }
-
 
 /* Asegurar que los elementos internos no interfieran */
 .contact-email-form {
