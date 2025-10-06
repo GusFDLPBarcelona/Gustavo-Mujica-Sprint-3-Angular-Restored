@@ -301,3 +301,54 @@ body {
   width: 0;
   opacity: 0;
 }
+
+/* === Teléfonos (≤767px): navbar fija → filtros fijos → grid debajo === */
+@media (max-width: 767px) {
+  /* Fondo bajo la navbar (no interactúa) */
+  .filters-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(
+      --navbar-height-mobile,
+      80px
+    ); /* misma altura que la navbar móvil */
+    background-color: var(--background-color);
+    z-index: 998; /* debajo de la navbar (1000) y de los links (999) */
+    pointer-events: none; /* no captura clics */
+    margin: 0; /* evita “franjas” extra */
+    padding: 0; /* clonamos desktop: sin padding aquí */
+  }
+
+  /* Barra de links de filtros (el <details> en móvil) fija bajo la navbar */
+  .filters-dropdown {
+    position: fixed;
+    top: var(--navbar-height-mobile, 80px); /* justo debajo de la navbar */
+    left: 0;
+    right: 0;
+    z-index: 999; /* sobre el contenido, debajo de la navbar */
+    margin: 0;
+    background-color: var(--background-color);
+  }
+
+  /* Solo fijamos el SUMMARY (la fila de links). No tocamos el panel de opciones aún. */
+  .main-filter-summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px; /* misma altura de barra que usas en desktop */
+    padding: 0 15px; /* gutter móvil coherente */
+    background-color: var(--background-color);
+    border: none;
+    text-align: left;
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* El grid nace EXACTAMENTE debajo de la barra de filtros (navbar + barra) */
+  .work-container {
+    padding: calc(var(--navbar-height-mobile, 80px) + 70px) 15px 0;
+    /* 80px = navbar móvil; 70px = barra de filtros (desktop clonada) */
+    padding-inline: 0px;
+  }
+}
