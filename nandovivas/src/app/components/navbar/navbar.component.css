@@ -248,7 +248,7 @@ a[routerLink="/shop"]::after {
     height: var(--navbar-height-mobile, 80px);
     display: flex;
     justify-content: space-between;
-    align-items: center;         /* ✅ centrado vertical actual se mantiene */
+    align-items: center;      
     padding: 5px 15px 0;         /* ↑ pequeño respiro top, laterales = grid */
     box-sizing: border-box;
     background-color: var(--background-color);
