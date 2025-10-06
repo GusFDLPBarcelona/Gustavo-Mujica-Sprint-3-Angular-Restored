@@ -34,3 +34,11 @@
   /* Espaciado */
   --line-height: 1.6;
 }
+
+/* === Variables específicas para móviles (hasta 767px) === */
+@media (max-width: 767px) {
+  :root {
+    --navbar-height-mobile: 80px;
+  }
+}
+
