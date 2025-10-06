@@ -30,7 +30,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
   private projectsService = inject(ProjectsService);
   private toastService = inject(ToastService);
 
-  constructor(private ngZone: NgZone) {}
+  constructor(private ngZone: NgZone) { }
 
   @ViewChild('gridContainer', { read: ElementRef }) gridContainer!: ElementRef;
 
@@ -40,7 +40,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
   isMobile = signal(window.innerWidth <= 767);
   dropdownOpen = signal(false);
-  categories = ['All', 'Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
+  categories = ['All','Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
 
   filteredProjects = computed(() => {
     const category = this.activeCategory();
@@ -56,7 +56,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
         return a.originalOrder - b.originalOrder;
       });
   });
-  
+
 
   ngOnInit(): void {
     this.projectsService.getProjects().subscribe((projects: Project[]) => {
@@ -73,61 +73,73 @@ export class WorkComponent implements OnInit, AfterViewInit {
     const grid = this.el.nativeElement.querySelector('.grid');
     if (grid) autoAnimate(grid, { duration: 400, easing: 'ease-in-out' });
   }
-  
+
 
   @HostListener('window:resize')
   onResize() {
     this.isMobile.set(window.innerWidth <= 767);
   }
 
-setActiveCategory(category: string): void {
-  this.activeCategory.set(category);
-  this.dropdownOpen.set(false);
+  setActiveCategory(category: string): void {
+    this.activeCategory.set(category);
+    this.dropdownOpen.set(false);
 
-  // Espera a que Angular termine de pintar y luego deja que el navegador haga el offset
-  this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-    this.scrollGridIntoViewAfterRender();
-  });
-}
-
-/** Calcula el offset real de barras fijas y hace scroll con scroll-margin-top. */
-private scrollGridIntoViewAfterRender(): void {
-  const gridEl: HTMLElement | null = this.gridContainer?.nativeElement ?? null;
-  if (!gridEl) return;
-
-  // 1) Calcula offset real (desktop 60+70, móvil 60)
-  const offset = this.computeStickyOffset();
-
-  // 2) Aplica scroll-margin-top en el propio grid (el navegador compensa solo)
-  gridEl.style.scrollMarginTop = `${offset}px`;
-
-  // 3) Dos frames para dejar terminar micro-animaciones de autoAnimate
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Espera a que Angular termine de pintar y luego deja que el navegador haga el offset
+    this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+      this.scrollGridIntoViewAfterRender();
     });
-  });
-}
+  }
 
-/** Lee el DOM para sumar alturas visibles de cabeceras fijas. */
-private computeStickyOffset(): number {
-  const getVisibleHeight = (selector: string) => {
-    const el = document.querySelector<HTMLElement>(selector);
-    if (!el) return 0;
-    const style = window.getComputedStyle(el);
-    // Si está display:none, su alto efectivo es 0
-    if (style.display === 'none' || style.visibility === 'hidden') return 0;
-    const rect = el.getBoundingClientRect();
-    return rect.height > 0 ? rect.height : 0;
-  };
+categorySelected = signal(false);
 
-  // En tu CSS: .filters-container (60px siempre) + .filters-horizontal (70px solo ≥768px)
-  const h1 = getVisibleHeight('.filters-container');   // ~60
-  const h2 = getVisibleHeight('.filters-horizontal');  // ~70 o 0 en móvil
+  setActiveCategoryAndClose(category: string, dropdown: HTMLDetailsElement): void {
+    this.setActiveCategory(category);
+    this.categorySelected.set(true);
+    dropdown.open = false;
+  }
 
-  // Si además tienes una navbar por encima, aquí la sumaríamos.
-  return Math.round(h1 + h2);
-}
+  /** Calcula el offset real de barras fijas y hace scroll con scroll-margin-top. */
+  private scrollGridIntoViewAfterRender(): void {
+    const gridEl: HTMLElement | null = this.gridContainer?.nativeElement ?? null;
+    if (!gridEl) return;
+  
+    // Solo hacer scroll automático en desktop/tablet
+    if (window.innerWidth > 767) {
+      const offset = this.computeStickyOffset();
+      gridEl.style.scrollMarginTop = `${offset}px`;
+  
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+  }
+
+  /** Lee el DOM para sumar alturas visibles de cabeceras fijas. */
+       private computeStickyOffset(): number {
+      const getVisibleHeight = (selector: string) => {
+        const el = document.querySelector<HTMLElement>(selector);
+        if (!el) return 0;
+        const style = window.getComputedStyle(el);
+        if (style.display === 'none' || style.visibility === 'hidden') return 0;
+        const rect = el.getBoundingClientRect();
+        return rect.height > 0 ? rect.height : 0;
+      };
+    
+      const isMobile = window.innerWidth <= 767;
+    
+      const navbarHeight = getVisibleHeight('.filters-container'); // navbar fija
+      let filtersHeight = 0;
+    
+      if (isMobile) {
+        filtersHeight = getVisibleHeight('.filters-dropdown > summary'); // SOLO summary
+      } else {
+        filtersHeight = getVisibleHeight('.filters-horizontal');
+      }
+    
+      return Math.round(navbarHeight + filtersHeight);
+    }
 
 
   toggleDropdown(): void {

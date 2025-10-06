@@ -4,6 +4,7 @@
 
 /* Colores principales  */
 :root {
+  --font-color-white: #ffffff;
   --font-color-black: #1a1a1a;
   --contact-bg: #ffff00;
   --z-index-navbar: 1000;
