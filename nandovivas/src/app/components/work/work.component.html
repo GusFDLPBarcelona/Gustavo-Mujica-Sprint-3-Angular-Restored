@@ -4,53 +4,67 @@
 
   <!-- Filtros móviles -->
   @if (isMobile()) {
-    <details class="filters-dropdown" [open]="dropdownOpen()">
-      <summary class="main-filter-summary" (click)="toggleDropdown()">
-        {{ activeCategory() }}
-      </summary>
-      <div class="filters-dropdown-options">
-        @for (category of categories; track category) {
-          <button
-            (click)="setActiveCategory(category)"
-            class="filter-link"
-            [class.active]="activeCategory() === category">
-            <span class="filter-label">{{ category }}</span>
-          </button>
-        }
-      </div>
-    </details>
+  <details #dropdown class="filters-dropdown">
+    <summary class="main-filter-summary">
+      {{ activeCategory().toUpperCase() }}
+      <span aria-hidden="true" class="dropdown-arrow">▼</span>
+    </summary>
+    <div class="filters-dropdown-options">
+      @for (category of categories; track category) { @if (activeCategory() !==
+      category) {
+      <button
+        (click)="setActiveCategoryAndClose(category, dropdown)"
+        class="filter-link"
+        [class.active]="activeCategory() === category"
+      >
+        <span class="filter-label">{{ category.toUpperCase() }}</span>
+      </button>
+      } }
+    </div>
+  </details>
   }
-
   <!-- Filtros desktop/tablet -->
   @if (!isMobile()) {
-    <div class="filters-horizontal">
-      @for (category of categories; track category) {
-        <button
-          (click)="setActiveCategory(category)"
-          class="filter-link"
-          [class.active]="activeCategory() === category">
-          <span class="filter-label">{{ category }}</span>
-        </button>
-      }
-    </div>
+  <div class="filters-horizontal">
+    @for (category of categories; track category) {
+    <button
+      (click)="setActiveCategory(category)"
+      class="filter-link"
+      [class.active]="activeCategory() === category"
+    >
+      <span class="filter-label">{{ category }}</span>
+    </button>
+    }
+  </div>
   }
 
   <!-- Grid de proyectos -->
   <div class="grid" #gridContainer>
     @for (project of filteredProjects(); track project.id) {
-      <div class="project-container group"
-           [attr.data-category]="project.category"
-           [class.opacity-50]="activeCategory() !== 'All' && project.category !== activeCategory()">
-        <a [routerLink]="['/project-detail', project.id]" class="block relative overflow-hidden">
-          <img [src]="project.image" alt="{{ project.title }}" class="project-image">
-        </a>
-        <div class="project-details-container">
-          <div class="project-details">
-            <span class="project-title">{{ project.title }}</span>
-            <span class="project-client">{{ project.client }}</span>
-          </div>
+    <div
+      class="project-container group"
+      [attr.data-category]="project.category"
+      [class.opacity-50]="
+        activeCategory() !== 'All' && project.category !== activeCategory()
+      "
+    >
+      <a
+        [routerLink]="['/project-detail', project.id]"
+        class="block relative overflow-hidden"
+      >
+        <img
+          [src]="project.image"
+          alt="{{ project.title }}"
+          class="project-image"
+        />
+      </a>
+      <div class="project-details-container">
+        <div class="project-details">
+          <span class="project-title">{{ project.title }}</span>
+          <span class="project-client">{{ project.client }}</span>
         </div>
       </div>
+    </div>
     }
   </div>
 </div>

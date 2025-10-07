@@ -301,3 +301,78 @@ body {
   width: 0;
   opacity: 0;
 }
+
+/* === Teléfonos (≤767px): navbar fija → filtros fijos → grid debajo === */
+@media (max-width: 767px) {
+  /* Fondo bajo la navbar (no interactúa) */
+  .filters-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height-mobile, 80px);
+    background-color: var(--background-color);
+    z-index: 998; /* debajo de la navbar (1000) y de los links (999) */
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .filters-dropdown[open] .filters-dropdown-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+  }
+
+  /* Barra de links de filtros (el <details> en móvil) fija bajo la navbar */
+  .filters-dropdown {
+    position: fixed;
+    top: var(--navbar-height-mobile, 80px); /* justo debajo de la navbar */
+    left: 0;
+    right: 0;
+    z-index: 999; /* sobre el contenido, debajo de la navbar */
+    margin: 0;
+    background-color: var(--background-color);
+  }
+
+  .dropdown-arrow {
+    font-size: 1.1rem;
+    margin-left: 4px;
+    color: inherit;
+    margin-bottom: 2px;
+  }
+
+  /* Solo fijamos el SUMMARY (la fila de links). */
+  .main-filter-summary {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 70px;
+    background-color: var(--background-color);
+    border: none;
+    text-align: left;
+    font-family: "Inter", sans-serif !important;
+    padding-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .filter-label {
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+
+  /* El grid nace EXACTAMENTE debajo de la barra de filtros (navbar + barra) */
+  .work-container {
+    padding: calc(var(--navbar-height-mobile, 80px) + 80px) 15px 0 !important;
+    /* 80px = navbar móvil; 70px = barra de filtros (desktop clonada) */
+    padding-inline: 0px !important;
+  }
+
+  details.filters-dropdown > summary:focus,
+  details.filters-dropdown > summary:active {
+    background: var(--background-color) !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
