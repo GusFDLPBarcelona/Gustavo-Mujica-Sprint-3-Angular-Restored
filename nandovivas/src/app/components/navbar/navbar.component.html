@@ -22,7 +22,7 @@
         <div class="dropdown-menu">
           <a routerLink="/work" (click)="navigateAndCloseMenu()">Work</a>
           <a routerLink="/shop" (click)="navigateAndCloseMenu()">Shop</a>
-          <a (click)="openContactSheet()">Contact</a>
+          <a (click)="openContactSheet(); navigateAndCloseMenu()">Contact</a>
         </div>
       }
     </div>

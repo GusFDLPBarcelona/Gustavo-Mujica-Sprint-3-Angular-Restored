@@ -26,11 +26,9 @@ export class NavbarComponent implements OnInit {
   public navbarService = inject(NavbarService); // Hazlo público para el template
 
   ngOnInit(): void {
-    console.log('🧭 NavbarComponent montado');
   }
 
   navigateHome(): void {
-    console.log('NAVEGA A HOME');
     this.router.navigateByUrl('/', { skipLocationChange: false });
   }
 
@@ -40,6 +38,11 @@ export class NavbarComponent implements OnInit {
 
   navigateAndCloseMenu(): void {
     this.isMenuVisible = false;
+  }
+
+  openContactAndCloseMenu(): void {
+    this.openContactSheet();
+    this.navigateAndCloseMenu();
   }
 
   openContactSheet(): void {
