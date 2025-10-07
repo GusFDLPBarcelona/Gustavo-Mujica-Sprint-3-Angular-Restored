@@ -157,3 +157,9 @@ html {
   will-change: transform;
 }
 
+.mat-typography,
+.mat-typography *,
+.mat-body-large,
+.mat-body-large * {
+  font-family: "Inter", sans-serif !important;
+}
