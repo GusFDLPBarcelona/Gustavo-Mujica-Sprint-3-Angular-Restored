@@ -322,8 +322,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 0;  
-  }  
+    padding: 0;
+  }
 
   /* Barra de links de filtros (el <details> en móvil) fija bajo la navbar */
   .filters-dropdown {
@@ -337,23 +337,29 @@ body {
   }
 
   .dropdown-arrow {
-    font-size: 1.1em;
-    margin-left: 2px;
-    opacity: 0.7;
+    font-size: 1.1rem;
+    margin-left: 6px;
+    color: inherit;
+    margin-bottom: 2px;
   }
 
   /* Solo fijamos el SUMMARY (la fila de links). */
   .main-filter-summary {
     display: flex;
-    align-items: flex-end; 
+    align-items: flex-end;
     justify-content: center;
     height: 70px;
     background-color: var(--background-color);
     border: none;
     text-align: left;
-    font-weight: var(--font-weight-medium);
     font-family: "Inter", sans-serif !important;
-    padding-bottom: 10px; 
+    padding-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .filter-label {
+    font-size: 1.1rem;
+    font-weight: 400;
   }
 
   /* El grid nace EXACTAMENTE debajo de la barra de filtros (navbar + barra) */
