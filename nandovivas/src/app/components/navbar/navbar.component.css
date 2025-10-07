@@ -241,3 +241,51 @@ a[routerLink="/shop"]::after {
   border-bottom: none !important;
   background: none !important;
 }
+
+/* === Navbar móvil (≤767px): alineación y márgenes laterales coherentes === */
+@media (max-width: 767px) {
+  .navbar-container {
+    height: var(--navbar-height-mobile, 80px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;      
+    padding: 5px 15px 0;         /* ↑ pequeño respiro top, laterales = grid */
+    box-sizing: border-box;
+    background-color: var(--background-color);
+  }
+
+  /* Logo: ligeramente más compacto y con aire lateral izquierdo */
+  .logo-container .logo {
+    width: 110px;                /* proporcional al alto de navbar móvil */
+    height: auto;
+    padding-left: 0;             /* ya compensamos con padding general */
+    margin-top: 0;               /* centrado visual ajustado por align-items */
+    cursor: pointer;
+  }
+
+  /* Menú hamburguesa */
+  .menu-button {
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: #777;
+    cursor: pointer;
+    padding: 6px;                /* área táctil cómoda */
+    margin: 0;                   /* sin compensaciones negativas */
+  }
+
+  /* Menú hamburguesa (contenedor) */
+  .mobile-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 0;
+    padding-right: 0;            /* coherente con padding general */
+  }
+
+  /* Dropdown */
+  .dropdown-menu {
+    top: var(--navbar-height-mobile, 80px);
+    right: 15px;                 /* alinea con padding general */
+  }
+}

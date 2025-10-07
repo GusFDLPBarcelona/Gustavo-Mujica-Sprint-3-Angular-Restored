@@ -14,22 +14,24 @@
 
 .construction-content {
   text-align: center;
-  max-width: 500px;
+  max-width: 320px;
   font-family: "Inter", sans-serif !important;
 }
 
 .construction-image {
-  max-width: 200px;
+  max-width: 300px;
   height: auto;
-  margin-bottom: 2rem;
 }
 
-.construction-title {
-  font-size: 2.5rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--font-color-black);
-  margin-bottom: 1rem;
+.construction-content .construction-title,
+.construction-content .construction-title * {
   font-family: "Inter", sans-serif !important;
+  font-size: 2.5rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: var(--font-color-black) !important;
+  margin-bottom: 0.1rem !important;
+  letter-spacing: normal !important;
+  line-height: normal !important;
 }
 
 .construction-subtitle {
@@ -43,20 +45,52 @@
   display: inline-block;
   width: 100%;
   padding: 12px 24px;
-  background-color: var(--contact-bg);
-  color: var(--font-color-black);
+  background-color: transparent; /* Fondo transparente */
+  color: #111; /* Letras negro suave */
   text-decoration: none;
-  border: 1px solid transparent;
+  border: 1.5px solid #111; /* Borde negro suave */
   font-weight: var(--font-weight-medium);
   transition: all 0.2s ease;
   font-family: "Inter", sans-serif !important;
   box-sizing: border-box;
+  margin-top: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .back-button:hover {
-  background-color: transparent; /* ← NUEVO: Fondo transparente */
+  background-color: #000000; /* ← NUEVO: Fondo gris */
   border: 1px solid black; /* ← NUEVO: Borde negro */
-  color: var(--font-color-black); /* ← MANTENER: Color del texto */
+  color: var(--font-color-white); /* ← MANTENER: Color del texto */
   transform: none; /* ← ELIMINAR: movimiento */
   font-family: "Inter", sans-serif !important;
 }
+
+/* Fuerza Inter en todos los elementos y pseudo-elementos del componente */
+.construction-container,
+.construction-container *,
+.construction-container *::before,
+.construction-container *::after {
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Específico para details y summary */
+details,
+summary,
+details *,
+summary * {
+  font-family: "Inter", sans-serif !important;
+  font-weight: var(--font-weight-medium) !important;
+}
+
+:host, :host * {
+  font-family: "Inter", sans-serif !important;
+}
+
+:host ::ng-deep .mat-typography,
+:host ::ng-deep .mat-typography *,
+:host ::ng-deep .mat-body-large,
+:host ::ng-deep .mat-body-large * {
+  font-family: "Inter", sans-serif !important;
+  font-weight: var(--font-weight-medium) !important;
+}
+
