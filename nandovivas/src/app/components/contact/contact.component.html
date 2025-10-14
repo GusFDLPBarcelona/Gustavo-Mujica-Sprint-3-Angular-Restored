@@ -1,6 +1,9 @@
 <div class="contact-container">
-  <!-- HEADER - Siempre visible -->
-  <div class="contact-header">
+  <!-- HEADER - Se oculta cuando hay overlays en móviles -->
+  <div
+    class="contact-header"
+    [class.hide-when-overlay]="isMobile && (showEmailForm || showCookiesPolicy)"
+  >
     <a
       class="contact-email link-hover-effect"
       [class.active]="showEmailForm"
@@ -27,10 +30,16 @@
     >
   </div>
 
+  <!-- BOTÓN CERRAR - SIEMPRE en fila 1 -->
+  <button class="close-contact" (click)="closeContact()">✕</button>
+
   <!-- CONTENIDO CONDICIONAL -->
   @if (!showEmailForm && !showCookiesPolicy) {
-  <!-- BIO - Solo cuando no hay formulario -->
-  <div class="contact-bio">
+  <!-- BIO - Se oculta cuando hay overlays en móviles -->
+  <div 
+    class="contact-bio"
+    [class.hide-when-overlay]="isMobile && (showEmailForm || showCookiesPolicy)"
+  >
     <p>
       I'm a graphic designer and illustrator based in Barcelona, working across
       communication, packaging, branding, art direction, and editorial design. I
@@ -43,9 +52,12 @@
       your ideas into visual realities—together.
     </p>
   </div>
-
-  <!-- SELECTED CLIENTS - Solo cuando no hay formulario -->
-  <div class="contact-clients">
+  
+  <!-- SELECTED CLIENTS - Se oculta cuando hay overlays en móviles -->
+  <div 
+    class="contact-clients"
+    [class.hide-when-overlay]="isMobile && (showEmailForm || showCookiesPolicy)"
+  >
     <p><b>Selected clients:</b></p>
     <p>
       Estrella Damm, Nestlé, Hospital Sant Joan de Deu, Cities Alliance, AECOC,
@@ -54,8 +66,10 @@
       Editorial Salvat
     </p>
   </div>
-  } @if (showEmailForm) {
-  <!-- FORMULARIO HTML PURO - Ocupa las 2 columnas -->
+  }
+  
+  @if (showEmailForm) {
+  <!-- FORMULARIO - OCUPA EL ESPACIO DE BIO+HEADER+CLIENTS (filas 2-4) -->
   <div class="email-form-container">
     <form
       [formGroup]="emailForm"
@@ -79,7 +93,6 @@
           [class.error]="fromEmail?.invalid && fromEmail?.touched"
         />
       </div>
-
       <div class="form-field">
         <label for="subject">Subject</label>
         <input
@@ -92,7 +105,6 @@
           [class.error]="subject?.invalid && subject?.touched"
         />
       </div>
-
       <div class="form-field">
         <label for="message">Message</label>
         <textarea
@@ -105,7 +117,6 @@
           [class.error]="message?.invalid && message?.touched"
         ></textarea>
       </div>
-
       <div class="form-buttons">
         <button type="button" (click)="cancel()" class="btn-cancel">
           Cancel
@@ -116,8 +127,10 @@
       </div>
     </form>
   </div>
-  } @if (showCookiesPolicy) {
-  <!-- COOKIES POLICY - Ocupa las 2 columnas cuando se muestra -->
+  }
+  
+  @if (showCookiesPolicy) {
+  <!-- COOKIES POLICY - OCUPA EL ESPACIO DE BIO+HEADER+CLIENTS (filas 2-4) -->
   <div class="cookies-policy-container">
     <!-- COLUMNA 1 - Información general -->
     <div class="cookies-policy-column-1">
@@ -125,14 +138,12 @@
         This website uses cookies to ensure you get the best experience on our
         website.
       </p>
-
       <p class="cookies-subtitle"><strong>What are cookies?</strong></p>
       <p>
         Cookies are small text files that are placed on your computer by
         websites that you visit. They are widely used to make websites work more
         efficiently and provide information to site owners.
       </p>
-
       <p class="cookies-subtitle"><strong>Essential Cookies</strong></p>
       <p>These cookies are necessary for the website to function properly:</p>
       <p><strong>Session cookies:</strong> Maintain your browsing session</p>
@@ -140,7 +151,6 @@
         <strong>Security cookies:</strong> Protect against malicious attacks
       </p>
     </div>
-
     <!-- COLUMNA 2 - Control y más información -->
     <div class="cookies-policy-column-2">
       <p class="cookies-subtitle"><strong>How to control cookies</strong></p>
@@ -149,7 +159,6 @@
         cookies that are already on your computer and you can set most browsers
         to prevent them from being placed.
       </p>
-
       <p class="cookies-subtitle"><strong>Settings</strong></p>
       <p>
         Most web browsers allow some control of cookies through browser
@@ -164,11 +173,11 @@
   </div>
   }
 
-  <!-- GIF CONTAINER - Siempre visible -->
+  <!-- GIF CONTAINER - SIEMPRE en fila 5 (INAMOVIBLE) -->
   <div class="gif-container">
     <img src="assets/contact-smoking-gif.gif" alt="Contact" />
-    <div class="clients-footer">
-      <p>© 2024 Nando Vivas</p>
-    </div>
   </div>
+  
+  <!-- FOOTER - SIEMPRE en fila 6 (INAMOVIBLE) -->
+  <div class="clients-footer"><p>© 2024 Nando Vivas</p></div>
 </div>

@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
-
-/* FORZAR INTER EN TODO EL COMPONENTE - REGLA ÚNICA */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"); /* FORZAR INTER EN TODO EL COMPONENTE - REGLA ÚNICA */
 *,
 .contact-container,
 .contact-container *,
@@ -19,7 +17,6 @@
 .btn-send {
   font-family: "Inter", sans-serif !important;
 }
-
 .contact-container {
   background-color: var(--contact-bg-color);
   height: 100%;
@@ -28,16 +25,13 @@
   grid-template-columns: 1.5fr 1.5fr 1fr;
   grid-template-rows: auto 1fr;
   padding: 0px 0px 0px 3px;
-}
-
-/* Header - fila 1, ocupa columnas 1 y 2 */
+} /* Header - fila 1, ocupa columnas 1 y 2 */
 .contact-header {
   grid-column: 1 / 3;
   grid-row: 1;
   display: flex;
   justify-content: space-between;
 }
-
 .contact-header a {
   text-decoration: none;
   color: var(--font-color-black);
@@ -46,7 +40,6 @@
   position: relative;
   transition: all 0.3s ease;
 }
-
 .contact-header a::after {
   content: "";
   position: absolute;
@@ -57,34 +50,26 @@
   background-color: var(--font-color-black);
   transition: width 0.3s ease;
 }
-
 .contact-header a.active::after,
 .contact-header a:hover::after {
   width: 100%;
-}
-
-/* Bio - fila 2, solo columna 1 */
+} /* Bio - fila 2, solo columna 1 */
 .contact-bio {
   grid-column: 1;
   grid-row: 2;
   font-size: var(--small-font-size);
   padding-top: 42px;
 }
-
 .contact-bio p + p {
   margin-top: 5px !important;
-}
-
-/* Selected clients - fila 2, solo columna 2 */
+} /* Selected clients - fila 2, solo columna 2 */
 .contact-clients {
   grid-column: 2;
   grid-row: 2;
   font-size: var(--small-font-size);
   padding-top: 42px;
   padding-left: 30px;
-}
-
-/* GIF - columna 3, ambas filas */
+} /* GIF - columna 3, ambas filas */
 .gif-container {
   grid-column: 3;
   grid-row: 1 / 3;
@@ -96,22 +81,17 @@
   height: 100%;
   left: 5px;
 }
-
 img {
   height: 220px;
   width: 220px;
-}
-
-/* Copyright dentro del área del GIF */
+} /* Copyright dentro del área del GIF */
 .clients-footer {
   position: absolute;
   bottom: 191px;
   right: -10px;
   transform: rotate(270deg);
   transform-origin: bottom right;
-}
-
-/* Formulario de email - ocupa las 2 primeras columnas */
+} /* Formulario de email - ocupa las 2 primeras columnas */
 .email-form-container {
   grid-column: 1 / 3;
   grid-row: 2;
@@ -120,16 +100,13 @@ img {
   max-width: 100%;
   overflow: hidden;
 }
-
 .contact-email-form {
   display: flex;
   flex-direction: column;
   gap: 9px;
   width: 100%;
   box-sizing: border-box;
-}
-
-/* Campos del formulario */
+} /* Campos del formulario */
 .form-field {
   display: flex;
   flex-direction: column;
@@ -138,7 +115,6 @@ img {
   margin: 0;
   padding: 0;
 }
-
 .form-field label {
   font-size: 12px;
   color: var(--font-color-black);
@@ -146,7 +122,6 @@ img {
   padding: 0 !important;
   line-height: 1 !important;
 }
-
 .form-field input,
 .form-field textarea {
   padding: 4px;
@@ -159,42 +134,33 @@ img {
   box-sizing: border-box;
   margin: 0 !important;
 }
-
 .form-field input:focus,
 .form-field textarea:focus {
   outline: none;
   border-color: var(--font-color-black);
 }
-
 .form-field input.error,
 .form-field textarea.error {
   border-color: #ff4444;
 }
-
 .form-field textarea {
   resize: vertical;
   min-height: 60px;
 }
-
 .error-message {
   color: #ff4444;
   font-size: 12px;
-}
-
-/* Placeholders */
+} /* Placeholders */
 .form-field input::placeholder,
 .form-field textarea::placeholder {
   color: #999;
 }
-
 .form-field input.error::placeholder,
 .form-field textarea.error::placeholder {
   color: #ff4444;
   font-size: smaller;
   opacity: 0.5 !important;
-}
-
-/* Botones del formulario */
+} /* Botones del formulario */
 .form-buttons {
   display: flex;
   gap: 12px;
@@ -202,7 +168,6 @@ img {
   margin-top: 2px;
   width: 100%;
 }
-
 .form-buttons button {
   padding: 5px 15px;
   border: 1px solid var(--font-color-black);
@@ -213,27 +178,21 @@ img {
   transition: all 0.3s ease;
   border-radius: 0;
 }
-
 .btn-send {
   background-color: var(--font-color-black) !important;
   color: white !important;
 }
-
 .btn-send:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 .btn-cancel:hover {
   background-color: var(--font-color-black);
   color: white;
 }
-
 .btn-send:hover:not(:disabled) {
   opacity: 0.8;
-}
-
-/* Bottom sheet configuration */
+} /* Bottom sheet configuration */
 ::ng-deep .mat-bottom-sheet-container {
   width: 100vw !important;
   min-width: 100vw !important;
@@ -248,9 +207,7 @@ img {
   left: 0 !important;
   right: 0 !important;
   bottom: 0;
-}
-
-/* Cookies policy - 2 columnas como bio y clients */
+} /* Cookies policy - 2 columnas como bio y clients */
 .cookies-policy-container {
   grid-column: 1 / 3;
   grid-row: 2;
@@ -262,50 +219,39 @@ img {
   overflow: hidden;
   max-height: calc(45vh - 60px);
 }
-
 .cookies-policy-column-1,
 .cookies-policy-column-2 {
   font-size: 11px;
   line-height: 1.3;
   overflow-y: auto;
   padding-right: 5px;
-}
-
-/* Solo párrafos para cookies policy - Control total del espaciado */
+} /* Solo párrafos para cookies policy - Control total del espaciado */
 .cookies-policy-column-1 p,
 .cookies-policy-column-2 p {
   margin: 0 0 5px 0;
   padding: 0;
   color: var(--font-color-black);
   line-height: 1.3;
-}
-
-/* Estilos para simular títulos */
+} /* Estilos para simular títulos */
 .cookies-title {
   font-size: 14px !important;
   font-weight: var(--font-weight-bold) !important;
   margin: 0 0 4px 0 !important;
 }
-
 .cookies-subtitle {
   font-size: 12px !important;
   font-weight: var(--font-weight-medium) !important;
   margin: 0 0 5px 0 !important;
-}
-
-/* Scrollbar para columnas individuales */
+} /* Scrollbar para columnas individuales */
 .cookies-policy-column-1::-webkit-scrollbar,
 .cookies-policy-column-2::-webkit-scrollbar {
   width: 3px;
 }
-
 .cookies-policy-column-1::-webkit-scrollbar-thumb,
 .cookies-policy-column-2::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 0;
-}
-
-/* ===== ANIMACIÓN DE ENTRADA DESDE LA IZQUIERDA ===== */
+} /* ===== ANIMACIÓN DE ENTRADA DESDE LA IZQUIERDA ===== */
 .email-form-container {
   grid-column: 1 / 3;
   grid-row: 2;
@@ -313,20 +259,14 @@ img {
   padding-left: 0;
   max-width: 100%;
   overflow: hidden;
-}
-
-/* Asegurar que los elementos internos no interfieran */
+} /* Asegurar que los elementos internos no interfieran */
 .contact-email-form {
   display: flex;
   flex-direction: column;
   gap: 9px;
   width: 100%;
   box-sizing: border-box;
-}
-
-/* ===== ANIMACIONES COORDINADAS PARA EMAIL Y COOKIES ===== */
-
-/* EMAIL FORM - Entrada desde la izquierda (ya existe, pero refinada) */
+} /* ===== ANIMACIONES COORDINADAS PARA EMAIL Y COOKIES ===== */ /* EMAIL FORM - Entrada desde la izquierda (ya existe, pero refinada) */
 .email-form-container {
   grid-column: 1 / 3;
   grid-row: 2;
@@ -334,8 +274,7 @@ img {
   padding-left: 0;
   max-width: 100%;
   overflow: hidden;
-}
-/* COOKIES POLICY - Entrada desde la derecha (nueva) */
+} /* COOKIES POLICY - Entrada desde la derecha (nueva) */
 .cookies-policy-container {
   grid-column: 1 / 3;
   grid-row: 2;
@@ -347,7 +286,6 @@ img {
   overflow: hidden;
   max-height: calc(45vh - 60px);
 }
-
 .email-form-container,
 .cookies-policy-container {
   transform: translateZ(0);
@@ -369,54 +307,110 @@ img {
     max-width: 100vw !important;
   }
 
-  /* Layout vertical: 1) Bio 2) Links 3) Clients 4) GIF */
+  /* Layout vertical FIJO - 6 FILAS QUE NUNCA CAMBIAN */
   .contact-container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto;
     min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    gap: 16px;
+    gap: 14px;
     padding: 16px;
     background: var(--contact-bg-color);
     padding-top: max(16px, env(safe-area-inset-top));
     padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
-  .contact-bio {
+  /* POSICIONES FIJAS - NUNCA CAMBIAN */
+  .close-contact {
     grid-column: 1;
     grid-row: 1;
-    padding-top: 8;
+    justify-self: end;
+    align-self: start;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--font-color-black);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    transition: opacity 0.2s ease;
+    justify-content: center;
+  }
+
+  .close-contact:hover {
+    opacity: 1;
+  }
+
+  .contact-bio {
+    grid-column: 1;
+    grid-row: 2;
+    padding-top: 0px;
   }
   .contact-bio p {
-line-height: 1.25;
-margin: 0 0 4px 0;
-}
-.contact-bio p + p {
-margin-top: 2px !important; 
-}
+    margin-top: 2px !important;
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
+  .contact-bio p + p {
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
 
   .contact-header {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
     position: static;
-    justify-content: flex-start;
-    gap: 16px;
+    display: flex;
     flex-wrap: wrap;
+    width: 100%;
     background: transparent;
+    justify-content: center;
+    gap: 0;
+    row-gap: 10px;
+  }
+
+  .contact-header a:nth-child(1),
+  .contact-header a:nth-child(2),
+  .contact-header a:nth-child(3),
+  .contact-header a:nth-child(4),
+  .contact-header a:nth-child(5) {
+    flex: 0 0 100%;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  .contact-header a::after {
+    display: none !important; 
+  }
+
+  .contact-header-mobile a::after,
+  .contact-header-mobile-links a::after {
+    display: none !important;
   }
 
   .contact-clients {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 4;
     padding-left: 0;
     padding-top: 0;
+  }
+  .contact-clients p {
+    margin-top: 2px !important;
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
+  .contact-clients p + p {
+    line-height: 1.5;
+    margin: 0 0 4px 0;
   }
 
   .gif-container {
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 5;
     position: static;
     left: 0;
     width: 100%;
@@ -425,17 +419,122 @@ margin-top: 2px !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: -4px;
   }
+
   .gif-container img {
     width: 122px;
     height: 122px;
   }
 
   .clients-footer {
+    grid-column: 1;
+    grid-row: 6;
     position: static;
     transform: none;
     margin-top: 8px;
     right: auto;
     bottom: auto;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* OVERLAYS*/
+  .email-form-container {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    padding-top: 0;
+    margin-top: 0;
+    overflow-y: auto;
+    min-height: 50vh;
+  }
+
+  .cookies-policy-container {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding-top: 10px;
+    overflow-y: auto;
+    max-height: none;
+    min-height: 50vh;
+  }
+
+  /* Botones en su posición ORIGINAL - sin cambios */
+  .form-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 3px; /* VALOR ORIGINAL */
+    margin-bottom: 2px;
+    width: 100%;
+  }
+
+  /* OCULTAR ELEMENTOS CUANDO HAY OVERLAY */
+  .contact-header.hide-when-overlay,
+  .contact-bio.hide-when-overlay,
+  .contact-clients.hide-when-overlay {
+    display: none !important;
+  }
+
+  /* Ajustes de formulario para móvil */
+  .form-field textarea {
+    min-height: 120px;
+  }
+
+  /* Estilos para header móvil */
+  .contact-header-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .contact-header-mobile-links {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .contact-header-mobile a,
+  .contact-header-mobile-links a {
+    text-decoration: none;
+    color: var(--font-color-black);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    font-size: inherit;
+  }
+  .contact-header-mobile a::after,
+  .contact-header-mobile-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--font-color-black);
+    transition: width 0.3s ease;
+  }
+  .contact-header-mobile a.active::after,
+  .contact-header-mobile a:hover::after,
+  .contact-header-mobile-links a.active::after,
+  .contact-header-mobile-links a:hover::after {
+    width: 100%;
+  }
+
+  .hide-on-mobile-when-overlay {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .close-contact {
+    display: none !important;
   }
 }
