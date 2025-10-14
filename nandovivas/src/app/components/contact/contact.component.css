@@ -439,7 +439,7 @@ img {
     text-align: center;
   }
 
-  /* OVERLAYS*/
+  /* OVERLAYS CON ALTURA MÍNIMA PERMANTENIENDO BOTONES EN POSICIÓN NATURAL */
   .email-form-container {
     grid-column: 1;
     grid-row: 2 / 5;
