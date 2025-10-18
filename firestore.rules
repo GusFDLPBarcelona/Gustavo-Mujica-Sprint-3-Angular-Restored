@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permite la lectura pública de las colecciones 'gallery' y 'projects'
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow write: if false; // Por seguridad, nadie puede escribir directamente
+    }
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if false; // Por seguridad, nadie puede escribir directamente
+    }
+    // Bloquea todas las demás colecciones por defecto
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -9,7 +9,7 @@ import { ToastService } from './toast.service';
   providedIn: 'root',
 })
 export class ProductsService {
-  private apiUrl = 'http://localhost:4000/api/products';
+  private apiUrl = 'https://us-central1-nando-vivas.cloudfunctions.net/api/products';
   private cache: Product[] | null = null;
   public isLoading = new BehaviorSubject<boolean>(false);
 

@@ -1,41 +1,53 @@
-import db from '../db/connection';
+import db from '../db/firebase';
+import { Project } from '../interfaces/project.backend';
 
-export const createProject = async (title: string, client: string, category: string, image: string) => {
-    const [result] = await db.query(
-        'INSERT INTO projects (title, client, category, image) VALUES (?, ?, ?, ?)',
-        [title, client, category, image]
-    );
-    return result;
-};
+const PROJECTS_COLLECTION = 'projects';
 
-export const getProjects = async () => {
-    try {
-        const [rows] = await db.query('SELECT * FROM projects ORDER BY id'); 
-        return rows; 
-    } catch (error) {
-        console.error('Error al obtener proyectos desde la base de datos:', error); 
-        throw new Error('Error al obtener proyectos desde la base de datos'); 
+// Obtener todos los proyectos
+export const getProjects = async (): Promise<Project[]> => {
+    const snapshot = await db.collection(PROJECTS_COLLECTION).orderBy('title').get();
+    if (snapshot.empty) {
+        return [];
     }
-    
+    const projects: Project[] = [];
+    snapshot.forEach(doc => {
+        projects.push({ id: doc.id, ...doc.data() } as Project);
+    });
+    return projects;
 };
 
-export const getProject = async (id: number) => {
-    const [rows] = await db.query<any[]>('SELECT * FROM projects WHERE id = ?', [id]);
-    if (rows.length === 0) {
-        throw new Error('Proyecto no encontrado');
+// Obtener un proyecto específico por ID
+export const getProject = async (id: string): Promise<Project | null> => {
+    const docRef = db.collection(PROJECTS_COLLECTION).doc(id);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+        return null;
     }
-    return rows[0];
+
+    return { id: doc.id, ...doc.data() } as Project;
 };
 
-export const updateProject = async (id: number, title: string, client: string, category: string, image: string) => {
-    const [result] = await db.query(
-        'UPDATE projects SET title = ?, client = ?, category = ?, image = ? WHERE id = ?',
-        [title, client, category, image, id]
-    );
-    return result;
+// Crear un nuevo proyecto
+export const createProject = async (project: Omit<Project, 'id'>): Promise<Project> => {
+    const docRef = await db.collection(PROJECTS_COLLECTION).add(project);
+    return { id: docRef.id, ...project } as Project;
 };
 
-export const deleteProject = async (id: number) => {
-    const [result] = await db.query('DELETE FROM projects WHERE id = ?', [id]);
-    return result;
+// Actualizar un proyecto existente
+export const updateProject = async (id: string, project: Partial<Project>): Promise<Project | null> => {
+    const docRef = db.collection(PROJECTS_COLLECTION).doc(id);
+    await docRef.update(project);
+
+    const updatedDoc = await docRef.get();
+    if (!updatedDoc.exists) {
+        return null;
+    }
+    return { id: updatedDoc.id, ...updatedDoc.data() } as Project;
+};
+
+// Eliminar un proyecto
+export const deleteProject = async (id: string): Promise<{ msg: string }> => {
+    await db.collection(PROJECTS_COLLECTION).doc(id).delete();
+    return { msg: 'Proyecto eliminado con éxito' };
 };

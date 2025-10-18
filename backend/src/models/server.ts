@@ -1,11 +1,8 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import routesProduct from '../routes/product.routes';
 import routesProject from '../routes/project';
 import routesGallery from '../routes/gallery';
-
-dotenv.config();
 
 class Server {
     private app: Application;

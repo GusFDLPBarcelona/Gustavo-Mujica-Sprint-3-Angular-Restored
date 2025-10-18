@@ -7,7 +7,7 @@ import { WellcomeGallery } from '../interfaces/wellcome_gallery';
   providedIn: 'root',
 })
 export class WellcomeGalleryService {
-private apiUrl = 'http://localhost:4000/api/gallery';
+private apiUrl = 'https://us-central1-nando-vivas.cloudfunctions.net/api/gallery';
 
   constructor(private http: HttpClient) {}
 

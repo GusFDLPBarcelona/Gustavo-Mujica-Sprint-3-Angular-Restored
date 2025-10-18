@@ -1,65 +1,25 @@
+import * as functions from 'firebase-functions';
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import connection from './db/connection';
+import './db/firebase'; // Inicializa la conexión con Firebase
 
 // Importar rutas
 import routesProject from './routes/project';
 import routesProduct from './routes/product.routes';
 import routesGallery from './routes/gallery';
 
-dotenv.config();
-
 const app = express();
 
-app.use(cors());
+// Usar cors con la configuración recomendada
+app.use(cors({ origin: true }));
 app.use(express.json());
 
-if (!routesGallery || !routesProject || !routesProduct) {
-    console.error("ERROR: Alguna de las rutas no está correctamente importada.");
-} else {
-    console.log('Todas las rutas están correctamente importadas.');
-}
+// Las peticiones que llegan a la función 'api' ya están bajo la ruta /api.
+// Express ve el resto de la ruta. Por ejemplo, /api/gallery llega a Express como /gallery.
+// Por lo tanto, registramos las rutas sin el prefijo /api.
+app.use('/gallery', routesGallery);
+app.use('/projects', routesProject);
+app.use('/products', routesProduct);
 
-// 🔹 Intentar registrar las rutas y capturar errores
-try {
-    console.log('Registrando rutas en Express...');
-    app.use('/api/gallery', routesGallery);
-    app.use('/api/projects', routesProject);
-    app.use('/api/products', routesProduct);
-    console.log('Rutas añadidas correctamente.');
-} catch (error) {
-    console.error('ERROR al añadir rutas:', error);
-}
-
-// 🔹 Listar todas las rutas registradas correctamente
-const listRoutes = (app: express.Application) => {
-    console.log('Listando rutas registradas en Express...');
-    app._router.stack.forEach((middleware: any) => {
-        if (middleware.route) { 
-            console.log(`Ruta registrada: ${Object.keys(middleware.route.methods).join(', ').toUpperCase()} ${middleware.route.path}`);
-        } else if (middleware.name === 'router') { 
-            middleware.handle.stack.forEach((handler: any) => {
-                if (handler.route) {
-                    console.log(`Ruta registrada: ${Object.keys(handler.route.methods).join(', ').toUpperCase()} ${handler.route.path}`);
-                }
-            });
-        }
-    });
-};
-
-listRoutes(app); //Esto imprimirá todas las rutas correctamente
-
-connection.getConnection()
-    .then((conn: any) => { // Agregamos `any` para evitar el error de tipo
-        console.log('Conectado a la base de datos');
-        conn.release();
-    })
-    .catch((err: any) => { // También agregamos `any` aquí
-        console.error('Error al conectar a la base de datos:', err.message);
-    });
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+// Exponer la aplicación de Express como una única Cloud Function llamada 'api'
+export const api = functions.https.onRequest(app);
