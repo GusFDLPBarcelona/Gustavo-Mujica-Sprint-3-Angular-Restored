@@ -353,3 +353,250 @@ img {
   transform: translateZ(0);
   will-change: transform, opacity;
 }
+
+@media (max-width: 767px) {
+  /* Bottom sheet a pantalla completa */
+  ::ng-deep .mat-bottom-sheet-container {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+    background-color: var(--contact-bg-color);
+  }
+  ::ng-deep .cdk-overlay-pane {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+
+  /* Layout vertical FIJO - 6 FILAS QUE NUNCA CAMBIAN */
+  .contact-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 12px;
+    padding: 16px;
+    background: var(--contact-bg-color);
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  /* POSICIONES FIJAS - NUNCA CAMBIAN */
+  .close-contact {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--font-color-black);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    transition: opacity 0.2s ease;
+    justify-content: center;
+  }
+
+  .close-contact:hover {
+    opacity: 1;
+  }
+
+  .contact-bio {
+    grid-column: 1;
+    grid-row: 2;
+    padding-top: 0px;
+  }
+  .contact-bio p {
+    margin-top: 2px !important;
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
+  .contact-bio p + p {
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
+
+  .contact-header {
+    grid-column: 1;
+    grid-row: 3;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    background: transparent;
+    justify-content: center;
+    gap: 0;
+    row-gap: 10px;
+  }
+
+  .contact-header a:nth-child(1),
+  .contact-header a:nth-child(2),
+  .contact-header a:nth-child(3),
+  .contact-header a:nth-child(4),
+  .contact-header a:nth-child(5) {
+    flex: 0 0 100%;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  .contact-header a::after {
+    display: none !important; 
+  }
+
+  .contact-header-mobile a::after,
+  .contact-header-mobile-links a::after {
+    display: none !important;
+  }
+
+  .contact-clients {
+    grid-column: 1;
+    grid-row: 4;
+    padding-left: 0;
+    padding-top: 0;
+  }
+  .contact-clients p {
+    margin-top: 2px !important;
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
+  .contact-clients p + p {
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+  }
+
+  .gif-container {
+    grid-column: 1;
+    grid-row: 5;
+    position: static;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: -4px;
+  }
+
+  .gif-container img {
+    width: 122px;
+    height: 122px;
+  }
+
+  .clients-footer {
+    grid-column: 1;
+    grid-row: 6;
+    position: static;
+    transform: none;
+    margin-top: 8px;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* OVERLAYS CON ALTURA MÍNIMA PERMANTENIENDO BOTONES EN POSICIÓN NATURAL */
+  .email-form-container {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    padding-top: 0;
+    margin-top: 0;
+    overflow-y: auto;
+    min-height: 50vh;
+  }
+
+  .cookies-policy-container {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding-top: 10px;
+    overflow-y: auto;
+    max-height: none;
+    min-height: 50vh;
+  }
+
+  /* Botones en su posición ORIGINAL - sin cambios */
+  .form-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 3px; /* VALOR ORIGINAL */
+    margin-bottom: 2px;
+    width: 100%;
+  }
+
+  /* OCULTAR ELEMENTOS CUANDO HAY OVERLAY */
+  .contact-header.hide-when-overlay,
+  .contact-bio.hide-when-overlay,
+  .contact-clients.hide-when-overlay {
+    display: none !important;
+  }
+
+  /* Ajustes de formulario para móvil */
+  .form-field textarea {
+    min-height: 120px;
+  }
+
+  /* Estilos para header móvil */
+  .contact-header-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .contact-header-mobile-links {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .contact-header-mobile a,
+  .contact-header-mobile-links a {
+    text-decoration: none;
+    color: var(--font-color-black);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    font-size: inherit;
+  }
+  .contact-header-mobile a::after,
+  .contact-header-mobile-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--font-color-black);
+    transition: width 0.3s ease;
+  }
+  .contact-header-mobile a.active::after,
+  .contact-header-mobile a:hover::after,
+  .contact-header-mobile-links a.active::after,
+  .contact-header-mobile-links a:hover::after {
+    width: 100%;
+  }
+
+  .hide-on-mobile-when-overlay {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .close-contact {
+    display: none !important;
+  }
+}

@@ -4,12 +4,13 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Product } from '../interfaces/product';
 import { ToastService } from './toast.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  private apiUrl = 'http://localhost:4000/api/products';
+  private apiUrl = `${environment.apiUrl}/products`;
   private cache: Product[] | null = null;
   public isLoading = new BehaviorSubject<boolean>(false);
 

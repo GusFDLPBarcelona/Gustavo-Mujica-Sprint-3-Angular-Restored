@@ -4,12 +4,13 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Project } from '../interfaces/project';
 import { ToastService } from './toast.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectsService {
-  private apiUrl = 'http://localhost:4000/api/projects';
+  private apiUrl = `${environment.apiUrl}/projects`;
   private cache: Project[] | null = null;
   public isLoading = new BehaviorSubject<boolean>(false); // Estado de carga
 

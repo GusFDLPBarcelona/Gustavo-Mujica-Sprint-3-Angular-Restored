@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { WellcomeGallery } from '../interfaces/wellcome_gallery';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WellcomeGalleryService {
-private apiUrl = 'http://localhost:4000/api/gallery';
+private apiUrl = `${environment.apiUrl}/gallery`;
 
   constructor(private http: HttpClient) {}
 
