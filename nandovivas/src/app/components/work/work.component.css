@@ -176,6 +176,47 @@ body {
   color: var(--font-color-black);
 }
 
+/* Versión móvil (dropdown) */
+@media (max-width: 767px) {
+  .filters-container {
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    scrollbar-width: none;
+    margin-bottom: 48px;
+  }
+
+  .filters-dropdown {
+    width: 100%;
+    background-color: rgb(165, 165, 165);
+    border: none;
+  }
+
+  .main-filter-summary {
+    padding: 12px 15px;
+    text-align: center;
+    background-color: rgb(165, 165, 165);
+    cursor: pointer;
+    border: 1px solid #ccc;
+  }
+
+  .filters-dropdown[open] .filters-dropdown-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .filters-dropdown-options {
+    display: none;
+  }
+
+  /* Ocultar filtros horizontales en móvil */
+  .filters-horizontal {
+    display: none !important;
+  }
+}
+
 /* Versión tablet (768px a 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .hidden {
