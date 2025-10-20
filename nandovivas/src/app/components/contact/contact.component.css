@@ -274,15 +274,15 @@ img {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto auto auto;
-    min-height: 100vh; /* MEJORA: OCUPA TODA LA PANTALLA */
-    overflow-y: auto;
+    height: 100svh;
+    overflow-y: hidden;
     overflow-x: hidden;
-    gap: 10px; /* MEJORA: GAP REDUCIDO */
-    padding: 16px;
+    gap: 12px;
+    padding: 12px;
     background: var(--contact-bg-color);
-    box-sizing: border-box; /* MEJORA: EVITA OVERFLOW POR PADDING */
-    padding-top: max(16px, env(safe-area-inset-top)); /* MEJORA: RESPETA NOTCH */
-    padding-bottom: max(16px, env(safe-area-inset-bottom)); /* MEJORA: RESPETA BARRA INFERIOR */
+    box-sizing: border-box;
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
   /* POSICIONES FIJAS - NUNCA CAMBIAN */
@@ -405,7 +405,7 @@ img {
     bottom: auto;
     width: 100%;
     text-align: center;
-    font-size: 10px; /* MEJORA: FUENTE REDUCIDA */
+    font-size: 12px; /* MEJORA: FUENTE REDUCIDA */
   }
 
   /* OVERLAYS*/
