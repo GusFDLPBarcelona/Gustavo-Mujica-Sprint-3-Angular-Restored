@@ -21,16 +21,17 @@ export class NavbarComponent implements OnInit {
   @HostBinding('style.zIndex') zIndex = '9999';
 
   isMenuVisible = false;
-  private router = inject(Router);
-  private bottomSheet = inject(MatBottomSheet);
-  public navbarService = inject(NavbarService); // Hazlo público para el template
+
+  constructor(
+    private router: Router,
+    private bottomSheet: MatBottomSheet,
+    public navbarService: NavbarService
+  ) {}
 
   ngOnInit(): void {
-    console.log('🧭 NavbarComponent montado');
   }
 
   navigateHome(): void {
-    console.log('NAVEGA A HOME');
     this.router.navigateByUrl('/', { skipLocationChange: false });
   }
 
@@ -40,6 +41,11 @@ export class NavbarComponent implements OnInit {
 
   navigateAndCloseMenu(): void {
     this.isMenuVisible = false;
+  }
+
+  openContactAndCloseMenu(): void {
+    this.openContactSheet();
+    this.navigateAndCloseMenu();
   }
 
   openContactSheet(): void {
