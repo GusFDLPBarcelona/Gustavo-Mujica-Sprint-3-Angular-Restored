@@ -42,3 +42,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase / Google Cloud credentials — NEVER commit
+serviceAccountKey.json
+*serviceAccount*.json
