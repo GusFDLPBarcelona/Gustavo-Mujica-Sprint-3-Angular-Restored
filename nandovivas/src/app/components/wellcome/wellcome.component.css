@@ -1,7 +1,19 @@
+/* Pantalla negra durante la carga */
+:host {
+  display: block;
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  height: 100svh;
+}
+
 /* Carrusel ocupa toda la pantalla */
 .fullscreen-carousel {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
+  height: 100svh;
   position: relative;
   overflow: hidden;
   background-color: black;
@@ -12,6 +24,8 @@
 .carousel-item {
   width: 100%;
   height: 100vh;
+  height: 100dvh;
+  height: 100svh;
   position: relative;
 }
 
@@ -31,7 +45,7 @@
   left: 30px;
   color: var(--client-font-color);
   font-weight: var(--font-weight-medium);
-  text-transform: none; 
+  text-transform: none;
   background: none;
   padding: 0;
   margin: 0;
@@ -61,14 +75,20 @@
 /* Asegurar que Owl Carousel funcione correctamente */
 ::ng-deep .owl-stage-outer {
   height: 100vh !important;
+  height: 100dvh !important;
+  height: 100svh !important;
 }
 
 ::ng-deep .owl-stage {
   height: 100vh !important;
+  height: 100dvh !important;
+  height: 100svh !important;
 }
 
 ::ng-deep .owl-item {
   height: 100vh !important;
+  height: 100dvh !important;
+  height: 100svh !important;
 }
 
 @media (max-width: 768px) {

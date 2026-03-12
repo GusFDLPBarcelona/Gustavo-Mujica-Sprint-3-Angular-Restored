@@ -94,6 +94,13 @@ body {
   margin-top: 16px !important;
 }
 
+.snack-error .mat-mdc-snack-bar-container,
+.snack-error.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #f44336;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}
+
 /* ===== Reset general ===== */
 * {
   margin: 0;
