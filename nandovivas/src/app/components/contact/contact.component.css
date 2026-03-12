@@ -275,7 +275,9 @@ img {
   .contact-container {
     display: flex;
     flex-direction: column;
-    height: 100svh;
+    height: 100vh;    /* fallback universal */
+    height: 100dvh;   /* dynamic viewport — ajusta con barra del browser */
+    height: 100svh;   /* small viewport — si está soportado, lo sobrescribe */
     padding: 12px;
     padding-top: max(12px, env(safe-area-inset-top));
     padding-bottom: max(57px, env(safe-area-inset-bottom));
@@ -296,7 +298,7 @@ img {
     border: none;
     cursor: pointer;
     padding: 0;
-    margin: 0 0 48px 0;
+    margin: 0 0 18px 0;
     line-height: 1;
   }
 
@@ -315,7 +317,7 @@ img {
     order: 1;
     flex-shrink: 0;
     padding-top: 0;
-    font-size: 14px;
+    font-size: 12px;
   }
   .contact-bio p {
     margin: 0 0 4px 0;
@@ -328,14 +330,15 @@ img {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px 0;
-    margin: 16px 0;
+    gap: 7px 0;
+    margin: 8px 0;
   }
   .contact-header a {
     flex: 0 0 100%;
     text-align: center;
     text-decoration: none !important;
     border-bottom: none !important;
+    font-size: 13px;
   }
   .contact-header a::after,
   .contact-header a::before {
@@ -351,7 +354,7 @@ img {
     flex-shrink: 0;
     padding-left: 0;
     padding-top: 0;
-    font-size: 14px;
+    font-size: 12px;
   }
   .contact-clients p {
     margin: 0 0 4px 0;
@@ -402,8 +405,20 @@ img {
   .cookies-policy-column-1,
   .cookies-policy-column-2 {
     flex-shrink: 0;
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 1.35;
     overflow: visible;
+  }
+  .cookies-policy-column-1 p,
+  .cookies-policy-column-2 p {
+    margin: 0 0 4px 0;
+    line-height: 1.35;
+  }
+  .cookies-subtitle {
+    margin: 0 0 4px 0 !important;
+  }
+  .cookies-title {
+    margin: 0 0 4px 0 !important;
   }
 
   /* GIF: siempre al fondo, nunca se mueve */
