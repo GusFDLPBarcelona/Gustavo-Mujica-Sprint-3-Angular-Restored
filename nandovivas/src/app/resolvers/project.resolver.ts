@@ -14,6 +14,6 @@ export class ProjectResolver implements Resolve<Project | null> {
     if (!id) {
       return of(null); 
     }
-    return this.projectsService.getProjectById(Number(id));
+    return this.projectsService.getProjectById(id);
   }
 }

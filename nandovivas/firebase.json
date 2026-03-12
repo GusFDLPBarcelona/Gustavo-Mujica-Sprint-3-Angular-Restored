@@ -6,6 +6,17 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Permissions-Policy",
+            "value": "identity-credentials-get=()"
+          }
+        ]
+      }
+    ],
     "rewrites": [
       {
         "source": "**",
