@@ -44,3 +44,4 @@ Thumbs.db
 
 # Firebase / sensitive config — NEVER commit
 src/environments/
+.firebase/
