@@ -1,7 +1,7 @@
 export interface WellcomeGallery {
-    id?: number;          
-    image: string;     
-    title: string;         
+    id?: string;
+    image?: string;
+    title: string;
     client?: string;
     image_path: string;
 }

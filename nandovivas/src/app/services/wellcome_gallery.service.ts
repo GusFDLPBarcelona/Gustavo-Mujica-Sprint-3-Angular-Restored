@@ -1,30 +1,24 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, collectionData, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { WellcomeGallery } from '../interfaces/wellcome_gallery';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WellcomeGalleryService {
-private apiUrl = 'http://localhost:4000/api/gallery';
-
-  constructor(private http: HttpClient) {}
-
+  private firestore = inject(Firestore);
+  private galleryCollection = collection(this.firestore, 'gallery');
 
   getGalleryItems(): Observable<WellcomeGallery[]> {
-    return this.http.get<WellcomeGallery[]>(this.apiUrl).pipe(
-        tap((data: WellcomeGallery[]) => console.log('Datos recibidos en el servicio:', data))
-    );
+    return collectionData(this.galleryCollection, { idField: 'id' }) as Observable<WellcomeGallery[]>;
   }
 
-
-  addGalleryItem(item: WellcomeGallery): Observable<WellcomeGallery> {
-    return this.http.post<WellcomeGallery>(this.apiUrl, item);
+  addGalleryItem(item: Omit<WellcomeGallery, 'id'>): Promise<void> {
+    return addDoc(this.galleryCollection, item).then(() => {});
   }
 
-
-  deleteGalleryItem(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteGalleryItem(id: string): Promise<void> {
+    return deleteDoc(doc(this.firestore, 'gallery', id));
   }
 }
