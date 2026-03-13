@@ -280,7 +280,7 @@ img {
     height: 100svh;   /* small viewport — si está soportado, lo sobrescribe */
     padding: 12px;
     padding-top: max(12px, env(safe-area-inset-top));
-    padding-bottom: max(57px, env(safe-area-inset-bottom));
+    padding-bottom: max(37px, env(safe-area-inset-bottom));
     box-sizing: border-box;
     overflow: hidden;
     background: var(--contact-bg-color);
@@ -298,7 +298,7 @@ img {
     border: none;
     cursor: pointer;
     padding: 0;
-    margin: 0 0 18px 0;
+    margin: 0 0 14px 0;
     line-height: 1;
   }
 
@@ -317,7 +317,7 @@ img {
     order: 1;
     flex-shrink: 0;
     padding-top: 0;
-    font-size: 12px;
+    font-size: 13px;
   }
   .contact-bio p {
     margin: 0 0 4px 0;
@@ -338,7 +338,7 @@ img {
     text-align: center;
     text-decoration: none !important;
     border-bottom: none !important;
-    font-size: 13px;
+    font-size: 14px;
   }
   .contact-header a::after,
   .contact-header a::before {
@@ -354,7 +354,7 @@ img {
     flex-shrink: 0;
     padding-left: 0;
     padding-top: 0;
-    font-size: 12px;
+    font-size: 13px;
   }
   .contact-clients p {
     margin: 0 0 4px 0;
