@@ -58,16 +58,16 @@
   grid-column: 1;
   grid-row: 2;
   font-size: var(--small-font-size);
-  padding-top: 42px;
+  padding-top: 22px;
 }
 .contact-bio p + p {
-  margin-top: 5px !important;
+  margin-top: 3px !important;
 } /* Selected clients - fila 2, solo columna 2 */
 .contact-clients {
   grid-column: 2;
   grid-row: 2;
   font-size: var(--small-font-size);
-  padding-top: 42px;
+  padding-top: 22px;
   padding-left: 30px;
 } /* GIF - columna 3, ambas filas */
 .gif-container {
@@ -87,10 +87,11 @@ img {
 } /* Copyright dentro del área del GIF */
 .clients-footer {
   position: absolute;
-  bottom: 191px;
-  right: -10px;
-  transform: rotate(270deg);
-  transform-origin: bottom right;
+  top: 50%;
+  right: -63px;
+  transform: translateY(-50%) rotate(270deg);
+  transform-origin: center center;
+  white-space: nowrap;
 } /* Formulario de email - ocupa las 2 primeras columnas */
 .email-form-container {
   grid-column: 1 / 3;
