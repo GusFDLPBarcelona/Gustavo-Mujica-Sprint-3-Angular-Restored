@@ -280,7 +280,7 @@ img {
     height: 100svh;   /* small viewport — si está soportado, lo sobrescribe */
     padding: 12px;
     padding-top: max(12px, env(safe-area-inset-top));
-    padding-bottom: max(37px, env(safe-area-inset-bottom));
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
     box-sizing: border-box;
     overflow: hidden;
     background: var(--contact-bg-color);
