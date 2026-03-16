@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, HostBinding } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, inject, OnInit, HostBinding, HostListener, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ContactComponent } from '../contact/contact.component';
@@ -23,7 +23,15 @@ export class NavbarComponent implements OnInit {
   isMenuVisible = false;
   private router = inject(Router);
   private bottomSheet = inject(MatBottomSheet);
+  private el = inject(ElementRef);
   public navbarService = inject(NavbarService); // Hazlo público para el template
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.isMenuVisible && !this.el.nativeElement.contains(event.target)) {
+      this.isMenuVisible = false;
+    }
+  }
 
   ngOnInit(): void {
   }

@@ -19,6 +19,7 @@
     <div class="mobile-menu">
       <button (click)="toggleMenu()" class="menu-button">☰</button>
       @if (isMenuVisible) {
+        <div class="menu-backdrop" (click)="isMenuVisible = false"></div>
         <div class="dropdown-menu">
           <a routerLink="/work" (click)="navigateAndCloseMenu()">Work</a>
           <a routerLink="/shop" (click)="navigateAndCloseMenu()">Shop</a>

@@ -94,6 +94,14 @@
   color: #777;
 }
 
+/* Backdrop invisible que bloquea clicks al contenido subyacente */
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: transparent;
+}
+
 /* Dropdown del menú hamburguesa */
 .dropdown-menu {
   position: absolute;
@@ -104,6 +112,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   display: none; /* Oculto por defecto */
   flex-direction: column;
+  z-index: 2;
 }
 
 .dropdown-menu a {
