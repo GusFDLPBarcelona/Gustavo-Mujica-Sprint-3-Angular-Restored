@@ -364,8 +364,8 @@ body {
 
   /* El grid nace EXACTAMENTE debajo de la barra de filtros (navbar + barra) */
   .work-container {
-    padding: calc(var(--navbar-height-mobile, 80px) + 80px) 15px 0 !important;
-    /* 80px = navbar móvil; 70px = barra de filtros (desktop clonada) */
+    padding: calc(var(--navbar-height-mobile, 80px) + 75px) 15px 0 !important;
+    /* 80px = navbar móvil; 75px = barra de filtros mobile */
     padding-inline: 0px !important;
   }
 

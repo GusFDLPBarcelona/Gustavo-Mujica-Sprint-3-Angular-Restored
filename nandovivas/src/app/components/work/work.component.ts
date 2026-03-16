@@ -7,7 +7,9 @@ import {
   inject,
   signal,
   computed,
-  HostListener
+  HostListener,
+  Injector,
+  afterNextRender
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../services/projects.service';
@@ -15,8 +17,6 @@ import { Project } from '../../interfaces/project';
 import { ToastService } from '../../services/toast.service';
 import { CommonModule } from '@angular/common';
 import autoAnimate from '@formkit/auto-animate';
-import { NgZone } from '@angular/core';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-work',
@@ -29,8 +29,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
   private el = inject(ElementRef);
   private projectsService = inject(ProjectsService);
   private toastService = inject(ToastService);
-
-  constructor(private ngZone: NgZone) { }
+  private injector = inject(Injector);
 
   @ViewChild('gridContainer', { read: ElementRef }) gridContainer!: ElementRef;
 
@@ -88,33 +87,23 @@ export class WorkComponent implements OnInit, AfterViewInit {
     this.activeCategory.set(category);
     this.dropdownOpen.set(false);
 
-    this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+    afterNextRender(() => {
       this.scrollGridIntoViewAfterRender();
-    });
-  }
-
-  categorySelected = signal(false);
-
-  setActiveCategoryAndClose(category: string, dropdown: HTMLDetailsElement): void {
-    this.setActiveCategory(category);
-    this.categorySelected.set(true);
-    dropdown.open = false;
+    }, { injector: this.injector });
   }
 
   private scrollGridIntoViewAfterRender(): void {
     const gridEl: HTMLElement | null = this.gridContainer?.nativeElement ?? null;
     if (!gridEl) return;
 
-    if (window.innerWidth > 767) {
-      const offset = this.computeStickyOffset();
-      gridEl.style.scrollMarginTop = `${offset}px`;
+    const offset = this.computeStickyOffset();
+    gridEl.style.scrollMarginTop = `${offset}px`;
 
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+        gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-    }
+    });
   }
 
   private computeStickyOffset(): number {
@@ -128,17 +117,18 @@ export class WorkComponent implements OnInit, AfterViewInit {
     };
 
     const isMobile = window.innerWidth <= 767;
-
     const navbarHeight = getVisibleHeight('.filters-container');
-    let filtersHeight = 0;
-
-    if (isMobile) {
-      filtersHeight = getVisibleHeight('.filters-dropdown > summary');
-    } else {
-      filtersHeight = getVisibleHeight('.filters-horizontal');
-    }
+    const filtersHeight = isMobile ? getVisibleHeight('.filters-dropdown') : getVisibleHeight('.filters-horizontal');
 
     return Math.round(navbarHeight + filtersHeight);
+  }
+
+  categorySelected = signal(false);
+
+  setActiveCategoryAndClose(category: string, dropdown: HTMLDetailsElement): void {
+    this.setActiveCategory(category);
+    this.categorySelected.set(true);
+    dropdown.open = false;
   }
 
   toggleDropdown(): void {
