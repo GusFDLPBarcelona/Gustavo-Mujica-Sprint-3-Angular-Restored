@@ -15,7 +15,9 @@ import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
 })
 export class WellcomeComponent implements OnInit, OnDestroy {
   imagesGallery = signal<WellcomeGallery[]>([]);
+  navVisible = signal(false);
   intervalId!: number;
+  private hideNavTimer: ReturnType<typeof setTimeout> | null = null;
   @ViewChild('owlCarousel', { static: false }) owlCarousel!: CarouselComponent;
 
   carouselOptions: OwlOptions = {
@@ -26,10 +28,10 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     autoplay: true,
     autoplayHoverPause: false,
     autoplayTimeout: 8000,
-    smartSpeed: 4000,
+    smartSpeed: 800,
     autoplaySpeed: 4000,
     items: 1,
-    mouseDrag: true,
+    mouseDrag: false,
     touchDrag: true,
     responsive: {
       0: { items: 1 },
@@ -50,6 +52,18 @@ export class WellcomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.intervalId);
+    if (this.hideNavTimer) clearTimeout(this.hideNavTimer);
+  }
+
+  onMouseMove(): void {
+    this.navVisible.set(true);
+    if (this.hideNavTimer) clearTimeout(this.hideNavTimer);
+    this.hideNavTimer = setTimeout(() => this.navVisible.set(false), 2000);
+  }
+
+  onMouseLeave(): void {
+    if (this.hideNavTimer) clearTimeout(this.hideNavTimer);
+    this.navVisible.set(false);
   }
 
   loadGalleryItems() {

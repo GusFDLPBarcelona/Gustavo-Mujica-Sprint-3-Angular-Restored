@@ -83,6 +83,7 @@
   height: 100vh !important;
   height: 100dvh !important;
   height: 100svh !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 ::ng-deep .owl-item {
@@ -91,11 +92,58 @@
   height: 100svh !important;
 }
 
+/* Wrapper para posicionar los botones de navegación */
+.carousel-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  height: 100svh;
+}
+
+/* Botones prev/next */
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-wrapper.nav-visible .carousel-nav {
+  opacity: 1;
+}
+
+.carousel-prev { left: 16px; }
+.carousel-next { right: 16px; }
+
+/* Flechas CSS */
+.nav-arrow {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid white;
+  border-right: 2px solid white;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.6));
+}
+
+.nav-arrow-prev { transform: rotate(-135deg); }
+.nav-arrow-next { transform: rotate(45deg); }
+
 @media (max-width: 768px) {
   .carousel-caption {
     font-size: 9px;
     bottom: 12px;
     left: 12px;
+  }
+
+  .carousel-nav {
+    display: none;
   }
 }
 
