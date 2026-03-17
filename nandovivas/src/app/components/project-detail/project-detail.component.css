@@ -1,19 +1,21 @@
 /* ===== Contenedor principal ===== */
 .detail-container {
-  padding: 90px 15px 60px;
+  padding: 110px 15px 60px;
   min-height: 100vh;
   background-color: var(--background-color);
 }
 
-/* ===== Back link (igual estilo que filtros de Work) ===== */
+/* ===== Back link ===== */
 .back-link {
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
   font-size: 13px;
-  font-weight: var(--font-weight-bold);
-  color: var(--font-color-black);
+  font-weight: 700;
+  color: rgb(17, 105, 254);
   text-decoration: none;
   text-transform: uppercase;
+  letter-spacing: 0.2px;
+  line-height: 24px;
   position: relative;
 }
 
@@ -24,7 +26,7 @@
   left: 0;
   width: 0;
   height: 1px;
-  background-color: var(--font-color-black);
+  background-color: rgb(17, 105, 254);
   transition: width 0.2s ease;
 }
 
@@ -37,6 +39,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  align-items: start;
   margin-bottom: 28px;
 }
 
@@ -52,7 +55,7 @@
 .project-client {
   font-size: 13px;
   font-weight: 400;
-  color: var(--font-color-black);
+  color: var(--secondary-text-font-color);
   margin: 0;
 }
 
