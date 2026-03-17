@@ -10,7 +10,7 @@
   position: sticky;
   top: 0;
   height: 130px; /* 60px bajo navbar + 70px visibles (igual que filters-horizontal) */
-  padding-top: 60px; /* empuja el área flex al mismo nivel que el bottom de navbar */
+  padding-top: 70px; /* 60px navbar + 10px offset de filters-horizontal */
   display: flex;
   justify-content: center;
   align-items: center;
