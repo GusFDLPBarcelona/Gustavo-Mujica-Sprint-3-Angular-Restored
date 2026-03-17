@@ -1,1 +1,35 @@
-<p>project-detail works!</p>
+@if (project(); as p) {
+  <div class="detail-container">
+
+    <a class="back-link" routerLink="/work">&#8249; BACK TO PROJECTS</a>
+
+    <div class="info-section">
+      <div class="info-left">
+        <h1 class="project-title">{{ p.title }}</h1>
+        <p class="project-client">{{ p.client }}</p>
+      </div>
+      <div class="info-right">
+        <p class="project-category">{{ p.category }}</p>
+        @if (p.description) {
+          <p class="project-description">{{ p.description }}</p>
+        }
+        @if (p.credits) {
+          <p class="project-credits">{{ p.credits }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="hero-image-container">
+      <img class="hero-image" [src]="p.image" [alt]="p.title" />
+    </div>
+
+    @if (p.images && p.images.length > 0) {
+      <div class="gallery-grid">
+        @for (img of p.images; track img) {
+          <img class="gallery-image" [src]="img" [alt]="p.title" />
+        }
+      </div>
+    }
+
+  </div>
+}

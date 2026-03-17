@@ -4,6 +4,9 @@ export interface Project {
     client: string;
     category: string;
     image: string;
+    description?: string;
+    images?: string[];
+    credits?: string;
     originalOrder?: number;
     matchesFilter?: boolean;
 }

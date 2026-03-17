@@ -3,7 +3,6 @@ import { ProjectResolver } from './resolvers/project.resolver';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductResolver } from './resolvers/product.resolver';
-import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
 //import { HaupstadtComponent } from './components/haupstadt/haupstadt.component';
 //import { HaupstadtResolver } from './resolvers/haupstadt.resolver';
 
@@ -39,12 +38,10 @@ export const routes: Routes = [
   //    component: ProjectDetailComponent, // Cambia al nuevo nombre
   //    resolve: { project: ProjectResolver }
   //  },
- {
+  {
     path: 'project-detail/:id',
-    loadComponent: () => {
-      console.log('Navigating to project-detail route'); // ✅ Console.log correcto
-      return import('./components/under-construction/under-construction.component').then((m) => m.UnderConstructionComponent);
-    },
+    component: ProjectDetailComponent,
+    resolve: { project: ProjectResolver }
   },
   {
     path: 'product-detail/:id',
