@@ -1,14 +1,23 @@
 /* ===== Contenedor principal ===== */
 .detail-container {
-  padding: 110px 15px 60px;
+  padding: 0 15px 60px;
   min-height: 100vh;
   background-color: var(--background-color);
 }
 
 /* ===== Back link ===== */
+.back-link-wrapper {
+  position: sticky;
+  top: 0;
+  padding-top: 110px;
+  padding-bottom: 4px;
+  background-color: var(--background-color);
+  z-index: 10;
+}
+
 .back-link {
   display: inline-block;
-  margin-bottom: 32px;
+  margin-bottom: 0;
   font-size: 13px;
   font-weight: 700;
   color: rgb(17, 105, 254);
@@ -40,6 +49,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: start;
+  margin-top: 30px;
   margin-bottom: 28px;
 }
 
