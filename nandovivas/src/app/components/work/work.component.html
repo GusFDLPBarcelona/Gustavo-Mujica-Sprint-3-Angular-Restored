@@ -50,6 +50,7 @@
     >
       <a
         [routerLink]="['/project-detail', project.id]"
+        [queryParams]="{ from: activeCategory() }"
         class="block relative overflow-hidden"
       >
         <img
