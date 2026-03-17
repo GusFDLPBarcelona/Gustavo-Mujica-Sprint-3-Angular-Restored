@@ -299,7 +299,7 @@ img {
     border: none;
     cursor: pointer;
     padding: 0;
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0;
     line-height: 1;
   }
 
@@ -310,7 +310,7 @@ img {
     flex: 1;
     min-height: 0;
     overflow: hidden;
-    gap: 10px;
+    gap: 5px;
   }
 
   /* Vista normal — bio primero, links, clients */
@@ -318,11 +318,11 @@ img {
     order: 1;
     flex-shrink: 0;
     padding-top: 0;
-    font-size: 13px;
+    font-size: 12px;
   }
   .contact-bio p {
-    margin: 0 0 4px 0;
-    line-height: 1.5;
+    margin: 0 0 3px 0;
+    line-height: 1.45;
   }
 
   .contact-header {
@@ -331,15 +331,15 @@ img {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 7px 0;
-    margin: 8px 0;
+    gap: 3px 0;
+    margin: 3px 0;
   }
   .contact-header a {
     flex: 0 0 100%;
     text-align: center;
     text-decoration: none !important;
     border-bottom: none !important;
-    font-size: 14px;
+    font-size: 13px;
   }
   .contact-header a::after,
   .contact-header a::before {
@@ -355,11 +355,11 @@ img {
     flex-shrink: 0;
     padding-left: 0;
     padding-top: 0;
-    font-size: 13px;
+    font-size: 12px;
   }
   .contact-clients p {
-    margin: 0 0 4px 0;
-    line-height: 1.5;
+    margin: 0 0 3px 0;
+    line-height: 1.45;
   }
 
   /* Formulario: ocupa todo el content-area */
@@ -432,7 +432,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 8px;
+    padding-top: 4px;
   }
   .gif-container img,
   img {
@@ -450,7 +450,7 @@ img {
     width: 100%;
     text-align: center;
     font-size: 12px;
-    padding-top: 4px;
+    padding-top: 0;
   }
 }
 
