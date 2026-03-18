@@ -15,6 +15,12 @@ export class ProjectDetailComponent implements OnInit {
   backQueryParams = signal<{ category?: string }>({});
 
   ngOnInit() {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 0);
+
     const data = this.route.snapshot.data['project'];
     this.project.set(data ?? null);
 

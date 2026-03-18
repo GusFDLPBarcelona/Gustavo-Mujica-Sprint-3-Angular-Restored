@@ -1,15 +1,17 @@
 /* ===== Contenedor principal ===== */
 .detail-container {
-  padding: 0 15px 60px;
+  padding: 130px 15px 60px; /* 130px = altura de back-link-wrapper (igual que work-container en desktop) */
   min-height: 100vh;
   background-color: var(--background-color);
 }
 
 /* ===== Back link ===== */
 .back-link-wrapper {
-  position: sticky;
+  position: fixed;
   top: 0;
-  height: 130px; /* 60px bajo navbar + 70px visibles (igual que filters-horizontal) */
+  left: 0;
+  right: 0;
+  height: 130px; /* 60px navbar + 70px barra (igual que filters-horizontal) */
   padding-top: 70px; /* 60px navbar + 10px offset de filters-horizontal */
   display: flex;
   justify-content: center;
@@ -27,6 +29,13 @@
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.back-arrow {
+  font-size: 1.1rem;
+  margin-right: 4px;
+  color: inherit;
+  margin-bottom: 2px;
 }
 
 .back-link::after {
@@ -109,8 +118,19 @@
   height: auto;
 }
 
+/* ===== Galería 2 columnas ===== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
 /* ===== Móvil (≤767px) ===== */
 @media (max-width: 767px) {
+  .detail-container {
+    padding-top: 150px; /* 80px navbar móvil + 70px barra (igual que work-container en móvil) */
+  }
+
   .back-link-wrapper {
     height: 150px; /* 80px navbar móvil + 70px barra visible */
     padding-top: 80px;
@@ -120,6 +140,12 @@
 
   .back-link {
     font-size: 1.1rem;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .back-link::after {
+    bottom: -2px;
   }
 
   .info-section {
@@ -130,13 +156,6 @@
   .gallery-grid {
     grid-template-columns: 1fr;
   }
-}
-
-/* ===== Galería 2 columnas ===== */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
 }
 
 .gallery-image {
