@@ -4,6 +4,7 @@ import { ToastService } from '../../services/toast.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { getFunctions, httpsCallable } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-contact',
@@ -23,6 +24,7 @@ export class ContactComponent implements OnInit {
   emailForm!: FormGroup;
   state: 'form' | 'success' | 'error' = 'form';
   isMobile = window.innerWidth <= 767;
+  isSending = false;
 
   constructor(
 	private bottomSheet: MatBottomSheet,
@@ -90,24 +92,29 @@ closeContact(): void {
 	this.showCookiesPolicy = false;
   }
 
-  // ===== FORMULARIO SIMPLIFICADO =====
-  sendEmail(): void {
-	if (this.emailForm.valid) {
-	  try {
-		this.toast.showSuccess('Message sent');
-		this.state = 'success';
-		setTimeout(() => {
-		  this.showEmailForm = false;
-		  this.state = 'form';
-		  this.emailForm.reset();
-		  this.emailForm.markAsPristine();
-		}, 2000);
-	  } catch (error) {
-		this.toast.showError('Error sending message');
-		this.state = 'error';
-	  }
-	} else {
+  // ===== FORMULARIO =====
+  async sendEmail(): Promise<void> {
+	if (this.emailForm.invalid) {
 	  this.emailForm.markAllAsTouched();
+	  return;
+	}
+
+	this.isSending = true;
+	try {
+	  const functions = getFunctions();
+	  const sendContactEmail = httpsCallable(functions, 'sendContactEmail');
+	  await sendContactEmail(this.emailForm.value);
+	  this.state = 'success';
+	  setTimeout(() => {
+		this.showEmailForm = false;
+		this.state = 'form';
+		this.emailForm.reset();
+		this.emailForm.markAsPristine();
+	  }, 2000);
+	} catch (error) {
+	  this.state = 'error';
+	} finally {
+	  this.isSending = false;
 	}
   }
 
