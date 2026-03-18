@@ -9,7 +9,7 @@ const gmailUser = defineSecret("GMAIL_USER");
 const gmailPass = defineSecret("GMAIL_APP_PASSWORD");
 
 export const sendContactEmail = onCall(
-  { secrets: [gmailUser, gmailPass] },
+  { secrets: [gmailUser, gmailPass], invoker: "public" },
   async (request) => {
     const { fromEmail, subject, message } = request.data;
 
