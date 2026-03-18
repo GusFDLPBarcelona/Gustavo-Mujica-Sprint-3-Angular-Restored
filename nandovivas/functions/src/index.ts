@@ -25,7 +25,13 @@ export const sendContactEmail = onRequest(
       return;
     }
 
-    const { fromEmail, subject, message } = req.body;
+    let body = req.body;
+    if (typeof body === "string") {
+      try { body = JSON.parse(body); } catch { body = {}; }
+    } else if (Buffer.isBuffer(body)) {
+      try { body = JSON.parse(body.toString()); } catch { body = {}; }
+    }
+    const { fromEmail, subject, message } = body || {};
 
     if (!fromEmail || !subject || !message) {
       res.status(400).json({ error: "Faltan campos obligatorios" });
