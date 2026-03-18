@@ -2,7 +2,7 @@ import { setGlobalOptions } from "firebase-functions";
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import * as nodemailer from "nodemailer";
-import * as cors from "cors";
+import cors = require("cors");
 
 setGlobalOptions({ maxInstances: 10 });
 
