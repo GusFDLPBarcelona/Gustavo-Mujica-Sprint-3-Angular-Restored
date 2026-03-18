@@ -46,14 +46,20 @@ export const sendContactEmail = onRequest(
       },
     });
 
-    await transporter.sendMail({
-      from: `"Portfolio Nando Vivas" <${gmailUser.value()}>`,
-      to: gmailUser.value(),
-      replyTo: fromEmail,
-      subject: `[Web] ${subject}`,
-      text: `De: ${fromEmail}\n\n${message}\n\n---\nMensaje enviado desde nandovivas.com`,
-      html: `<p><strong>De:</strong> ${fromEmail}</p><p>${message.replace(/\n/g, "<br>")}</p><hr><p style="color:#999;font-size:12px;">Mensaje enviado desde <a href="https://nandovivas.com">nandovivas.com</a></p>`,
-    });
+    try {
+      await transporter.sendMail({
+        from: `"Portfolio Nando Vivas" <${gmailUser.value()}>`,
+        to: gmailUser.value(),
+        replyTo: fromEmail,
+        subject: `[Web] ${subject}`,
+        text: `De: ${fromEmail}\n\n${message}\n\n---\nMensaje enviado desde nandovivas.com`,
+        html: `<p><strong>De:</strong> ${fromEmail}</p><p>${message.replace(/\n/g, "<br>")}</p><hr><p style="color:#999;font-size:12px;">Mensaje enviado desde <a href="https://nandovivas.com">nandovivas.com</a></p>`,
+      });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      res.status(500).json({ error: "Error al enviar el email", detail: message });
+      return;
+    }
 
     res.json({ success: true });
   }
