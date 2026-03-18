@@ -2,49 +2,53 @@ import { setGlobalOptions } from "firebase-functions";
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import * as nodemailer from "nodemailer";
-import cors = require("cors");
 
 setGlobalOptions({ maxInstances: 10 });
 
 const gmailUser = defineSecret("GMAIL_USER");
 const gmailPass = defineSecret("GMAIL_APP_PASSWORD");
 
-const corsHandler = cors({ origin: true });
-
 export const sendContactEmail = onRequest(
   { secrets: [gmailUser, gmailPass], invoker: "public" },
-  (req, res) => {
-    corsHandler(req, res, async () => {
-      if (req.method !== "POST") {
-        res.status(405).send("Method Not Allowed");
-        return;
-      }
+  async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
 
-      const { fromEmail, subject, message } = req.body;
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
 
-      if (!fromEmail || !subject || !message) {
-        res.status(400).json({ error: "Faltan campos obligatorios" });
-        return;
-      }
+    if (req.method !== "POST") {
+      res.status(405).send("Method Not Allowed");
+      return;
+    }
 
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: gmailUser.value(),
-          pass: gmailPass.value(),
-        },
-      });
+    const { fromEmail, subject, message } = req.body;
 
-      await transporter.sendMail({
-        from: `"Portfolio Nando Vivas" <${gmailUser.value()}>`,
-        to: gmailUser.value(),
-        replyTo: fromEmail,
-        subject: `[Web] ${subject}`,
-        text: `De: ${fromEmail}\n\n${message}\n\n---\nMensaje enviado desde nandovivas.com`,
-        html: `<p><strong>De:</strong> ${fromEmail}</p><p>${message.replace(/\n/g, "<br>")}</p><hr><p style="color:#999;font-size:12px;">Mensaje enviado desde <a href="https://nandovivas.com">nandovivas.com</a></p>`,
-      });
+    if (!fromEmail || !subject || !message) {
+      res.status(400).json({ error: "Faltan campos obligatorios" });
+      return;
+    }
 
-      res.json({ success: true });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser.value(),
+        pass: gmailPass.value(),
+      },
     });
+
+    await transporter.sendMail({
+      from: `"Portfolio Nando Vivas" <${gmailUser.value()}>`,
+      to: gmailUser.value(),
+      replyTo: fromEmail,
+      subject: `[Web] ${subject}`,
+      text: `De: ${fromEmail}\n\n${message}\n\n---\nMensaje enviado desde nandovivas.com`,
+      html: `<p><strong>De:</strong> ${fromEmail}</p><p>${message.replace(/\n/g, "<br>")}</p><hr><p style="color:#999;font-size:12px;">Mensaje enviado desde <a href="https://nandovivas.com">nandovivas.com</a></p>`,
+    });
+
+    res.json({ success: true });
   }
 );
