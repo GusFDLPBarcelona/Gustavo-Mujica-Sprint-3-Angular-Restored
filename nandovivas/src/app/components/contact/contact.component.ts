@@ -4,7 +4,8 @@ import { ToastService } from '../../services/toast.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { getFunctions, httpsCallable } from '@angular/fire/functions';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-contact',
@@ -19,6 +20,7 @@ import { getFunctions, httpsCallable } from '@angular/fire/functions';
 })
 export class ContactComponent implements OnInit {
   private toast = inject(ToastService);
+  private http = inject(HttpClient);
   showEmailForm = false;
   showCookiesPolicy = false;
   emailForm!: FormGroup;
@@ -100,10 +102,9 @@ closeContact(): void {
 	}
 
 	this.isSending = true;
+	const url = 'https://us-central1-nando-vivas.cloudfunctions.net/sendContactEmail';
 	try {
-	  const functions = getFunctions();
-	  const sendContactEmail = httpsCallable(functions, 'sendContactEmail');
-	  await sendContactEmail(this.emailForm.value);
+	  await lastValueFrom(this.http.post(url, this.emailForm.value));
 	  this.state = 'success';
 	  this.toast.showSuccess('Mensaje enviado correctamente.');
 	  setTimeout(() => {
