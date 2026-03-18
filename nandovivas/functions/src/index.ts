@@ -30,8 +30,8 @@ export const sendContactEmail = onCall(
       to: gmailUser.value(),
       replyTo: fromEmail,
       subject: `[Web] ${subject}`,
-      text: `De: ${fromEmail}\n\n${message}`,
-      html: `<p><strong>De:</strong> ${fromEmail}</p><p>${message.replace(/\n/g, "<br>")}</p>`,
+      text: `De: ${fromEmail}\n\n${message}\n\n---\nMensaje enviado desde nandovivas.com`,
+      html: `<p><strong>De:</strong> ${fromEmail}</p><p>${message.replace(/\n/g, "<br>")}</p><hr><p style="color:#999;font-size:12px;">Mensaje enviado desde <a href="https://nandovivas.com">nandovivas.com</a></p>`,
     });
 
     return { success: true };
