@@ -105,6 +105,7 @@ closeContact(): void {
 	  const sendContactEmail = httpsCallable(functions, 'sendContactEmail');
 	  await sendContactEmail(this.emailForm.value);
 	  this.state = 'success';
+	  this.toast.showSuccess('Mensaje enviado correctamente.');
 	  setTimeout(() => {
 		this.showEmailForm = false;
 		this.state = 'form';
@@ -113,6 +114,7 @@ closeContact(): void {
 	  }, 2000);
 	} catch (error) {
 	  this.state = 'error';
+	  this.toast.showError('Error al enviar el mensaje. Inténtalo de nuevo.');
 	} finally {
 	  this.isSending = false;
 	}

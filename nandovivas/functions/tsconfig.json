@@ -3,7 +3,6 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "ignoreDeprecations": "6.0",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "rootDir": "src",
