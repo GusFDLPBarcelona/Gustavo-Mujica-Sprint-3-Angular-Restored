@@ -161,7 +161,7 @@
   }
 
   .back-link::after {
-    bottom: -2px;
+    display: none;
   }
 
   .info-section {
