@@ -37,8 +37,8 @@
   display: inline-block;
   width: 7px;
   height: 7px;
-  border-left: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
   transform: rotate(45deg);
   margin-right: 5px;
   vertical-align: middle;
@@ -152,6 +152,12 @@
     font-size: 1.1rem;
     padding-top: 0;
     padding-bottom: 0;
+    font-weight: 500;
+  }
+
+  .back-arrow {
+    width: 9px;
+    height: 9px;
   }
 
   .back-link::after {
