@@ -57,6 +57,7 @@ export const sendContactEmail = onRequest(
       });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
+      console.error("Error nodemailer:", message);
       res.status(500).json({ error: "Error al enviar el email", detail: message });
       return;
     }
