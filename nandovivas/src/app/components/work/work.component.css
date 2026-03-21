@@ -129,8 +129,10 @@ body {
   overflow: hidden;
 }
 
-.project-container:hover .project-image {
-  transform: scale(1.05);
+@media (hover: hover) {
+  .project-container:hover .project-image {
+    transform: scale(1.05);
+  }
 }
 
 .project-container.opacity-50 {
@@ -290,16 +292,17 @@ body {
   opacity: 1;
 }
 
-/* HOVER EN FILTROS INACTIVOS - Subrayado semitransparente */
-.filter-link:not(.active):hover .filter-label::after {
-  width: 100%;
-  opacity: 0.7;
-}
+/* HOVER EN FILTROS INACTIVOS - solo en dispositivos con hover real (desktop) */
+@media (hover: hover) {
+  .filter-link:not(.active):hover .filter-label::after {
+    width: 100%;
+    opacity: 0.7;
+  }
 
-/* SALIDA DEL HOVER - Volver a width: 0 */
-.filter-link:not(.active):not(:hover) .filter-label::after {
-  width: 0;
-  opacity: 0;
+  .filter-link:not(.active):not(:hover) .filter-label::after {
+    width: 0;
+    opacity: 0;
+  }
 }
 
 /* === Teléfonos (≤767px): navbar fija → filtros fijos → grid debajo === */
