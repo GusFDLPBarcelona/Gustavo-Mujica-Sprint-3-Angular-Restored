@@ -14,6 +14,18 @@ export const haupstadtRoutes: Routes = [
       {
         path: '',
         loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'carousel',
+        loadComponent: () => import('./components/welcome-list/welcome-list.component').then(m => m.WelcomeListComponent)
+      },
+      {
+        path: 'carousel/new',
+        loadComponent: () => import('./components/welcome-form/welcome-form.component').then(m => m.WelcomeFormComponent)
+      },
+      {
+        path: 'carousel/:id',
+        loadComponent: () => import('./components/welcome-form/welcome-form.component').then(m => m.WelcomeFormComponent)
       }
     ]
   }
