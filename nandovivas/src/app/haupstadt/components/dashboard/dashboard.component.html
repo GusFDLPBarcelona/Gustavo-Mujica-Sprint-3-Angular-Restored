@@ -1,0 +1,48 @@
+<div class="page">
+
+  <div class="topbar">
+    <div class="topbar-title">Inicio</div>
+    <div class="topbar-breadcrumb">Panel de administración</div>
+  </div>
+
+  <div class="content">
+    <div class="dash-welcome">
+      <h1>Bienvenido, Nando</h1>
+      <p>Gestiona el contenido de nandovivas.com desde aquí.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <span class="stat-card-title">Carousel</span>
+          <span class="stat-card-icon">◧</span>
+        </div>
+        <div class="stat-card-number">{{ carouselCount() }}</div>
+        <div class="stat-card-label">imágenes activas</div>
+        <a class="stat-card-action" routerLink="/haupstadt/carousel">Gestionar →</a>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <span class="stat-card-title">Work</span>
+          <span class="stat-card-icon">◫</span>
+        </div>
+        <div class="stat-card-number">{{ projectCount() }}</div>
+        <div class="stat-card-label">proyectos publicados</div>
+        <a class="stat-card-action" routerLink="/haupstadt/work">Gestionar →</a>
+      </div>
+
+      <div class="stat-card stat-card--disabled">
+        <div class="stat-card-header">
+          <span class="stat-card-title">Shop</span>
+          <span class="stat-card-icon">◳</span>
+        </div>
+        <div class="stat-card-number">—</div>
+        <div class="stat-card-label">próximamente</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
