@@ -4,4 +4,5 @@ export interface WellcomeGallery {
     title: string;
     client?: string;
     image_path: string;
+    order?: number;
 }
