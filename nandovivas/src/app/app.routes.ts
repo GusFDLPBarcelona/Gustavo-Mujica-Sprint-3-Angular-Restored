@@ -3,11 +3,8 @@ import { ProjectResolver } from './resolvers/project.resolver';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductResolver } from './resolvers/product.resolver';
-//import { HaupstadtComponent } from './components/haupstadt/haupstadt.component';
-//import { HaupstadtResolver } from './resolvers/haupstadt.resolver';
 
 export const routes: Routes = [
-
   {
     path: '',
     loadComponent: () =>
@@ -23,21 +20,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/under-construction/under-construction.component').then((m) => m.UnderConstructionComponent),
   },
-  //{ path: 'haupstadt', loadComponent: () => 
-  //    import('./components/haupstadt/haupstadt.component').then((m) => m.HaupstadtComponent)
-  //},
   {
     path: 'work',
     loadComponent: () =>
       import('./components/work/work.component').then((m) => m.WorkComponent),
   },
-  //{ path: 'haupstadt', component: HaupstadtComponent, resolve: { products: HaupstadtResolver } 
-  //},
-  // {
-  //   path: 'project-detail/:id',
-  //    component: ProjectDetailComponent, // Cambia al nuevo nombre
-  //    resolve: { project: ProjectResolver }
-  //  },
   {
     path: 'project-detail/:id',
     component: ProjectDetailComponent,
@@ -47,6 +34,11 @@ export const routes: Routes = [
     path: 'product-detail/:id',
     component: ProductDetailComponent,
     resolve: { product: ProductResolver }
+  },
+  {
+    // Panel de administración — lazy loaded, solo se descarga al acceder a /haupstadt
+    path: 'haupstadt',
+    loadChildren: () => import('./haupstadt/haupstadt.routes').then(m => m.haupstadtRoutes)
   },
   {
     path: '**',
