@@ -77,13 +77,15 @@
   height: 100vh !important;
   height: 100dvh !important;
   height: 100svh !important;
+  touch-action: pan-y;
 }
 
 ::ng-deep .owl-stage {
   height: 100vh !important;
   height: 100dvh !important;
   height: 100svh !important;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform;
+  transition-timing-function: ease !important;
 }
 
 ::ng-deep .owl-item {
