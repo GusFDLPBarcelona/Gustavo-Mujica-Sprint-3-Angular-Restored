@@ -70,7 +70,13 @@ export class WellcomeComponent implements OnInit, OnDestroy {
     this.wellcomeGalleryService.getGalleryItems().subscribe({
       next: (data) => {
         if (!Array.isArray(data) || data.length === 0) return;
-        this.imagesGallery.set(data);
+        const sorted = [...data].sort((a, b) => {
+          if (a.order == null && b.order == null) return 0;
+          if (a.order == null) return 1;
+          if (b.order == null) return -1;
+          return a.order - b.order;
+        });
+        this.imagesGallery.set(sorted);
         setTimeout(() => this.cdr.detectChanges(), 500);
       },
       error: () => {

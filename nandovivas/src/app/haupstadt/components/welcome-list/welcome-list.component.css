@@ -84,12 +84,18 @@
   font-size: 13px;
   font-weight: 600;
   color: #1a202c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-client {
   font-size: 11px;
   color: #718096;
   margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-order {

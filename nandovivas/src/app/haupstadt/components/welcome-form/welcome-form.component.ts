@@ -100,8 +100,8 @@ export class WelcomeFormComponent implements OnInit {
       }
 
       this.router.navigate(['/haupstadt/carousel']);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error('Error al guardar:', err?.code, err?.message, err);
       alert('Error al guardar. Inténtalo de nuevo.');
     } finally {
       this.isSaving = false;

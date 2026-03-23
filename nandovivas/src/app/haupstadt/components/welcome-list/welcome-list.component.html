@@ -22,8 +22,8 @@
               <img [src]="item.image_path" [alt]="item.title" />
             </div>
             <div class="card-body">
-              <div class="card-title">{{ item.title }}</div>
-              <div class="card-client">{{ item.client || '—' }}</div>
+              <div class="card-title" [title]="item.title">{{ item.title }}</div>
+              <div class="card-client" [title]="item.client || ''">{{ item.client || '—' }}</div>
               @if (item.order != null) {
                 <div class="card-order">Orden: {{ item.order }}</div>
               }

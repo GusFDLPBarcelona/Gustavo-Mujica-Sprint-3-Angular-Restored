@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { WellcomeGalleryService } from '../../../services/wellcome_gallery.service';
+import { WellcomeGallery } from '../../../interfaces/wellcome_gallery';
 
 @Component({
   selector: 'app-welcome-list',
@@ -24,7 +25,7 @@ export class WelcomeListComponent {
         return a.order - b.order;
       }))
     ),
-    { initialValue: [] }
+    { initialValue: [] as WellcomeGallery[] }
   );
 
   async delete(id: string) {
