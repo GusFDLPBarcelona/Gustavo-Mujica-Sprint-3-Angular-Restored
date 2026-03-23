@@ -1,0 +1,147 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.topbar {
+  height: 56px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+.topbar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+  line-height: 1.2;
+}
+
+.topbar-breadcrumb {
+  font-size: 12px;
+  color: #718096;
+}
+
+.topbar-breadcrumb span {
+  color: #e94560;
+}
+
+.content {
+  padding: 28px 24px;
+  flex: 1;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+/* ── GRID ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.gallery-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 12px 14px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.card-client {
+  font-size: 11px;
+  color: #718096;
+  margin-top: 2px;
+}
+
+.card-order {
+  font-size: 11px;
+  color: #a0aec0;
+  margin-top: 2px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 16px;
+  background: #e94560;
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+
+.btn-primary:hover {
+  opacity: .88;
+}
+
+.btn-sm {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #1a202c;
+  transition: all .15s;
+}
+
+.btn-sm:hover {
+  border-color: #e94560;
+  color: #e94560;
+}
+
+.btn-sm.danger:hover {
+  border-color: #fc8181;
+  color: #e53e3e;
+  background: #fff5f5;
+}

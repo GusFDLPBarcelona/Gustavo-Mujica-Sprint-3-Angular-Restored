@@ -1,0 +1,41 @@
+<div class="page">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Welcome</div>
+      <div class="topbar-breadcrumb">Inicio › <span>Welcome</span></div>
+    </div>
+    <a class="btn-primary" routerLink="/haupstadt/carousel/new">+ Nueva imagen</a>
+  </div>
+
+  <div class="content">
+    @if (items().length === 0) {
+      <div class="empty-state">
+        <p>No hay imágenes en el carousel todavía.</p>
+        <a class="btn-primary" routerLink="/haupstadt/carousel/new">+ Añadir primera imagen</a>
+      </div>
+    } @else {
+      <div class="gallery-grid">
+        @for (item of items(); track item.id) {
+          <div class="gallery-card">
+            <div class="card-img">
+              <img [src]="item.image_path" [alt]="item.title" />
+            </div>
+            <div class="card-body">
+              <div class="card-title">{{ item.title }}</div>
+              <div class="card-client">{{ item.client || '—' }}</div>
+              @if (item.order != null) {
+                <div class="card-order">Orden: {{ item.order }}</div>
+              }
+              <div class="card-actions">
+                <a class="btn-sm" [routerLink]="['/haupstadt/carousel', item.id]">Editar</a>
+                <button class="btn-sm danger" (click)="delete(item.id!)">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>

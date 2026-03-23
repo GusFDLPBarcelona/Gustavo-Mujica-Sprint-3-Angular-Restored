@@ -1,0 +1,64 @@
+<div class="page">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">{{ isEditMode ? 'Editar imagen' : 'Nueva imagen' }}</div>
+      <div class="topbar-breadcrumb">
+        Inicio › <a routerLink="/haupstadt/carousel">Welcome</a> › <span>{{ isEditMode ? 'Editar' : 'Nueva' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    @if (isLoading) {
+      <div class="loading">Cargando…</div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="form-card">
+
+        <!-- Preview de imagen -->
+        <div class="field">
+          <label>Imagen</label>
+          @if (previewUrl()) {
+            <div class="img-preview">
+              <img [src]="previewUrl()!" alt="Preview" />
+            </div>
+          }
+          <label class="file-label" for="imgInput">
+            {{ isEditMode ? 'Reemplazar imagen' : 'Seleccionar imagen' }}
+          </label>
+          <input id="imgInput" type="file" accept="image/*" (change)="onFileSelected($event)" class="file-input" />
+          <span class="field-hint">Formatos: JPG, PNG, WebP</span>
+        </div>
+
+        <!-- Título -->
+        <div class="field">
+          <label for="title">Título <span class="required">*</span></label>
+          <input id="title" type="text" formControlName="title" placeholder="Nombre del proyecto" />
+        </div>
+
+        <!-- Cliente -->
+        <div class="field">
+          <label for="client">Cliente</label>
+          <input id="client" type="text" formControlName="client" placeholder="Nombre del cliente (opcional)" />
+        </div>
+
+        <!-- Orden -->
+        <div class="field">
+          <label for="order">Orden</label>
+          <input id="order" type="number" formControlName="order" placeholder="Ej: 1, 2, 3…" min="1" />
+          <span class="field-hint">Controla la posición en el carousel. Sin número, va al final.</span>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <a class="btn-secondary" routerLink="/haupstadt/carousel">Cancelar</a>
+          <button type="submit" class="btn-primary" [disabled]="isSaving">
+            {{ isSaving ? 'Guardando…' : 'Guardar' }}
+          </button>
+        </div>
+
+      </form>
+    }
+  </div>
+
+</div>
