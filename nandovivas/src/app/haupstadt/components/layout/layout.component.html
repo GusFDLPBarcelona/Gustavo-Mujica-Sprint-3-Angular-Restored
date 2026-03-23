@@ -1,0 +1,45 @@
+<div class="admin-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-text">NV<span class="accent">.</span>admin</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">Principal</div>
+      <a class="nav-item"
+         routerLink="/haupstadt"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        <span class="icon">⊞</span> Inicio
+      </a>
+
+      <div class="nav-section">Contenido</div>
+      <a class="nav-item" routerLink="/haupstadt/carousel" routerLinkActive="active">
+        <span class="icon">◧</span> Carousel
+      </a>
+      <a class="nav-item" routerLink="/haupstadt/work" routerLinkActive="active">
+        <span class="icon">◫</span> Work
+      </a>
+      <a class="nav-item nav-item--disabled">
+        <span class="icon">◳</span> Shop
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">N</div>
+        <div class="sidebar-user-info">
+          <div class="user-name">Nando Vivas</div>
+          <div class="user-email">{{ auth.currentUser()?.email }}</div>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <router-outlet />
+  </div>
+
+</div>
