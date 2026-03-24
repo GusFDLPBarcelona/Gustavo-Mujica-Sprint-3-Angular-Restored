@@ -25,7 +25,7 @@
               <div class="card-title" [title]="item.title">{{ item.title }}</div>
               <div class="card-client" [title]="item.client || ''">{{ item.client || '—' }}</div>
               @if (item.order != null) {
-                <div class="card-order">Orden: {{ item.order }}</div>
+                <div class="card-order">Posición: {{ item.order }}</div>
               }
               <div class="card-actions">
                 @if (confirmingId() === item.id) {
