@@ -28,8 +28,13 @@
                 <div class="card-order">Orden: {{ item.order }}</div>
               }
               <div class="card-actions">
-                <a class="btn-sm" [routerLink]="['/haupstadt/carousel', item.id]">Editar</a>
-                <button class="btn-sm danger" (click)="delete(item.id!)">Eliminar</button>
+                @if (confirmingId() === item.id) {
+                  <button class="btn-sm danger" (click)="confirmDelete(item.id!)">¿Confirmar?</button>
+                  <button class="btn-sm" (click)="cancelDelete()">Cancelar</button>
+                } @else {
+                  <a class="btn-sm" [routerLink]="['/haupstadt/carousel', item.id]">Editar</a>
+                  <button class="btn-sm danger" (click)="requestDelete(item.id!)">Eliminar</button>
+                }
               </div>
             </div>
           </div>

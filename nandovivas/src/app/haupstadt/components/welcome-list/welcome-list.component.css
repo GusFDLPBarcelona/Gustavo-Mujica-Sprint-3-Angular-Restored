@@ -60,6 +60,11 @@
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
   overflow: hidden;
+  transition: border-bottom-color .2s ease;
+}
+
+.gallery-card:hover {
+  border-bottom-color: #999;
 }
 
 .card-img {
@@ -130,24 +135,34 @@
 
 .btn-sm {
   flex: 1;
-  padding: 6px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
+  padding: 4px 10px;
+  line-height: 1.2;
+  border: 1px solid #b0b0b0;
+  background: #e4e4e4;
   font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  color: #1a202c;
-  transition: all .15s;
+  color: #1a1a1a;
+  transition: background .2s, border-color .2s;
 }
 
 .btn-sm:hover {
+  background: #555;
+  border-color: #555;
+  color: #fff;
+}
+
+.btn-sm.danger {
+  background: transparent;
   border-color: #e94560;
   color: #e94560;
+  transition: background .2s, color .2s;
 }
 
 .btn-sm.danger:hover {
-  border-color: #fc8181;
-  color: #e53e3e;
-  background: #fff5f5;
+  background: #e94560;
+  color: #fff;
 }

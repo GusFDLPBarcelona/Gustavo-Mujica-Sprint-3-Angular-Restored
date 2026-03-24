@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -15,7 +15,9 @@ import { WellcomeGallery } from '../../../interfaces/wellcome_gallery';
 export class WelcomeListComponent {
   private galleryService = inject(WellcomeGalleryService);
 
-  // Items ordenados por el campo 'orden' — los que no tienen orden van al final
+  // ID de la card que está esperando confirmación de borrado
+  confirmingId = signal<string | null>(null);
+
   items = toSignal(
     this.galleryService.getGalleryItems().pipe(
       map(items => items.sort((a, b) => {
@@ -28,8 +30,16 @@ export class WelcomeListComponent {
     { initialValue: [] as WellcomeGallery[] }
   );
 
-  async delete(id: string) {
-    if (!confirm('¿Eliminar esta imagen del carousel?')) return;
+  requestDelete(id: string) {
+    this.confirmingId.set(id);
+  }
+
+  cancelDelete() {
+    this.confirmingId.set(null);
+  }
+
+  async confirmDelete(id: string) {
     await this.galleryService.deleteGalleryItem(id);
+    this.confirmingId.set(null);
   }
 }

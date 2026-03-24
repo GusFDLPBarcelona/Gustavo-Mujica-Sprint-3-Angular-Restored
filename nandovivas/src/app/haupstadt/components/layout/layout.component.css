@@ -5,7 +5,8 @@
 .admin-shell {
   display: flex;
   min-height: 100vh;
-  background: #f4f5f7;
+  background: #c7c7c7;
+  font-family: 'Inter', sans-serif;
 }
 
 /* ── SIDEBAR ── */

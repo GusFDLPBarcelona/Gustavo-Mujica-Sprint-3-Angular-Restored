@@ -42,7 +42,7 @@
 }
 
 .content {
-  padding: 16px 24px;
+  padding: 10px 24px;
   flex: 1;
 }
 
@@ -55,7 +55,7 @@
 .form-card {
   background: #fff;
   border: 1px solid #e2e8f0;
-  padding: 20px 28px;
+  padding: 14px 24px;
   max-width: 860px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
 }
@@ -73,7 +73,7 @@
 }
 
 .field {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .field label {
@@ -83,7 +83,7 @@
   text-transform: uppercase;
   letter-spacing: .5px;
   color: #718096;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .required {
@@ -196,19 +196,22 @@
 }
 
 .btn-primary {
-  padding: 10px 20px;
-  background: #e94560;
-  color: #fff;
-  border: none;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 4px 20px;
+  line-height: 1.2;
+  background: transparent;
+  color: #e94560;
+  border: 1px solid #e94560;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: opacity .15s;
+  transition: background .2s, color .2s;
   text-decoration: none;
 }
 
 .btn-primary:hover:not(:disabled) {
-  opacity: .88;
+  background: #e94560;
+  color: #fff;
 }
 
 .btn-primary:disabled {
@@ -217,20 +220,23 @@
 }
 
 .btn-secondary {
-  padding: 10px 20px;
-  background: transparent;
-  color: #718096;
-  border: 1px solid #e2e8f0;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 4px 20px;
+  line-height: 1.2;
+  background: #e4e4e4;
+  color: #1a1a1a;
+  border: 1px solid #b0b0b0;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   text-decoration: none;
-  transition: all .15s;
+  transition: background .2s, border-color .2s, color .2s;
   display: inline-flex;
   align-items: center;
 }
 
 .btn-secondary:hover {
-  border-color: #718096;
-  color: #1a202c;
+  background: #555;
+  border-color: #555;
+  color: #fff;
 }
