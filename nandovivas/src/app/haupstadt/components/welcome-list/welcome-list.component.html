@@ -29,7 +29,7 @@
               }
               <div class="card-actions">
                 @if (confirmingId() === item.id) {
-                  <button class="btn-sm danger" (click)="confirmDelete(item.id!)">¿Confirmar?</button>
+                  <button class="btn-sm danger btn-confirm" (click)="confirmDelete(item.id!)">¿Confirmar?</button>
                   <button class="btn-sm" (click)="cancelDelete()">Cancelar</button>
                 } @else {
                   <a class="btn-sm" [routerLink]="['/haupstadt/carousel', item.id]">Editar</a>
