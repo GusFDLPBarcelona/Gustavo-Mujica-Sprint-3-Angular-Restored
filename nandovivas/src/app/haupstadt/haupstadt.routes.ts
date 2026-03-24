@@ -26,6 +26,18 @@ export const haupstadtRoutes: Routes = [
       {
         path: 'carousel/:id',
         loadComponent: () => import('./components/welcome-form/welcome-form.component').then(m => m.WelcomeFormComponent)
+      },
+      {
+        path: 'work',
+        loadComponent: () => import('./components/work-list/work-list.component').then(m => m.WorkListComponent)
+      },
+      {
+        path: 'work/new',
+        loadComponent: () => import('./components/work-form/work-form.component').then(m => m.WorkFormComponent)
+      },
+      {
+        path: 'work/:id',
+        loadComponent: () => import('./components/work-form/work-form.component').then(m => m.WorkFormComponent)
       }
     ]
   }

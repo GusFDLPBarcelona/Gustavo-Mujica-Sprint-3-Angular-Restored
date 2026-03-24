@@ -1,0 +1,196 @@
+import { Component, ElementRef, inject, OnInit, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { take } from 'rxjs';
+import { ProjectsService } from '../../../services/projects.service';
+import { WellcomeGalleryService } from '../../../services/wellcome_gallery.service';
+import { StorageService } from '../../services/storage.service';
+
+const CATEGORIES = ['Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
+
+@Component({
+  selector: 'app-work-form',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './work-form.component.html',
+  styleUrl: './work-form.component.css'
+})
+export class WorkFormComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private projectsService = inject(ProjectsService);
+  private galleryService = inject(WellcomeGalleryService);
+  private storageService = inject(StorageService);
+  private elRef = inject(ElementRef);
+
+  readonly categories = CATEGORIES;
+
+  editId: string | null = null;
+  isEditMode = false;
+  isLoading = false;
+  isSaving = false;
+
+  // Portada
+  coverFile: File | null = null;
+  coverPreview = signal<string | null>(null);
+
+  // Imágenes de detalle
+  detailFiles: File[] = [];
+  detailPreviews = signal<{ url: string; isExisting: boolean }[]>([]);
+
+  form = this.fb.group({
+    title:         ['', Validators.required],
+    client:        ['', Validators.required],
+    category:      ['Editorial', Validators.required],
+    originalOrder: [null as number | null],
+    description:   [''],
+    credits:       [''],
+    addToCarousel: [false],
+    carouselOrder: [null as number | null],
+  });
+
+  ngOnInit() {
+    this.editId = this.route.snapshot.paramMap.get('id');
+    this.isEditMode = !!this.editId;
+
+    if (this.isEditMode && this.editId) {
+      this.isLoading = true;
+      this.projectsService.getProjectById(this.editId).pipe(take(1)).subscribe(project => {
+        if (project) {
+          this.form.patchValue({
+            title:         project.title,
+            client:        project.client,
+            category:      project.category,
+            originalOrder: project.originalOrder ?? null,
+            description:   project.description ?? '',
+            credits:       project.credits ?? '',
+          });
+          if (project.image) {
+            this.coverPreview.set(project.image);
+          }
+          if (project.images?.length) {
+            this.detailPreviews.set(project.images.map(url => ({ url, isExisting: true })));
+          }
+          // Ajustar altura de textareas después de que el DOM refleje los valores
+          setTimeout(() => this.resizeAllTextareas(), 0);
+        }
+        this.isLoading = false;
+      });
+    }
+  }
+
+  autoResize(el: HTMLTextAreaElement) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+
+  private resizeAllTextareas() {
+    const textareas = this.elRef.nativeElement.querySelectorAll('textarea');
+    textareas.forEach((ta: HTMLTextAreaElement) => this.autoResize(ta));
+  }
+
+  onCoverSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.coverFile = file;
+    const reader = new FileReader();
+    reader.onload = () => this.coverPreview.set(reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  onDetailFilesSelected(event: Event) {
+    const files = Array.from((event.target as HTMLInputElement).files ?? []);
+    if (!files.length) return;
+    this.detailFiles.push(...files);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.detailPreviews.update(prev => [...prev, { url: reader.result as string, isExisting: false }]);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  removeDetailImage(index: number) {
+    const preview = this.detailPreviews()[index];
+    if (!preview.isExisting) {
+      // Imagen nueva pendiente de subir — quitarla del array de Files
+      const newFileIndex = this.detailPreviews()
+        .slice(0, index)
+        .filter(p => !p.isExisting).length;
+      this.detailFiles.splice(newFileIndex, 1);
+    }
+    this.detailPreviews.update(prev => prev.filter((_, i) => i !== index));
+  }
+
+  async save() {
+    if (this.form.invalid) return;
+    if (!this.isEditMode && !this.coverFile) {
+      alert('Selecciona una imagen de portada.');
+      return;
+    }
+    this.isSaving = true;
+
+    try {
+      const projectId = this.editId ?? `tmp_${Date.now()}`;
+
+      // Subir portada si hay archivo nuevo
+      let coverUrl = this.coverPreview() ?? '';
+      if (this.coverFile) {
+        const filename = `${Date.now()}_${this.coverFile.name}`;
+        coverUrl = await this.storageService.uploadImage(`projects/${projectId}/cover/${filename}`, this.coverFile);
+      }
+
+      // Subir imágenes de detalle nuevas y combinar con las existentes
+      const existingUrls = this.detailPreviews()
+        .filter(p => p.isExisting)
+        .map(p => p.url);
+
+      const newDetailUrls: string[] = [];
+      for (const file of this.detailFiles) {
+        const filename = `${Date.now()}_${file.name}`;
+        const url = await this.storageService.uploadImage(`projects/${projectId}/images/${filename}`, file);
+        newDetailUrls.push(url);
+      }
+      const allDetailUrls = [...existingUrls, ...newDetailUrls];
+
+      const v = this.form.value;
+      const data: Record<string, unknown> = {
+        title:    v.title!,
+        client:   v.client!,
+        category: v.category!,
+        image:    coverUrl,
+      };
+      if (v.originalOrder != null) data['originalOrder'] = v.originalOrder;
+      if (v.description)           data['description']   = v.description;
+      if (v.credits)               data['credits']       = v.credits;
+      if (allDetailUrls.length)    data['images']        = allDetailUrls;
+
+      if (this.isEditMode && this.editId) {
+        await this.projectsService.updateProject(this.editId, data as any);
+      } else {
+        await this.projectsService.createProject(data as any);
+      }
+
+      // Añadir al carousel Welcome si está marcado
+      if (v.addToCarousel) {
+        const galleryData: Record<string, unknown> = {
+          title:      v.title!,
+          client:     v.client ?? '',
+          image_path: coverUrl,
+          mobile_position_x: 50,
+        };
+        if (v.carouselOrder != null) galleryData['order'] = v.carouselOrder;
+        await this.galleryService.addGalleryItem(galleryData as any);
+      }
+
+      this.router.navigate(['/haupstadt/work']);
+    } catch (err: any) {
+      console.error('Error al guardar:', err?.code, err?.message, err);
+      alert('Error al guardar. Inténtalo de nuevo.');
+    } finally {
+      this.isSaving = false;
+    }
+  }
+}

@@ -1,0 +1,53 @@
+<div class="page">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Work</div>
+      <div class="topbar-breadcrumb">Inicio › <span>Work</span></div>
+    </div>
+    <a class="btn-primary" routerLink="/haupstadt/work/new">+ Nuevo proyecto</a>
+  </div>
+
+  <div class="content">
+    @if (items().length === 0) {
+      <div class="empty-state">
+        <p>No hay proyectos todavía.</p>
+        <a class="btn-primary" routerLink="/haupstadt/work/new">+ Añadir proyecto</a>
+      </div>
+    } @else {
+      <div class="projects-grid">
+        @for (item of items(); track item.id) {
+          <div class="project-card">
+            <div class="card-img">
+              @if (item.image) {
+                <img [src]="item.image" [alt]="item.title" />
+              } @else {
+                <div class="card-img-placeholder">Sin imagen</div>
+              }
+            </div>
+            <div class="card-body">
+              <div class="card-title" [title]="item.title">{{ item.title }}</div>
+              <div class="card-meta">
+                <span class="card-client" [title]="item.client">{{ item.client }}</span>
+                <span class="card-category">{{ item.category }}</span>
+              </div>
+              @if (item.originalOrder != null) {
+                <div class="card-order">Posición: {{ item.originalOrder }}</div>
+              }
+              <div class="card-actions">
+                @if (confirmingId() === item.id) {
+                  <button class="btn-sm danger" (click)="confirmDelete(item.id!)">¿Confirmar?</button>
+                  <button class="btn-sm" (click)="cancelDelete()">Cancelar</button>
+                } @else {
+                  <a class="btn-sm" [routerLink]="['/haupstadt/work', item.id]">Editar</a>
+                  <button class="btn-sm danger" (click)="requestDelete(item.id!)">Eliminar</button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>

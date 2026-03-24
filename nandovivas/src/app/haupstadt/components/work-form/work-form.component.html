@@ -1,0 +1,133 @@
+<div class="page">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">{{ isEditMode ? 'Editar proyecto' : 'Nuevo proyecto' }}</div>
+      <div class="topbar-breadcrumb">
+        Inicio › <a routerLink="/haupstadt/work">Work</a> › <span>{{ isEditMode ? 'Editar' : 'Nuevo' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    @if (isLoading) {
+      <div class="loading">Cargando…</div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="form-card">
+
+        <div class="form-columns">
+
+          <!-- ── COL IZQUIERDA: portada + datos básicos ── -->
+          <div class="form-col form-col-left">
+
+            <!-- Portada -->
+            <div class="field">
+              <label>Portada</label>
+              @if (coverPreview()) {
+                <div class="img-preview">
+                  <img [src]="coverPreview()!" alt="Portada" />
+                </div>
+              }
+              <label class="file-label" for="coverInput">
+                {{ isEditMode && coverPreview() ? 'Reemplazar portada' : 'Seleccionar portada' }}
+              </label>
+              <input id="coverInput" type="file" accept="image/*" (change)="onCoverSelected($event)" class="file-input" />
+              <span class="field-hint">Se convertirá a WebP automáticamente.</span>
+            </div>
+
+            <!-- Título -->
+            <div class="field">
+              <label for="title">Título <span class="required">*</span></label>
+              <input id="title" type="text" formControlName="title" placeholder="Nombre del proyecto" />
+            </div>
+
+            <!-- Cliente -->
+            <div class="field">
+              <label for="client">Cliente <span class="required">*</span></label>
+              <input id="client" type="text" formControlName="client" placeholder="Nombre del cliente" />
+            </div>
+
+            <!-- Categoría -->
+            <div class="field">
+              <label for="category">Categoría <span class="required">*</span></label>
+              <select id="category" formControlName="category">
+                @for (cat of categories; track cat) {
+                  <option [value]="cat">{{ cat }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Posición -->
+            <div class="field">
+              <label for="originalOrder">Posición</label>
+              <input id="originalOrder" type="number" formControlName="originalOrder" placeholder="Ej: 1, 2, 3…" min="1" />
+              <span class="field-hint">Orden en la lista de Work. Sin número, va al final.</span>
+            </div>
+
+          </div>
+
+          <!-- ── COL DERECHA: detalle + acciones ── -->
+          <div class="form-col form-col-right">
+
+            <!-- Descripción -->
+            <div class="field">
+              <label for="description">Descripción</label>
+              <textarea id="description" formControlName="description" placeholder="Descripción del proyecto…" (input)="autoResize($any($event.target))"></textarea>
+            </div>
+
+            <!-- Imágenes de detalle -->
+            <div class="field">
+              <label>Imágenes de detalle</label>
+              @if (detailPreviews().length > 0) {
+                <div class="detail-strip">
+                  @for (preview of detailPreviews(); track $index) {
+                    <div class="detail-thumb">
+                      <img [src]="preview.url" alt="Detalle" />
+                      <button type="button" class="thumb-remove" (click)="removeDetailImage($index)">×</button>
+                    </div>
+                  }
+                </div>
+              }
+              <label class="file-label" for="detailInput">+ Añadir imágenes</label>
+              <input id="detailInput" type="file" accept="image/*" multiple (change)="onDetailFilesSelected($event)" class="file-input" />
+              <span class="field-hint">Puedes añadir varias a la vez. Se convierten a WebP.</span>
+            </div>
+
+            <!-- Créditos -->
+            <div class="field field-credits">
+              <label for="credits">Créditos</label>
+              <textarea id="credits" rows="1" formControlName="credits" placeholder="Créditos del proyecto…" (input)="autoResize($any($event.target))"></textarea>
+            </div>
+
+            <!-- Añadir al carousel -->
+            <div class="field field-carousel">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="addToCarousel" />
+                Añadir al carousel
+              </label>
+              @if (form.value.addToCarousel) {
+                <div class="carousel-extra">
+                  <label for="carouselOrder">Posición en el carousel</label>
+                  <input id="carouselOrder" type="number" formControlName="carouselOrder" placeholder="Ej: 1, 2, 3…" min="1" />
+                  <span class="field-hint">Podrás ajustar el encuadre móvil desde Welcome.</span>
+                </div>
+              }
+            </div>
+
+            <!-- Acciones -->
+            <div class="form-actions">
+              <a class="btn-secondary" routerLink="/haupstadt/work">Cancelar</a>
+              <button type="submit" class="btn-primary" [disabled]="isSaving">
+                {{ isSaving ? 'Guardando…' : 'Guardar' }}
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+    }
+  </div>
+
+</div>
