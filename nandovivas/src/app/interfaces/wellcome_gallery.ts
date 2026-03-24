@@ -5,4 +5,5 @@ export interface WellcomeGallery {
     client?: string;
     image_path: string;
     order?: number;
+    mobile_position_x?: number;
 }

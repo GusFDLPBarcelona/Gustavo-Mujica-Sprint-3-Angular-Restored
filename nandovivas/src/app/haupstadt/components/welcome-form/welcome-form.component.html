@@ -15,46 +15,82 @@
     } @else {
       <form [formGroup]="form" (ngSubmit)="save()" class="form-card">
 
-        <!-- Preview de imagen -->
-        <div class="field">
-          <label>Imagen</label>
-          @if (previewUrl()) {
-            <div class="img-preview">
-              <img [src]="previewUrl()!" alt="Preview" />
+        <div class="form-columns">
+
+          <!-- Columna izquierda: datos -->
+          <div class="form-col">
+
+            <!-- Preview de imagen -->
+            <div class="field">
+              <label>Imagen</label>
+              @if (previewUrl()) {
+                <div class="img-preview">
+                  <img [src]="previewUrl()!" alt="Preview" />
+                </div>
+              }
+              <label class="file-label" for="imgInput">
+                {{ isEditMode ? 'Reemplazar imagen' : 'Seleccionar imagen' }}
+              </label>
+              <input id="imgInput" type="file" accept="image/*" (change)="onFileSelected($event)" class="file-input" />
+              <span class="field-hint">Formatos: JPG, PNG, WebP</span>
             </div>
-          }
-          <label class="file-label" for="imgInput">
-            {{ isEditMode ? 'Reemplazar imagen' : 'Seleccionar imagen' }}
-          </label>
-          <input id="imgInput" type="file" accept="image/*" (change)="onFileSelected($event)" class="file-input" />
-          <span class="field-hint">Formatos: JPG, PNG, WebP</span>
-        </div>
 
-        <!-- Título -->
-        <div class="field">
-          <label for="title">Título <span class="required">*</span></label>
-          <input id="title" type="text" formControlName="title" placeholder="Nombre del proyecto" />
-        </div>
+            <!-- Título -->
+            <div class="field">
+              <label for="title">Título <span class="required">*</span></label>
+              <input id="title" type="text" formControlName="title" placeholder="Nombre del proyecto" />
+            </div>
 
-        <!-- Cliente -->
-        <div class="field">
-          <label for="client">Cliente</label>
-          <input id="client" type="text" formControlName="client" placeholder="Nombre del cliente (opcional)" />
-        </div>
+            <!-- Cliente -->
+            <div class="field">
+              <label for="client">Cliente</label>
+              <input id="client" type="text" formControlName="client" placeholder="Nombre del cliente (opcional)" />
+            </div>
 
-        <!-- Orden -->
-        <div class="field">
-          <label for="order">Orden</label>
-          <input id="order" type="number" formControlName="order" placeholder="Ej: 1, 2, 3…" min="1" />
-          <span class="field-hint">Controla la posición en el carousel. Sin número, va al final.</span>
-        </div>
+          </div>
 
-        <!-- Acciones -->
-        <div class="form-actions">
-          <a class="btn-secondary" routerLink="/haupstadt/carousel">Cancelar</a>
-          <button type="submit" class="btn-primary" [disabled]="isSaving">
-            {{ isSaving ? 'Guardando…' : 'Guardar' }}
-          </button>
+          <!-- Columna derecha: posición -->
+          <div class="form-col">
+
+            <!-- Encuadre móvil -->
+            <div class="field">
+              <label>Encuadre móvil</label>
+              <div class="phone-preview">
+                @if (previewUrl()) {
+                  <img
+                    [src]="previewUrl()!"
+                    alt="Vista móvil"
+                    class="phone-preview-img"
+                    [style.object-position]="mobilePreviewX() + '% center'" />
+                } @else {
+                  <div class="phone-placeholder">Sin imagen</div>
+                }
+              </div>
+              <input
+                type="range" min="0" max="100"
+                formControlName="mobile_position_x"
+                class="position-slider"
+                (input)="mobilePreviewX.set(+$any($event.target).value)" />
+              <span class="field-hint">Ajusta el encuadre horizontal en teléfonos.</span>
+            </div>
+
+            <!-- Orden -->
+            <div class="field">
+              <label for="order">Orden</label>
+              <input id="order" type="number" formControlName="order" placeholder="Ej: 1, 2, 3…" min="1" />
+              <span class="field-hint">Controla la posición en el carousel. Sin número, va al final.</span>
+            </div>
+
+            <!-- Acciones -->
+            <div class="form-actions">
+              <a class="btn-secondary" routerLink="/haupstadt/carousel">Cancelar</a>
+              <button type="submit" class="btn-primary" [disabled]="isSaving">
+                {{ isSaving ? 'Guardando…' : 'Guardar' }}
+              </button>
+            </div>
+
+          </div>
+
         </div>
 
       </form>

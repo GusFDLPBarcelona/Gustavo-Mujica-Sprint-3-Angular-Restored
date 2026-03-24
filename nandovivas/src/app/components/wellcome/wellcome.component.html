@@ -14,7 +14,8 @@
             <img
               [src]="image.image_path"
               alt="{{ image.title }}"
-              class="carousel-image" />
+              class="carousel-image"
+              [style.--mobile-pos-x]="(image.mobile_position_x ?? 50) + '%'" />
 
             <div class="carousel-caption">
               <p class="image-info">

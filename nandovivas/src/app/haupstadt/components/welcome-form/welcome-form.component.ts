@@ -28,11 +28,14 @@ export class WelcomeFormComponent implements OnInit {
   selectedFile: File | null = null;
   // URL para mostrar la preview — puede ser la actual de Firestore o un blob local
   previewUrl = signal<string | null>(null);
+  // Valor del slider para el preview reactivo
+  mobilePreviewX = signal<number>(50);
 
   form = this.fb.group({
     title: ['', Validators.required],
     client: [''],
-    order: [null as number | null]
+    order: [null as number | null],
+    mobile_position_x: [50]
   });
 
   ngOnInit() {
@@ -47,8 +50,10 @@ export class WelcomeFormComponent implements OnInit {
           this.form.patchValue({
             title: item.title,
             client: item.client ?? '',
-            order: item.order ?? null
+            order: item.order ?? null,
+            mobile_position_x: item.mobile_position_x ?? 50
           });
+          this.mobilePreviewX.set(item.mobile_position_x ?? 50);
           this.previewUrl.set(item.image_path);
         }
         this.isLoading = false;
@@ -88,6 +93,7 @@ export class WelcomeFormComponent implements OnInit {
         title: this.form.value.title!,
         client: this.form.value.client ?? '',
         image_path: imagePath,
+        mobile_position_x: this.form.value.mobile_position_x ?? 50,
       };
       if (this.form.value.order != null) {
         data['order'] = this.form.value.order;

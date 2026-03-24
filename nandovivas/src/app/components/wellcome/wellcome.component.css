@@ -138,6 +138,10 @@
 .nav-arrow-next { transform: rotate(45deg); }
 
 @media (max-width: 768px) {
+  .carousel-image {
+    object-position: var(--mobile-pos-x, 50%) center;
+  }
+
   .carousel-caption {
     font-size: 9px;
     bottom: 12px;
