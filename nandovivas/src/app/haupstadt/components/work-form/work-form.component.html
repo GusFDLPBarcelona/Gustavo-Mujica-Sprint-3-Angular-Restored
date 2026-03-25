@@ -66,6 +66,23 @@
 
           </div>
 
+          <!-- ── COL CENTRAL: portada detalle ── -->
+          <div class="form-col form-col-middle">
+            <div class="field">
+              <label>Portada detalle <span class="field-optional">(opcional)</span></label>
+              @if (detailCoverPreview()) {
+                <div class="img-preview">
+                  <img [src]="detailCoverPreview()!" alt="Portada detalle" />
+                </div>
+              }
+              <label class="file-label" for="detailCoverInput">
+                {{ detailCoverPreview() ? 'Reemplazar' : 'Seleccionar' }}
+              </label>
+              <input id="detailCoverInput" type="file" accept="image/*" (change)="onDetailCoverSelected($event)" class="file-input" />
+              <span class="field-hint">Si no se sube, se usa la portada de Work.</span>
+            </div>
+          </div>
+
           <!-- ── COL DERECHA: detalle + acciones ── -->
           <div class="form-col form-col-right">
 

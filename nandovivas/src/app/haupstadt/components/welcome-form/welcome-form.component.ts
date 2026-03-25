@@ -70,6 +70,7 @@ export class WelcomeFormComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => this.previewUrl.set(reader.result as string);
     reader.readAsDataURL(file);
+    input.value = '';
   }
 
   async save() {

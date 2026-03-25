@@ -31,9 +31,13 @@ export class WorkFormComponent implements OnInit {
   isLoading = false;
   isSaving = false;
 
-  // Portada
+  // Portada (Work grid)
   coverFile: File | null = null;
   coverPreview = signal<string | null>(null);
+
+  // Portada detalle (project-detail hero)
+  detailCoverFile: File | null = null;
+  detailCoverPreview = signal<string | null>(null);
 
   // Imágenes de detalle
   detailFiles: File[] = [];
@@ -69,6 +73,9 @@ export class WorkFormComponent implements OnInit {
           if (project.image) {
             this.coverPreview.set(project.image);
           }
+          if (project.detailImage) {
+            this.detailCoverPreview.set(project.detailImage);
+          }
           if (project.images?.length) {
             this.detailPreviews.set(project.images.map(url => ({ url, isExisting: true })));
           }
@@ -91,16 +98,30 @@ export class WorkFormComponent implements OnInit {
   }
 
   onCoverSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
     if (!file) return;
     this.coverFile = file;
     const reader = new FileReader();
     reader.onload = () => this.coverPreview.set(reader.result as string);
     reader.readAsDataURL(file);
+    input.value = '';
+  }
+
+  onDetailCoverSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    this.detailCoverFile = file;
+    const reader = new FileReader();
+    reader.onload = () => this.detailCoverPreview.set(reader.result as string);
+    reader.readAsDataURL(file);
+    input.value = '';
   }
 
   onDetailFilesSelected(event: Event) {
-    const files = Array.from((event.target as HTMLInputElement).files ?? []);
+    const input = event.target as HTMLInputElement;
+    const files = Array.from(input.files ?? []);
     if (!files.length) return;
     this.detailFiles.push(...files);
     files.forEach(file => {
@@ -110,6 +131,7 @@ export class WorkFormComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     });
+    input.value = '';
   }
 
   removeDetailImage(index: number) {
@@ -142,6 +164,13 @@ export class WorkFormComponent implements OnInit {
         coverUrl = await this.storageService.uploadImage(`projects/${projectId}/cover/${filename}`, this.coverFile);
       }
 
+      // Subir portada de detalle si hay archivo nuevo
+      let detailCoverUrl: string | null = null;
+      if (this.detailCoverFile) {
+        const filename = `${Date.now()}_${this.detailCoverFile.name}`;
+        detailCoverUrl = await this.storageService.uploadImage(`projects/${projectId}/detail-cover/${filename}`, this.detailCoverFile);
+      }
+
       // Subir imágenes de detalle nuevas y combinar con las existentes
       const existingUrls = this.detailPreviews()
         .filter(p => p.isExisting)
@@ -166,6 +195,7 @@ export class WorkFormComponent implements OnInit {
       if (v.description)           data['description']   = v.description;
       if (v.credits)               data['credits']       = v.credits;
       if (allDetailUrls.length)    data['images']        = allDetailUrls;
+      if (detailCoverUrl)          data['detailImage']   = detailCoverUrl;
 
       if (this.isEditMode && this.editId) {
         await this.projectsService.updateProject(this.editId, data as any);

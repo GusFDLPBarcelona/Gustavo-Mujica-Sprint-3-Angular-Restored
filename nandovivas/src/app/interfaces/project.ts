@@ -7,6 +7,7 @@ export interface Project {
     description?: string;
     images?: string[];
     credits?: string;
+    detailImage?: string;
     originalOrder?: number;
     matchesFilter?: boolean;
 }
