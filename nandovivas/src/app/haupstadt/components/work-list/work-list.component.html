@@ -31,9 +31,7 @@
                 <span class="card-client" [title]="item.client">{{ item.client }}</span>
                 <span class="card-category">{{ item.category }}</span>
               </div>
-              @if (item.originalOrder != null) {
-                <div class="card-order">Posición: {{ item.originalOrder }}</div>
-              }
+
               <div class="card-actions">
                 @if (confirmingId() === item.id) {
                   <button class="btn-sm danger btn-confirm" (click)="confirmDelete(item.id!)">¿Confirmar?</button>

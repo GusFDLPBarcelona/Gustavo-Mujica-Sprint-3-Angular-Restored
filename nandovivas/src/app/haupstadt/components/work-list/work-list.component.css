@@ -57,7 +57,7 @@
 
 .project-card {
   background: #fff;
-  border: 1px solid #e2e8f0;
+  border-bottom: 1px solid transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
   overflow: hidden;
   transition: border-bottom-color .2s ease;
@@ -79,6 +79,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform .3s ease;
+}
+
+.project-card:hover .card-img img {
+  transform: scale(1.02);
 }
 
 .card-img-placeholder {
@@ -190,8 +195,12 @@
   color: #fff;
 }
 
-.btn-confirm:hover {
-  font-size: 0;
+.btn-confirm {
+  position: relative;
+}
+
+.btn-sm.btn-confirm:hover {
+  color: transparent;
 }
 
 .btn-confirm:hover::after {
@@ -199,4 +208,9 @@
   font-size: 12px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
