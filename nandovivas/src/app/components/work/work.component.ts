@@ -44,15 +44,14 @@ export class WorkComponent implements OnInit, AfterViewInit {
   filteredProjects = computed(() => {
     const category = this.activeCategory();
     return this.projects()
-      .map((project, index) => ({
+      .map((project) => ({
         ...project,
         matchesFilter: project.category === category,
-        originalOrder: index
       }))
       .sort((a, b) => {
         if (a.matchesFilter && !b.matchesFilter) return -1;
         if (!a.matchesFilter && b.matchesFilter) return 1;
-        return a.originalOrder - b.originalOrder;
+        return (a.originalOrder ?? 9999) - (b.originalOrder ?? 9999);
       });
   });
 
@@ -68,7 +67,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
         if (projects.length === 0) {
           this.toastService.showInfo('No hay proyectos disponibles para mostrar.');
         } else {
-          const ordered = projects.map((p, index) => ({ ...p, originalOrder: index }));
+          const ordered = [...projects].sort((a, b) => (a.originalOrder ?? 9999) - (b.originalOrder ?? 9999));
           this.projects.set(ordered);
         }
       },
