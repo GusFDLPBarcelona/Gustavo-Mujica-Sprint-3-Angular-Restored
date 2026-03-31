@@ -11,7 +11,11 @@
         <p class="project-client">{{ p.client }}</p>
       </div>
       <div class="info-right">
-        <p class="project-category">{{ (p.categories && p.categories.length ? p.categories.join(' / ') : p.category) }}</p>
+        <div class="project-categories">
+          @for (cat of (p.categories && p.categories.length ? p.categories : (p.category ? [p.category] : [])); track cat) {
+            <span>{{ cat }}</span>
+          }
+        </div>
         @if (p.description) {
           <div class="project-description" [innerHTML]="formatText(p.description)"></div>
         }

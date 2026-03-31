@@ -75,7 +75,7 @@
 
 /* Columna izquierda */
 .project-title {
-  font-size: 16px;
+  font-size: 24px;
   font-weight: 400;
   color: var(--font-color-black);
   margin: 0 0 4px 0;
@@ -83,23 +83,26 @@
 }
 
 .project-client {
-  font-size: 13px;
+  font-size: 24px;
   font-weight: 400;
   color: var(--secondary-text-font-color);
   margin: 0;
 }
 
 /* Columna derecha */
-.project-category {
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--font-color-black);
-  margin: 0 0 10px 0;
+.project-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
+  color: var(--secondary-text-font-color);
+  margin: 0 0 10px 0;
 }
 
 .project-description {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--font-color-black);
   line-height: var(--line-height);
@@ -115,7 +118,7 @@
 }
 
 .project-credits {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--font-color-black);
   margin: 0;
