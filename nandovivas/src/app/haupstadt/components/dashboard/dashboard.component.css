@@ -52,48 +52,6 @@
   margin-top: 4px;
 }
 
-/* ── MIGRACIÓN ── */
-.migration-banner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 12px 16px;
-  background: #fff8e1;
-  border: 1px solid #f6d860;
-  font-size: 13px;
-}
-
-.migration-banner--done {
-  background: #e6f4ea;
-  border-color: #81c784;
-  color: #2e7d32;
-}
-
-.migration-label {
-  color: #5a4a00;
-}
-
-.btn-migration {
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid #999;
-  background: #fff;
-  cursor: pointer;
-}
-
-.btn-migration--confirm {
-  background: #1a202c;
-  color: #fff;
-  border-color: #1a202c;
-}
-
-.btn-migration--cancel {
-  background: #fff;
-  color: #666;
-}
-
 /* ── STAT CARDS ── */
 .cards-grid {
   display: grid;

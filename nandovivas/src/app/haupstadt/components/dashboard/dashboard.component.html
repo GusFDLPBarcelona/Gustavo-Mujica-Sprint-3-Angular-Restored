@@ -10,27 +10,6 @@
       <h1>nandovivas.com</h1>
     </div>
 
-    <!-- Migración única: category → categories -->
-    @if (migrateStatus() !== 'done') {
-      <div class="migration-banner">
-        @if (migrateStatus() === 'idle') {
-          <button class="btn-migration" (click)="startMigration()">Migrar categorías a multi-categoría</button>
-        }
-        @if (migrateStatus() === 'confirm') {
-          <span class="migration-label">¿Ejecutar migración en todos los proyectos?</span>
-          <button class="btn-migration btn-migration--confirm" (click)="confirmMigration()">Confirmar</button>
-          <button class="btn-migration btn-migration--cancel" (click)="cancelMigration()">Cancelar</button>
-        }
-        @if (migrateStatus() === 'running') {
-          <span class="migration-label">Migrando…</span>
-        }
-      </div>
-    } @else {
-      <div class="migration-banner migration-banner--done">
-        Migración completada — {{ migratedCount() }} proyecto(s) actualizados.
-      </div>
-    }
-
     <div class="cards-grid">
 
       <div class="stat-card">

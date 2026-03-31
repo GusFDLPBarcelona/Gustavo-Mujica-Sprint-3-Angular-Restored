@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -26,21 +26,4 @@ export class DashboardComponent {
     { initialValue: 0 }
   );
 
-  migrateStatus = signal<'idle' | 'confirm' | 'running' | 'done'>('idle');
-  migratedCount = signal(0);
-
-  startMigration() { this.migrateStatus.set('confirm'); }
-  cancelMigration() { this.migrateStatus.set('idle'); }
-
-  async confirmMigration() {
-    this.migrateStatus.set('running');
-    try {
-      const count = await this.projectsService.migrateCategories();
-      this.migratedCount.set(count);
-      this.migrateStatus.set('done');
-    } catch {
-      this.migrateStatus.set('idle');
-      alert('Error en la migración. Inténtalo de nuevo.');
-    }
-  }
 }
