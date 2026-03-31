@@ -104,16 +104,30 @@
   color: var(--font-color-black);
   line-height: var(--line-height);
   margin: 0 0 14px 0;
-  white-space: pre-line;
+}
+
+.project-description p {
+  margin: 0;
+}
+
+.project-description p + p {
+  margin-top: 0.5em;
 }
 
 .project-credits {
   font-size: 12px;
   font-weight: 400;
-  white-space: pre-line;
   color: var(--font-color-black);
   margin: 0;
   line-height: 1.6;
+}
+
+.project-credits p {
+  margin: 0;
+}
+
+.project-credits p + p {
+  margin-top: 0.25em;
 }
 
 /* ===== Imagen hero ===== */

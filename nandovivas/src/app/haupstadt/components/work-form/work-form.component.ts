@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { take } from 'rxjs';
@@ -23,6 +23,9 @@ export class WorkFormComponent implements OnInit {
   private galleryService = inject(WellcomeGalleryService);
   private storageService = inject(StorageService);
   private elRef = inject(ElementRef);
+
+  @ViewChild('descEditor') descEditorRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('creditsEditor') creditsEditorRef!: ElementRef<HTMLDivElement>;
 
   readonly categories = CATEGORIES;
 
@@ -95,12 +98,29 @@ export class WorkFormComponent implements OnInit {
           if (project.images?.length) {
             this.detailPreviews.set(project.images.map(url => ({ url, isExisting: true })));
           }
-          // Ajustar altura de textareas después de que el DOM refleje los valores
-          setTimeout(() => this.resizeAllTextareas(), 0);
+          // Inicializar contenido de los editores rich text
+          setTimeout(() => {
+            if (this.descEditorRef) this.descEditorRef.nativeElement.innerHTML = this.toEditorHtml(project.description ?? '');
+            if (this.creditsEditorRef) this.creditsEditorRef.nativeElement.innerHTML = this.toEditorHtml(project.credits ?? '');
+            this.resizeAllTextareas();
+          }, 0);
         }
         this.isLoading = false;
       });
     }
+  }
+
+  private toEditorHtml(text: string): string {
+    if (/<[a-z][\s\S]*>/i.test(text)) return text; // ya es HTML
+    return text
+      .split(/\n\n+/)
+      .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+      .join('');
+  }
+
+  format(event: MouseEvent, command: string): void {
+    event.preventDefault(); // no robar foco del contenteditable
+    document.execCommand(command, false);
   }
 
   autoResize(el: HTMLTextAreaElement) {

@@ -13,10 +13,10 @@
       <div class="info-right">
         <p class="project-category">{{ (p.categories && p.categories.length ? p.categories.join(' / ') : p.category) }}</p>
         @if (p.description) {
-          <p class="project-description">{{ p.description }}</p>
+          <div class="project-description" [innerHTML]="formatText(p.description)"></div>
         }
         @if (p.credits) {
-          <p class="project-credits">{{ p.credits }}</p>
+          <div class="project-credits" [innerHTML]="formatText(p.credits)"></div>
         }
       </div>
     </div>

@@ -17,6 +17,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   project = signal<Project | null>(null);
   backQueryParams = signal<{ category?: string }>({});
 
+  formatText(text: string): string {
+    if (/<[a-z][\s\S]*>/i.test(text)) return text;
+    return text.replace(/\n/g, '<br>');
+  }
+
   ngOnInit() {
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -29,8 +34,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
     if (data) {
       const title = `${data.title} — Nando Vivas`;
-      const description = data.description
-        ? data.description.substring(0, 155)
+      const plainDescription = data.description
+        ? data.description.replace(/<[^>]*>/g, '').trim()
+        : '';
+      const description = plainDescription
+        ? plainDescription.substring(0, 155)
         : `${data.client} · ${data.category} · Diseño gráfico por Nando Vivas`;
       const image = data.detailImage || data.image;
 

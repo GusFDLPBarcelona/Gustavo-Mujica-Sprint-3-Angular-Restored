@@ -93,8 +93,20 @@
 
             <!-- Descripción -->
             <div class="field">
-              <label for="description">Descripción</label>
-              <textarea id="description" formControlName="description" placeholder="Descripción del proyecto…" (input)="autoResize($any($event.target))"></textarea>
+              <label>Descripción</label>
+              <div class="rich-field">
+                <div class="rich-toolbar">
+                  <button type="button" class="rich-btn" (mousedown)="format($event, 'bold')"><b>B</b></button>
+                  <button type="button" class="rich-btn rich-italic" (mousedown)="format($event, 'italic')">I</button>
+                  <button type="button" class="rich-btn rich-underline" (mousedown)="format($event, 'underline')">U</button>
+                </div>
+                <div class="rich-editor"
+                  contenteditable="true"
+                  spellcheck="false"
+                  #descEditor
+                  (input)="form.patchValue({ description: descEditor.innerHTML })"
+                  data-placeholder="Descripción del proyecto…"></div>
+              </div>
             </div>
 
             <!-- Imágenes de detalle -->
@@ -117,8 +129,20 @@
 
             <!-- Créditos -->
             <div class="field field-credits">
-              <label for="credits">Créditos</label>
-              <textarea id="credits" rows="1" formControlName="credits" placeholder="Créditos del proyecto…" (input)="autoResize($any($event.target))"></textarea>
+              <label>Créditos</label>
+              <div class="rich-field">
+                <div class="rich-toolbar">
+                  <button type="button" class="rich-btn" (mousedown)="format($event, 'bold')"><b>B</b></button>
+                  <button type="button" class="rich-btn rich-italic" (mousedown)="format($event, 'italic')">I</button>
+                  <button type="button" class="rich-btn rich-underline" (mousedown)="format($event, 'underline')">U</button>
+                </div>
+                <div class="rich-editor"
+                  contenteditable="true"
+                  spellcheck="false"
+                  #creditsEditor
+                  (input)="form.patchValue({ credits: creditsEditor.innerHTML })"
+                  data-placeholder="Créditos del proyecto…"></div>
+              </div>
             </div>
 
             <!-- Añadir al carousel -->
