@@ -194,7 +194,7 @@ export class WorkFormComponent implements OnInit {
       if (v.originalOrder != null) data['originalOrder'] = v.originalOrder;
       if (v.description)           data['description']   = v.description;
       if (v.credits)               data['credits']       = v.credits;
-      if (allDetailUrls.length)    data['images']        = allDetailUrls;
+      data['images'] = allDetailUrls;
       if (detailCoverUrl)          data['detailImage']   = detailCoverUrl;
 
       if (this.isEditMode && this.editId) {
