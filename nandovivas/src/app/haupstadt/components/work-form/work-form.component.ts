@@ -192,8 +192,8 @@ export class WorkFormComponent implements OnInit {
         image:    coverUrl,
       };
       if (v.originalOrder != null) data['originalOrder'] = v.originalOrder;
-      if (v.description)           data['description']   = v.description;
-      if (v.credits)               data['credits']       = v.credits;
+      data['description'] = v.description ?? '';
+      data['credits']     = v.credits ?? '';
       data['images'] = allDetailUrls;
       if (detailCoverUrl)          data['detailImage']   = detailCoverUrl;
 
