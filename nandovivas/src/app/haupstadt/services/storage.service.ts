@@ -25,9 +25,14 @@ export class StorageService {
     });
   }
 
-  // Sube una imagen convirtiéndola a WebP automáticamente.
-  // El path recibido puede tener cualquier extensión — se reemplaza por .webp.
+  // Sube una imagen. Los GIFs se suben tal cual (preserva animación).
+  // El resto se convierte a WebP automáticamente.
   async uploadImage(path: string, file: File): Promise<string> {
+    if (file.type === 'image/gif') {
+      const storageRef = ref(this.storage, path);
+      await uploadBytes(storageRef, file, { contentType: 'image/gif' });
+      return getDownloadURL(storageRef);
+    }
     const webpBlob = await this.convertToWebP(file);
     const webpPath = path.replace(/\.[^.]+$/, '.webp');
     const storageRef = ref(this.storage, webpPath);
