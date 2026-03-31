@@ -41,7 +41,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
   isMobile = signal(window.innerWidth <= 767);
   dropdownOpen = signal(false);
-  categories = ['All','Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
+  categories = ['All','Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Campaign'];
 
   filteredProjects = computed(() => {
     const category = this.activeCategory();

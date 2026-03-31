@@ -6,7 +6,7 @@ import { ProjectsService } from '../../../services/projects.service';
 import { WellcomeGalleryService } from '../../../services/wellcome_gallery.service';
 import { StorageService } from '../../services/storage.service';
 
-const CATEGORIES = ['Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Web & SM'];
+const CATEGORIES = ['Editorial', 'Branding', 'Typography', 'Packaging', 'Illustration', 'Campaign'];
 
 @Component({
   selector: 'app-work-form',
