@@ -134,10 +134,18 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
   categorySelected = signal(false);
 
-  setActiveCategoryAndClose(category: string, dropdown: HTMLDetailsElement): void {
+  setActiveCategoryAndClose(category: string): void {
     this.setActiveCategory(category);
     this.categorySelected.set(true);
-    dropdown.open = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.dropdownOpen()) return;
+    const dropdown = this.el.nativeElement.querySelector('.filters-dropdown');
+    if (dropdown && !dropdown.contains(event.target as Node)) {
+      this.dropdownOpen.set(false);
+    }
   }
 
   toggleDropdown(): void {

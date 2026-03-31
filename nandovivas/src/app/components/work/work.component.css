@@ -202,7 +202,7 @@ body {
     border: 1px solid #ccc;
   }
 
-  .filters-dropdown[open] .filters-dropdown-options {
+  .filters-dropdown.open .filters-dropdown-options {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -321,14 +321,14 @@ body {
     padding: 0;
   }
 
-  .filters-dropdown[open] .filters-dropdown-options {
+  .filters-dropdown.open .filters-dropdown-options {
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding: 0;
   }
 
-  /* Barra de links de filtros (el <details> en móvil) fija bajo la navbar */
+  /* Barra de filtros móvil, fija bajo la navbar */
   .filters-dropdown {
     position: fixed;
     top: var(--navbar-height-mobile, 80px); /* justo debajo de la navbar */
@@ -372,8 +372,8 @@ body {
     padding-inline: 0px !important;
   }
 
-  details.filters-dropdown > summary:focus,
-  details.filters-dropdown > summary:active {
+  .main-filter-summary:focus,
+  .main-filter-summary:active {
     background: var(--background-color) !important;
     outline: none !important;
     box-shadow: none !important;
