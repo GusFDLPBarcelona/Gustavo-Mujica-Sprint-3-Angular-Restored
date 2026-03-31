@@ -12,6 +12,7 @@ import {
   afterNextRender
 } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../interfaces/project';
 import { ToastService } from '../../services/toast.service';
@@ -31,6 +32,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
   private toastService = inject(ToastService);
   private injector = inject(Injector);
   private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
 
   @ViewChild('gridContainer', { read: ElementRef }) gridContainer!: ElementRef;
 
@@ -57,6 +59,8 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.titleService.setTitle('Work — Nando Vivas');
+
     const categoryParam = this.route.snapshot.queryParamMap.get('category');
     if (categoryParam && this.categories.includes(categoryParam)) {
       this.activeCategory.set(categoryParam);

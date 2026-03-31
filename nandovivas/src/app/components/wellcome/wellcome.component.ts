@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener, OnDestroy, signal, ChangeDetectorRef } from '@angular/core';
 import { OwlOptions, CarouselModule } from 'ngx-owl-carousel-o';
-import { ViewChild } from '@angular/core';
+import { ViewChild, inject } from '@angular/core';
 import { CarouselComponent } from 'ngx-owl-carousel-o';
+import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WellcomeGalleryService } from '../../services/wellcome_gallery.service';
 import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
@@ -14,6 +15,7 @@ import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
   styleUrls: ['./wellcome.component.css'],
 })
 export class WellcomeComponent implements OnInit, OnDestroy {
+  private titleService = inject(Title);
   imagesGallery = signal<WellcomeGallery[]>([]);
   navVisible = signal(false);
   intervalId!: number;
@@ -47,6 +49,7 @@ export class WellcomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle('Nando Vivas — Diseñador Gráfico, Barcelona');
     this.loadGalleryItems();
   }
 
