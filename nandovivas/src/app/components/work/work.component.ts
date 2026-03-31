@@ -48,7 +48,8 @@ export class WorkComponent implements OnInit, AfterViewInit {
     return this.projects()
       .map((project) => ({
         ...project,
-        matchesFilter: project.category === category,
+        matchesFilter: category === 'All' ||
+          (project.categories?.includes(category) ?? project.category === category),
       }))
       .sort((a, b) => {
         if (a.matchesFilter && !b.matchesFilter) return -1;

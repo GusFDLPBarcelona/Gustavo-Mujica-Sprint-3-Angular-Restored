@@ -239,6 +239,12 @@
   background: #fafafa;
 }
 
+.categories-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+}
+
 .checkbox-label {
   display: flex !important;
   align-items: center;

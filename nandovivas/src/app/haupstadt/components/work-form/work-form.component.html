@@ -47,14 +47,19 @@
               <input id="client" type="text" formControlName="client" placeholder="Nombre del cliente" />
             </div>
 
-            <!-- Categoría -->
+            <!-- Categorías -->
             <div class="field">
-              <label for="category">Categoría <span class="required">*</span></label>
-              <select id="category" formControlName="category">
+              <label>Categorías <span class="required">*</span></label>
+              <div class="categories-grid">
                 @for (cat of categories; track cat) {
-                  <option [value]="cat">{{ cat }}</option>
+                  <label class="checkbox-label">
+                    <input type="checkbox"
+                      [checked]="isCategorySelected(cat)"
+                      (change)="toggleCategory(cat)" />
+                    {{ cat }}
+                  </label>
                 }
-              </select>
+              </div>
             </div>
 
             <!-- Posición -->

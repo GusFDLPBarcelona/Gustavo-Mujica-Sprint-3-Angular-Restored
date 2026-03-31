@@ -11,7 +11,7 @@
         <p class="project-client">{{ p.client }}</p>
       </div>
       <div class="info-right">
-        <p class="project-category">{{ p.category }}</p>
+        <p class="project-category">{{ (p.categories && p.categories.length ? p.categories.join(' / ') : p.category) }}</p>
         @if (p.description) {
           <p class="project-description">{{ p.description }}</p>
         }

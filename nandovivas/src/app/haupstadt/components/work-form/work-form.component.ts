@@ -31,6 +31,20 @@ export class WorkFormComponent implements OnInit {
   isLoading = false;
   isSaving = false;
 
+  selectedCategories: string[] = [];
+
+  isCategorySelected(cat: string): boolean {
+    return this.selectedCategories.includes(cat);
+  }
+
+  toggleCategory(cat: string): void {
+    if (this.isCategorySelected(cat)) {
+      this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
+    } else {
+      this.selectedCategories = [...this.selectedCategories, cat];
+    }
+  }
+
   // Portada (Work grid)
   coverFile: File | null = null;
   coverPreview = signal<string | null>(null);
@@ -46,7 +60,6 @@ export class WorkFormComponent implements OnInit {
   form = this.fb.group({
     title:         ['', Validators.required],
     client:        ['', Validators.required],
-    category:      ['Editorial', Validators.required],
     originalOrder: [null as number | null],
     description:   [''],
     credits:       [''],
@@ -65,11 +78,14 @@ export class WorkFormComponent implements OnInit {
           this.form.patchValue({
             title:         project.title,
             client:        project.client,
-            category:      project.category,
             originalOrder: project.originalOrder ?? null,
             description:   project.description ?? '',
             credits:       project.credits ?? '',
           });
+          // Cargar categorías: nuevo formato o fallback al legacy
+          this.selectedCategories = project.categories?.length
+            ? [...project.categories]
+            : (project.category ? [project.category] : []);
           if (project.image) {
             this.coverPreview.set(project.image);
           }
@@ -148,6 +164,10 @@ export class WorkFormComponent implements OnInit {
 
   async save() {
     if (this.form.invalid) return;
+    if (this.selectedCategories.length === 0) {
+      alert('Selecciona al menos una categoría.');
+      return;
+    }
     if (!this.isEditMode && !this.coverFile) {
       alert('Selecciona una imagen de portada.');
       return;
@@ -186,10 +206,10 @@ export class WorkFormComponent implements OnInit {
 
       const v = this.form.value;
       const data: Record<string, unknown> = {
-        title:    v.title!,
-        client:   v.client!,
-        category: v.category!,
-        image:    coverUrl,
+        title:      v.title!,
+        client:     v.client!,
+        categories: this.selectedCategories,
+        image:      coverUrl,
       };
       if (v.originalOrder != null) data['originalOrder'] = v.originalOrder;
       data['description'] = v.description ?? '';

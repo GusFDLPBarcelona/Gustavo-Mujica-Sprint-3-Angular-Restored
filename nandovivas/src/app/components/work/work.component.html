@@ -44,9 +44,7 @@
     <div
       class="project-container group"
       [attr.data-category]="project.category"
-      [class.opacity-50]="
-        activeCategory() !== 'All' && project.category !== activeCategory()
-      "
+      [class.opacity-50]="activeCategory() !== 'All' && !project.matchesFilter"
     >
       <a
         [routerLink]="['/project-detail', project.id]"

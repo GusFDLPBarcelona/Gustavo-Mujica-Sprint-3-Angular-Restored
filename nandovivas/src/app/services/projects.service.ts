@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, docData, addDoc, updateDoc, deleteDoc, getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Project } from '../interfaces/project';
 
@@ -28,5 +28,20 @@ export class ProjectsService {
 
   deleteProject(id: string): Promise<void> {
     return deleteDoc(doc(this.firestore, 'projects', id));
+  }
+
+  // Migración única: convierte category (string) → categories (string[])
+  // Solo actúa sobre documentos que aún no tienen el campo categories.
+  async migrateCategories(): Promise<number> {
+    const snapshot = await getDocs(this.projectsCollection);
+    let count = 0;
+    for (const docSnap of snapshot.docs) {
+      const data = docSnap.data() as any;
+      if (!data['categories'] && data['category']) {
+        await updateDoc(docSnap.ref, { categories: [data['category']] });
+        count++;
+      }
+    }
+    return count;
   }
 }
