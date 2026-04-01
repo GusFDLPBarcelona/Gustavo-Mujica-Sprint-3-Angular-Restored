@@ -4,16 +4,16 @@
 
   <!-- Filtros móviles -->
   @if (isMobile()) {
-  <div class="filters-dropdown" [class.open]="dropdownOpen()">
-    <div class="main-filter-summary" (click)="toggleDropdown()">
+  <details #dropdown class="filters-dropdown">
+    <summary class="main-filter-summary">
       {{ activeCategory().toUpperCase() }}
       <span aria-hidden="true" class="dropdown-arrow">▼</span>
-    </div>
+    </summary>
     <div class="filters-dropdown-options">
       @for (category of categories; track category) { @if (activeCategory() !==
       category) {
       <button
-        (click)="setActiveCategoryAndClose(category)"
+        (click)="setActiveCategoryAndClose(category, dropdown)"
         class="filter-link"
         [class.active]="activeCategory() === category"
       >
@@ -21,7 +21,7 @@
       </button>
       } }
     </div>
-  </div>
+  </details>
   }
   <!-- Filtros desktop/tablet -->
   @if (!isMobile()) {

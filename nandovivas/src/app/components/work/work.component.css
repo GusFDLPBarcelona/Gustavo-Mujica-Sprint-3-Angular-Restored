@@ -202,7 +202,7 @@ body {
     border: 1px solid #ccc;
   }
 
-  .filters-dropdown.open .filters-dropdown-options {
+  .filters-dropdown[open] .filters-dropdown-options {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -321,7 +321,7 @@ body {
     padding: 0;
   }
 
-  .filters-dropdown.open .filters-dropdown-options {
+  .filters-dropdown[open] .filters-dropdown-options {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -359,6 +359,10 @@ body {
     padding-bottom: 10px;
     font-size: 1.1rem;
     font-weight: 500;
+    list-style: none;
+  }
+  .main-filter-summary::-webkit-details-marker {
+    display: none;
   }
   .filter-label {
     font-size: 1.1rem;
