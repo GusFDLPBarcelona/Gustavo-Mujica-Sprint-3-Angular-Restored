@@ -117,12 +117,20 @@ export class WorkComponent implements OnInit, AfterViewInit {
   }
 
   private computeStickyOffset(): number {
+    const getVisibleHeight = (selector: string) => {
+      const el = document.querySelector<HTMLElement>(selector);
+      if (!el) return 0;
+      const style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden') return 0;
+      const rect = el.getBoundingClientRect();
+      return rect.height > 0 ? rect.height : 0;
+    };
+
     const isMobile = window.innerWidth <= 767;
-    const el = document.querySelector<HTMLElement>(
-      isMobile ? '.filters-dropdown' : '.filters-horizontal'
-    );
-    if (!el) return 0;
-    return Math.ceil(el.getBoundingClientRect().bottom);
+    const navbarHeight = getVisibleHeight('.filters-container');
+    const filtersHeight = isMobile ? getVisibleHeight('.filters-dropdown') : getVisibleHeight('.filters-horizontal');
+
+    return Math.round(navbarHeight + filtersHeight);
   }
 
   categorySelected = signal(false);
