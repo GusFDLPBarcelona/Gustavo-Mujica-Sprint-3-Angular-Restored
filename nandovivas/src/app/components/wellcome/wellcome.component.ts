@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, OnDestroy, signal, ChangeDetectorRef }
 import { OwlOptions, CarouselModule } from 'ngx-owl-carousel-o';
 import { ViewChild, inject } from '@angular/core';
 import { CarouselComponent } from 'ngx-owl-carousel-o';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WellcomeGalleryService } from '../../services/wellcome_gallery.service';
 import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
@@ -16,6 +16,7 @@ import { WellcomeGallery } from '../../interfaces/wellcome_gallery';
 })
 export class WellcomeComponent implements OnInit, OnDestroy {
   private titleService = inject(Title);
+  private metaService = inject(Meta);
   imagesGallery = signal<WellcomeGallery[]>([]);
   navVisible = signal(false);
   intervalId!: number;
@@ -49,7 +50,10 @@ export class WellcomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('Nando Vivas — Diseñador Gráfico, Barcelona');
+    this.titleService.setTitle('Nando Vivas — Graphic Designer, Barcelona');
+    this.metaService.updateTag({ name: 'description', content: "Barcelona-based graphic designer, illustrator and design instructor. Branding, packaging, editorial and art direction. Let's talk." });
+    this.metaService.updateTag({ property: 'og:title', content: 'Nando Vivas — Graphic Designer, Barcelona' });
+    this.metaService.updateTag({ property: 'og:description', content: "Barcelona-based graphic designer, illustrator and design instructor. Branding, packaging, editorial and art direction. Let's talk." });
     this.loadGalleryItems();
   }
 

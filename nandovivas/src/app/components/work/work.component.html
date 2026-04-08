@@ -48,12 +48,12 @@
     >
       <a
         [routerLink]="['/project-detail', project.id]"
-        [queryParams]="{ from: activeCategory() }"
+        [queryParams]="activeCategory() !== 'All' ? { from: activeCategory() } : {}"
         class="block relative overflow-hidden"
       >
         <img
           [src]="project.image"
-          alt="{{ project.title }}"
+          [alt]="project.altText || project.title"
           class="project-image"
         />
       </a>

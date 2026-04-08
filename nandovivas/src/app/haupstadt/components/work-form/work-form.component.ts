@@ -63,6 +63,7 @@ export class WorkFormComponent implements OnInit {
   form = this.fb.group({
     title:         ['', Validators.required],
     client:        ['', Validators.required],
+    altText:       [''],
     originalOrder: [null as number | null],
     description:   [''],
     credits:       [''],
@@ -81,6 +82,7 @@ export class WorkFormComponent implements OnInit {
           this.form.patchValue({
             title:         project.title,
             client:        project.client,
+            altText:       project.altText ?? '',
             originalOrder: project.originalOrder ?? null,
             description:   project.description ?? '',
             credits:       project.credits ?? '',
@@ -228,6 +230,7 @@ export class WorkFormComponent implements OnInit {
       const data: Record<string, unknown> = {
         title:      v.title!,
         client:     v.client!,
+        altText:    v.altText ?? '',
         categories: this.selectedCategories,
         image:      coverUrl,
       };

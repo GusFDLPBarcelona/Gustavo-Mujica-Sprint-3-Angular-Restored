@@ -38,8 +38,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         ? data.description.replace(/<[^>]*>/g, '').trim()
         : '';
       const description = plainDescription
-        ? plainDescription.substring(0, 155)
-        : `${data.client} · ${data.category} · Diseño gráfico por Nando Vivas`;
+        ? plainDescription.substring(0, 160)
+        : `Graphic design by Nando Vivas — ${data.client}`;
       const image = data.detailImage || data.image;
 
       this.titleService.setTitle(title);
@@ -56,8 +56,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.titleService.setTitle('Nando Vivas — Diseñador Gráfico, Barcelona');
-    this.metaService.updateTag({ name: 'description', content: 'Portfolio de Nando Vivas, diseñador gráfico en Barcelona. Editorial, branding, tipografía, packaging e ilustración.' });
+    this.titleService.setTitle('Nando Vivas — Graphic Designer, Barcelona');
+    this.metaService.updateTag({ name: 'description', content: "Barcelona-based graphic designer, illustrator and design instructor. Branding, packaging, editorial and art direction. Let's talk." });
+    this.metaService.updateTag({ property: 'og:title', content: 'Nando Vivas — Graphic Designer, Barcelona' });
+    this.metaService.updateTag({ property: 'og:description', content: "Barcelona-based graphic designer, illustrator and design instructor. Branding, packaging, editorial and art direction. Let's talk." });
     this.metaService.removeTag("property='og:image'");
   }
 }
