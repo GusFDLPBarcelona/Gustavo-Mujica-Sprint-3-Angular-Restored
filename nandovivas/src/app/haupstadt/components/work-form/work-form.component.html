@@ -54,6 +54,21 @@
               <span class="field-hint">Descripción visual para SEO y accesibilidad.</span>
             </div>
 
+            <!-- Slug -->
+            <div class="field">
+              <label for="slug">URL del proyecto</label>
+              <input id="slug" type="text" formControlName="slug"
+                placeholder="ej: arnold-fashion-campaign"
+                (input)="onSlugInput(form.get('slug')!.value || '')" />
+              @if (isCheckingSlug()) {
+                <span class="field-hint">Verificando disponibilidad…</span>
+              } @else if (slugConflict()) {
+                <span class="field-error">Este slug ya lo usa «{{ slugConflict() }}». Edítalo para que sea único.</span>
+              } @else if (form.get('slug')!.value) {
+                <span class="field-hint">nandovivas.com/project-detail/{{ form.get('slug')!.value }}</span>
+              }
+            </div>
+
             <!-- Categorías -->
             <div class="field">
               <label>Categorías <span class="required">*</span></label>
@@ -170,7 +185,7 @@
             <!-- Acciones -->
             <div class="form-actions">
               <a class="btn-secondary" routerLink="/haupstadt/work">Cancelar</a>
-              <button type="submit" class="btn-primary" [disabled]="isSaving">
+              <button type="submit" class="btn-primary" [disabled]="isSaving || !!slugConflict() || isCheckingSlug()">
                 {{ isSaving ? 'Guardando…' : 'Guardar' }}
               </button>
             </div>

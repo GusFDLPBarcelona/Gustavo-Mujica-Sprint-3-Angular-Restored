@@ -34,6 +34,11 @@ export class WorkFormComponent implements OnInit {
   isLoading = false;
   isSaving = false;
 
+  slugManuallyEdited = false;
+  slugConflict = signal<string | null>(null);
+  isCheckingSlug = signal(false);
+  private slugCheckTimeout: any = null;
+
   selectedCategories: string[] = [];
 
   isCategorySelected(cat: string): boolean {
@@ -64,6 +69,7 @@ export class WorkFormComponent implements OnInit {
     title:         ['', Validators.required],
     client:        ['', Validators.required],
     altText:       [''],
+    slug:          [''],
     originalOrder: [null as number | null],
     description:   [''],
     credits:       [''],
@@ -75,6 +81,15 @@ export class WorkFormComponent implements OnInit {
     this.editId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.editId;
 
+    // Auto-generar slug desde el título si el usuario no lo ha editado manualmente
+    this.form.get('title')!.valueChanges.subscribe(title => {
+      if (!this.slugManuallyEdited) {
+        const generated = ProjectsService.generateSlug(title ?? '');
+        this.form.get('slug')!.setValue(generated, { emitEvent: false });
+        this.scheduleSlugCheck(generated);
+      }
+    });
+
     if (this.isEditMode && this.editId) {
       this.isLoading = true;
       this.projectsService.getProjectById(this.editId).pipe(take(1)).subscribe(project => {
@@ -83,10 +98,17 @@ export class WorkFormComponent implements OnInit {
             title:         project.title,
             client:        project.client,
             altText:       project.altText ?? '',
+            slug:          project.slug ?? '',
             originalOrder: project.originalOrder ?? null,
             description:   project.description ?? '',
             credits:       project.credits ?? '',
           });
+          // Si el proyecto ya tiene slug guardado, marcar como editado manualmente
+          // para que un cambio de título accidental no lo sobreescriba
+          if (project.slug) {
+            this.slugManuallyEdited = true;
+            this.scheduleSlugCheck(project.slug);
+          }
           // Cargar categorías: nuevo formato o fallback al legacy
           this.selectedCategories = project.categories?.length
             ? [...project.categories]
@@ -110,6 +132,23 @@ export class WorkFormComponent implements OnInit {
         this.isLoading = false;
       });
     }
+  }
+
+  onSlugInput(value: string): void {
+    this.slugManuallyEdited = true;
+    this.scheduleSlugCheck(value);
+  }
+
+  private scheduleSlugCheck(slug: string): void {
+    clearTimeout(this.slugCheckTimeout);
+    this.slugConflict.set(null);
+    if (!slug) { this.isCheckingSlug.set(false); return; }
+    this.isCheckingSlug.set(true);
+    this.slugCheckTimeout = setTimeout(async () => {
+      const conflict = await this.projectsService.checkSlugExists(slug, this.editId ?? undefined);
+      this.slugConflict.set(conflict);
+      this.isCheckingSlug.set(false);
+    }, 500);
   }
 
   private toEditorHtml(text: string): string {
@@ -194,6 +233,10 @@ export class WorkFormComponent implements OnInit {
       alert('Selecciona una imagen de portada.');
       return;
     }
+    if (this.slugConflict()) {
+      alert('El slug ya está en uso. Edítalo antes de guardar.');
+      return;
+    }
     this.isSaving = true;
 
     try {
@@ -231,6 +274,7 @@ export class WorkFormComponent implements OnInit {
         title:      v.title!,
         client:     v.client!,
         altText:    v.altText ?? '',
+        slug:       v.slug ?? '',
         categories: this.selectedCategories,
         image:      coverUrl,
       };
