@@ -116,3 +116,51 @@
 .stat-card-action:hover {
   opacity: .75;
 }
+
+/* ── MANTENIMIENTO ── */
+.maintenance-section {
+  margin-top: 32px;
+}
+
+.maintenance-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #718096;
+  margin-bottom: 12px;
+}
+
+.maintenance-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+.maintenance-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.maintenance-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.maintenance-card-hint {
+  font-size: 11px;
+  color: #718096;
+}
+
+.maintenance-result {
+  font-size: 12px;
+  color: #2d7a40;
+  margin-top: 8px;
+}

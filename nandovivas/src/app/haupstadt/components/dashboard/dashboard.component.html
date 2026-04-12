@@ -42,6 +42,24 @@
       </div>
 
     </div>
+
+    <!-- Herramientas de mantenimiento -->
+    <div class="maintenance-section">
+      <h2 class="maintenance-title">Mantenimiento</h2>
+      <div class="maintenance-card">
+        <div class="maintenance-card-info">
+          <span class="maintenance-card-label">Generar slugs de URL</span>
+          <span class="maintenance-card-hint">Asigna automáticamente una URL legible a los proyectos que todavía no la tienen.</span>
+        </div>
+        <button class="btn-secondary" (click)="runSlugMigration()" [disabled]="isMigratingSlugs">
+          {{ isMigratingSlugs ? 'Procesando…' : 'Ejecutar migración' }}
+        </button>
+      </div>
+      @if (slugMigrationResult()) {
+        <p class="maintenance-result">{{ slugMigrationResult() }}</p>
+      }
+    </div>
+
   </div>
 
 </div>
