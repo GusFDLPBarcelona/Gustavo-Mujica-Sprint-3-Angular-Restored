@@ -26,7 +26,7 @@ export const routes: Routes = [
       import('./components/work/work.component').then((m) => m.WorkComponent),
   },
   {
-    path: 'project-detail/:id',
+    path: 'project-detail/:slug',
     component: ProjectDetailComponent,
     resolve: { project: ProjectResolver }
   },
