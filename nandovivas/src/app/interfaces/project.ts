@@ -10,6 +10,7 @@ export interface Project {
     credits?: string;
     detailImage?: string;
     altText?: string;
+    slug?: string;
     originalOrder?: number;
     matchesFilter?: boolean;
 }
