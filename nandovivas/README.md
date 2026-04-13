@@ -1,27 +1,66 @@
-# Nandovivas
+# Nando Vivas — Portfolio
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+Portfolio web de **Nando Vivas**, diseñador gráfico con base en Barcelona.  
+Desarrollado como proyecto final de estudios en desarrollo web con Angular.
 
-## Development server
+Sitio en producción: [nandovivas.com](https://nandovivas.com)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## Stack técnico
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Angular 18** — framework principal, con componentes standalone y signals
+- **Firebase Firestore** — base de datos en tiempo real para proyectos y galería
+- **Firebase Storage** — almacenamiento de imágenes
+- **Firebase Hosting** — despliegue y CDN
+- **Firebase Auth** — autenticación del panel de administración
+- **Firebase Functions** — backend para el formulario de contacto (envío de email vía Gmail)
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Arrancar en local
 
-## Running unit tests
+```bash
+npm install
+npx @angular/cli@18 serve --port 4200
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Requiere los archivos de entorno con las credenciales Firebase (no incluidos en el repositorio):
+- `src/environments/environment.ts`
+- `src/environments/environment.prod.ts`
 
-## Running end-to-end tests
+## Build y deploy
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+# Build de producción
+npx @angular/cli@18 build --configuration production
 
-## Further help
+# Deploy solo hosting
+firebase deploy --only hosting
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## Funcionalidades
+
+### URLs legibles para proyectos (slugs)
+
+Antes, cada proyecto tenía una URL con un identificador generado automáticamente por la base de datos, del tipo `/project-detail/xK92mNpQr`. Ese ID no comunica nada ni al visitante ni a los buscadores.
+
+Ahora cada proyecto tiene un **slug**: una versión del título transformada en URL legible. Por ejemplo, un proyecto llamado "Coca-Cola Brand" genera la URL `/project-detail/coca-cola-brand`. El slug se genera automáticamente al crear o editar un proyecto desde el panel de administración, se puede editar manualmente, y el sistema avisa si ya existe otro proyecto con el mismo slug.
+
+Esto mejora el SEO (los buscadores entienden mejor de qué trata la página) y hace los enlaces más fáciles de compartir y recordar.
+
+---
+
+## Panel de administración
+
+Accesible en `/haupstadt` (ruta no indexada). Requiere autenticación con email y contraseña.  
+Permite gestionar los proyectos del portfolio y la galería de la página de inicio sin tocar código.
+
+---
+
+## Autor
+
+Desarrollado por **Gustavo Mujica**  
+Proyecto final — curso de desarrollo web con Angular
