@@ -3,7 +3,6 @@ import {
   OnInit,
   AfterViewInit,
   ElementRef,
-  ViewChild,
   inject,
   signal,
   computed,
@@ -30,8 +29,6 @@ export class WorkComponent implements OnInit, AfterViewInit {
   private toastService = inject(ToastService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
-
-  @ViewChild('gridContainer', { read: ElementRef }) gridContainer!: ElementRef;
 
   projects = signal<Project[]>([]);
   activeCategory = signal<string>('All');
@@ -100,34 +97,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
   }
 
   private scrollGridIntoViewAfterRender(): void {
-    const gridEl: HTMLElement | null = this.gridContainer?.nativeElement ?? null;
-    if (!gridEl) return;
-
-    const offset = this.computeStickyOffset();
-    gridEl.style.scrollMarginTop = `${offset}px`;
-
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  }
-
-  private computeStickyOffset(): number {
-    const getVisibleHeight = (selector: string) => {
-      const el = document.querySelector<HTMLElement>(selector);
-      if (!el) return 0;
-      const style = window.getComputedStyle(el);
-      if (style.display === 'none' || style.visibility === 'hidden') return 0;
-      const rect = el.getBoundingClientRect();
-      return rect.height > 0 ? rect.height : 0;
-    };
-
-    const isMobile = window.innerWidth <= 767;
-    const navbarHeight = getVisibleHeight('.filters-container');
-    const filtersHeight = isMobile ? getVisibleHeight('.filters-dropdown') : getVisibleHeight('.filters-horizontal');
-
-    return Math.round(navbarHeight + filtersHeight);
   }
 
   categorySelected = signal(false);
