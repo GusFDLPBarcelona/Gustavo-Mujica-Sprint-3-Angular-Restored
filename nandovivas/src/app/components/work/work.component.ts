@@ -7,9 +7,7 @@ import {
   inject,
   signal,
   computed,
-  HostListener,
-  Injector,
-  afterNextRender
+  HostListener
 } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -30,7 +28,6 @@ export class WorkComponent implements OnInit, AfterViewInit {
   private el = inject(ElementRef);
   private projectsService = inject(ProjectsService);
   private toastService = inject(ToastService);
-  private injector = inject(Injector);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
 
@@ -97,10 +94,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
     this.activeCategory.set(category);
     this.dropdownOpen.set(false);
 
-    afterNextRender(() => {
+    setTimeout(() => {
       this.scrollGridIntoViewAfterRender();
-    }, { injector: this.injector });
-
+    }, 150);
   }
 
   private scrollGridIntoViewAfterRender(): void {
@@ -108,14 +104,13 @@ export class WorkComponent implements OnInit, AfterViewInit {
     if (!gridEl) return;
 
     const offset = this.computeStickyOffset();
+    gridEl.style.scrollMarginTop = `${offset}px`;
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const rect = gridEl.getBoundingClientRect();
-        const targetY = window.scrollY + rect.top - offset;
-        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-    }, 0);
+    });
   }
 
   private computeStickyOffset(): number {

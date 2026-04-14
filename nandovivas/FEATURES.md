@@ -16,7 +16,7 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 **Cómo se corrigió:**
 - La restauración del filtro se mueve al interior de la carga de proyectos, garantizando que el grid ya tiene contenido cuando se ejecuta el scroll.
-- Se reemplaza `scrollIntoView` por `window.scrollTo` con coordenadas calculadas explícitamente, más un `setTimeout(0)` antes del `requestAnimationFrame` para dar al navegador tiempo de estabilizar el layout.
+- `afterNextRender` (hook interno de Angular) se reemplaza por `setTimeout(150ms)` para disparar el scroll. En Chrome Android, `afterNextRender` puede ignorarse en builds de producción (AOT); el timeout da tiempo suficiente para que Angular renderice Y para superar el periodo en que el navegador ignora scroll programático tras un toque.
 
 ---
 
