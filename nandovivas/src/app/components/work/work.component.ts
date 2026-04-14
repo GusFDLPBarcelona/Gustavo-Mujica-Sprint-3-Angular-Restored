@@ -64,7 +64,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
     const categoryParam = this.route.snapshot.queryParamMap.get('category');
     if (categoryParam && this.categories.includes(categoryParam)) {
-      this.activeCategory.set(categoryParam);
+      this.setActiveCategory(categoryParam);
     }
 
     this.projectsService.getProjects().subscribe({
@@ -100,6 +100,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
     afterNextRender(() => {
       this.scrollGridIntoViewAfterRender();
     }, { injector: this.injector });
+
   }
 
   private scrollGridIntoViewAfterRender(): void {
@@ -151,5 +152,13 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
   toggleDropdown(): void {
     this.dropdownOpen.update(open => !open);
+  }
+
+  saveFilter(): void {
+    if (this.activeCategory() !== 'All') {
+      sessionStorage.setItem('workFilter', this.activeCategory());
+    } else {
+      sessionStorage.removeItem('workFilter');
+    }
   }
 }

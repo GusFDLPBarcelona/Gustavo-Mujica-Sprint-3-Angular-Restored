@@ -48,7 +48,7 @@
     >
       <a
         [routerLink]="['/project-detail', project.slug || project.id]"
-        [queryParams]="activeCategory() !== 'All' ? { from: activeCategory() } : {}"
+        (click)="saveFilter()"
         class="block relative overflow-hidden"
       >
         <img

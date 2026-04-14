@@ -49,7 +49,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       this.metaService.updateTag({ property: 'og:image', content: image });
     }
 
-    const from = this.route.snapshot.queryParamMap.get('from');
+    const from = sessionStorage.getItem('workFilter');
     if (from && from !== 'All') {
       this.backQueryParams.set({ category: from });
     }
