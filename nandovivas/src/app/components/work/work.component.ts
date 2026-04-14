@@ -62,11 +62,6 @@ export class WorkComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.titleService.setTitle('Work — Nando Vivas');
 
-    const categoryParam = this.route.snapshot.queryParamMap.get('category');
-    if (categoryParam && this.categories.includes(categoryParam)) {
-      this.setActiveCategory(categoryParam);
-    }
-
     this.projectsService.getProjects().subscribe({
       next: (projects: Project[]) => {
         if (projects.length === 0) {
@@ -74,6 +69,11 @@ export class WorkComponent implements OnInit, AfterViewInit {
         } else {
           const ordered = [...projects].sort((a, b) => (a.originalOrder ?? 9999) - (b.originalOrder ?? 9999));
           this.projects.set(ordered);
+
+          const categoryParam = this.route.snapshot.queryParamMap.get('category');
+          if (categoryParam && this.categories.includes(categoryParam)) {
+            this.setActiveCategory(categoryParam);
+          }
         }
       },
       error: () => {
@@ -108,13 +108,14 @@ export class WorkComponent implements OnInit, AfterViewInit {
     if (!gridEl) return;
 
     const offset = this.computeStickyOffset();
-    gridEl.style.scrollMarginTop = `${offset}px`;
 
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       requestAnimationFrame(() => {
-        gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const rect = gridEl.getBoundingClientRect();
+        const targetY = window.scrollY + rect.top - offset;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
       });
-    });
+    }, 0);
   }
 
   private computeStickyOffset(): number {
