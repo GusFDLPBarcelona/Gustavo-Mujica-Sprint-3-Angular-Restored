@@ -128,7 +128,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
     const isMobile = window.innerWidth <= 767;
     const navbarHeight = getVisibleHeight('.filters-container');
-    const filtersHeight = isMobile ? getVisibleHeight('.filters-dropdown') : getVisibleHeight('.filters-horizontal');
+    const filtersHeight = isMobile ? getVisibleHeight('.filters-dropdown > summary') : getVisibleHeight('.filters-horizontal');
 
     return Math.round(navbarHeight + filtersHeight);
   }
