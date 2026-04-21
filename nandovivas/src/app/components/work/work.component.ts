@@ -136,9 +136,13 @@ export class WorkComponent implements OnInit, AfterViewInit {
   categorySelected = signal(false);
 
   setActiveCategoryAndClose(category: string, dropdown: HTMLDetailsElement): void {
-    this.setActiveCategory(category);
+    this.activeCategory.set(category);
     this.categorySelected.set(true);
     dropdown.open = false;
+    requestAnimationFrame(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
   }
 
   @HostListener('document:click', ['$event'])
