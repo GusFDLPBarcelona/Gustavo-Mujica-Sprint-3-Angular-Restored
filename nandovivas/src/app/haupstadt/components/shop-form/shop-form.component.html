@@ -1,0 +1,271 @@
+<div class="page">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">{{ isEditMode ? 'Editar producto' : 'Nuevo producto' }}</div>
+      <div class="topbar-breadcrumb">
+        Inicio › <a routerLink="/haupstadt/shop">Shop</a> › <span>{{ isEditMode ? 'Editar' : 'Nuevo' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    @if (isLoading) {
+      <div class="loading">Cargando…</div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="form-card">
+        <div class="form-columns">
+
+          <!-- ── COL 1: IMÁGENES ── -->
+          <div class="form-col">
+
+            <div class="field">
+              <label>Portada</label>
+              @if (coverPreview()) {
+                <div class="img-preview">
+                  <img [src]="coverPreview()!" alt="Portada" />
+                </div>
+              }
+              <label class="file-label" for="coverInput">
+                {{ isEditMode && coverPreview() ? 'Reemplazar portada' : 'Seleccionar portada' }}
+              </label>
+              <input id="coverInput" type="file" accept="image/*" (change)="onCoverSelected($event)" class="file-input" />
+              <span class="field-hint">Se convertirá a WebP automáticamente.</span>
+            </div>
+
+            <div class="field">
+              <label>Galería adicional</label>
+              @if (galleryPreviews().length > 0) {
+                <div class="detail-strip">
+                  @for (preview of galleryPreviews(); track $index) {
+                    <div class="detail-thumb">
+                      <img [src]="preview.url" alt="Galería" />
+                      <button type="button" class="thumb-remove" (click)="removeGalleryImage($index)">×</button>
+                    </div>
+                  }
+                </div>
+              }
+              <label class="file-label" for="galleryInput">+ Añadir imágenes</label>
+              <input id="galleryInput" type="file" accept="image/*" multiple (change)="onGallerySelected($event)" class="file-input" />
+              <span class="field-hint">Puedes añadir varias a la vez. Se convierten a WebP.</span>
+            </div>
+
+          </div>
+
+          <!-- ── COL 2: DATOS ── -->
+          <div class="form-col">
+
+            <div class="field">
+              <label for="name">Nombre <span class="required">*</span></label>
+              <input id="name" type="text" formControlName="name" placeholder="Nombre del producto" />
+            </div>
+
+            <div class="field">
+              <label for="slug">URL del producto</label>
+              <input id="slug" type="text" formControlName="slug"
+                placeholder="ej: camiseta-llorando-por-dentro"
+                (input)="onSlugInput(form.get('slug')!.value || '')" />
+              @if (isCheckingSlug()) {
+                <span class="field-hint">Verificando disponibilidad…</span>
+              } @else if (slugConflict()) {
+                <span class="field-error">Este slug ya lo usa «{{ slugConflict() }}». Edítalo para que sea único.</span>
+              } @else if (form.get('slug')!.value) {
+                <span class="field-hint">nandovivas.com/product-detail/{{ form.get('slug')!.value }}</span>
+              }
+            </div>
+
+            <div class="field">
+              <label>Descripción</label>
+              <div class="rich-field">
+                <div class="rich-toolbar">
+                  <button type="button" class="rich-btn" (mousedown)="format($event, 'bold')"><b>B</b></button>
+                  <button type="button" class="rich-btn rich-italic" (mousedown)="format($event, 'italic')">I</button>
+                  <button type="button" class="rich-btn rich-underline" (mousedown)="format($event, 'underline')">U</button>
+                </div>
+                <div class="rich-editor"
+                  contenteditable="true"
+                  spellcheck="false"
+                  #descEditor
+                  (input)="form.patchValue({ description: descEditor.innerHTML })"
+                  data-placeholder="Descripción del producto…"></div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="price">Precio (€) <span class="required">*</span></label>
+              <input id="price" type="number" formControlName="price" placeholder="Ej: 35" min="0" step="0.01" />
+            </div>
+
+            <div class="field">
+              <label for="category">Categoría</label>
+              <select id="category" formControlName="category">
+                <option value="">Sin categoría</option>
+                @for (cat of categories(); track cat) {
+                  <option [value]="cat">{{ cat }}</option>
+                }
+              </select>
+              @if (categories().length === 0) {
+                <span class="field-hint">Añade categorías desde la lista de Shop.</span>
+              }
+            </div>
+
+            <div class="field">
+              <label for="altText">Alt text imagen</label>
+              <input id="altText" type="text" formControlName="altText" placeholder="Ej: Black t-shirt with graphic print" />
+              <span class="field-hint">Para SEO y accesibilidad.</span>
+            </div>
+
+            <div class="field">
+              <label for="order">Posición</label>
+              <input id="order" type="number" formControlName="order" placeholder="Ej: 1, 2, 3…" min="1" />
+              <span class="field-hint">Orden en el grid de la tienda. Sin número, va al final.</span>
+            </div>
+
+            <div class="field">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="active" />
+                Producto activo (visible en la tienda)
+              </label>
+            </div>
+
+          </div>
+
+          <!-- ── COL 3: VARIANTES + ACCIONES ── -->
+          <div class="form-col">
+
+            <div class="field variants-toggles">
+              <label>Variantes</label>
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="hasSizes" />
+                Tiene tallas
+              </label>
+              <label class="checkbox-label toggle-second">
+                <input type="checkbox" formControlName="hasColors" />
+                Tiene colores
+              </label>
+            </div>
+
+            <!-- Caso 1: sin variantes → stock total -->
+            @if (!hasSizes && !hasColors) {
+              <div class="field">
+                <label for="stock">Stock total</label>
+                <input id="stock" type="number" formControlName="stock" placeholder="Unidades disponibles" min="0" />
+              </div>
+            }
+
+            <!-- Caso 2: solo tallas -->
+            @if (hasSizes && !hasColors) {
+              <div class="field">
+                <label>Tallas</label>
+                @for (size of sizes; track $index) {
+                  <div class="variant-row">
+                    <input class="variant-label-input"
+                      [value]="size.label"
+                      (input)="size.label = $any($event.target).value"
+                      placeholder="Ej: S, M, XL, 50×70 cm" />
+                    <input class="variant-stock-input" type="number"
+                      [value]="size.stock"
+                      (input)="size.stock = +$any($event.target).value"
+                      placeholder="Stock" min="0" />
+                    <button type="button" class="variant-remove" (click)="removeSize($index)">×</button>
+                  </div>
+                }
+                <button type="button" class="btn-add-variant" (click)="addSize()">+ Añadir talla</button>
+              </div>
+            }
+
+            <!-- Casos 3 y 4: con colores -->
+            @if (hasColors) {
+              <div class="field">
+                <label>Colores</label>
+                @for (color of colors; let ci = $index; track ci) {
+                  <div class="color-entry">
+                    <div class="color-entry-header">
+                      <input class="color-name-input"
+                        [value]="color.name"
+                        (input)="color.name = $any($event.target).value"
+                        placeholder="Nombre del color" />
+                      <input type="color"
+                        [value]="color.hex"
+                        (input)="color.hex = $any($event.target).value"
+                        class="color-hex-input"
+                        title="Color hex" />
+                      <button type="button" class="variant-remove" (click)="removeColor(ci)">×</button>
+                    </div>
+
+                    <div class="color-image-row">
+                      @if (color.imagePreview) {
+                        <img [src]="color.imagePreview" class="color-img-preview" alt="Color" />
+                      }
+                      <label class="file-label file-label-sm" [for]="'colorImg_' + ci">
+                        {{ color.imagePreview ? 'Cambiar imagen' : 'Imagen del color' }}
+                      </label>
+                      <input [id]="'colorImg_' + ci" type="file" accept="image/*"
+                        (change)="onColorImageSelected($event, ci)" class="file-input" />
+                    </div>
+
+                    @if (!hasSizes) {
+                      <div class="color-stock-row">
+                        <span class="variant-sublabel">Stock</span>
+                        <input type="number" class="variant-stock-input"
+                          [value]="color.stock"
+                          (input)="color.stock = +$any($event.target).value"
+                          placeholder="Unidades" min="0" />
+                      </div>
+                    }
+
+                    @if (hasSizes) {
+                      <div class="color-sizes">
+                        <span class="variant-sublabel">Tallas</span>
+                        @for (size of color.sizes; let si = $index; track si) {
+                          <div class="variant-row">
+                            <input class="variant-label-input"
+                              [value]="size.label"
+                              (input)="size.label = $any($event.target).value"
+                              placeholder="Ej: S, M, XL" />
+                            <input class="variant-stock-input" type="number"
+                              [value]="size.stock"
+                              (input)="size.stock = +$any($event.target).value"
+                              placeholder="Stock" min="0" />
+                            <button type="button" class="variant-remove" (click)="removeSizeFromColor(ci, si)">×</button>
+                          </div>
+                        }
+                        <button type="button" class="btn-add-variant btn-add-variant-sm" (click)="addSizeToColor(ci)">
+                          + Añadir talla
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+                <button type="button" class="btn-add-variant" (click)="addColor()">+ Añadir color</button>
+              </div>
+            }
+
+            <!-- Acciones -->
+            <div class="form-actions">
+              <a class="btn-secondary" routerLink="/haupstadt/shop">Cancelar</a>
+              <button type="submit" class="btn-primary"
+                [disabled]="isSaving || !!slugConflict() || isCheckingSlug()">
+                {{ isSaving ? 'Guardando…' : 'Guardar' }}
+              </button>
+            </div>
+
+            @if (isEditMode) {
+              <div class="delete-zone">
+                @if (confirmingDelete) {
+                  <button type="button" class="btn-danger-confirm" (click)="confirmDelete()">¿Confirmar eliminación?</button>
+                  <button type="button" class="btn-secondary" (click)="cancelDelete()">Cancelar</button>
+                } @else {
+                  <button type="button" class="btn-danger" (click)="requestDelete()">Eliminar producto</button>
+                }
+              </div>
+            }
+
+          </div>
+
+        </div>
+      </form>
+    }
+  </div>
+
+</div>

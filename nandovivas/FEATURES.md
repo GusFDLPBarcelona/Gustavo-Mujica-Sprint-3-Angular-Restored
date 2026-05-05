@@ -22,6 +22,16 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 **Qué se hizo:** Añadidas reglas en Firebase Console para las colecciones `products` y `settings`: lectura pública, escritura solo autenticada. Misma política que `gallery` y `projects`.
 
+### Shop — Fase 1.5: ShopFormComponent (admin formulario de producto)
+
+**Qué se hizo:**
+- 3 columnas: imágenes (portada + galería), datos básicos (nombre, slug, descripción rich text, precio, categoría desde Firestore, altText, orden, active), variantes + acciones
+- 4 casos de variantes: sin variantes (stock total) / solo tallas / solo colores / tallas × colores
+- Cada color tiene su propia imagen, stock o tallas anidadas
+- Slug auto-generado desde nombre, editable, validación async 500ms (igual que Work)
+- Eliminar producto con confirmación inline
+- Modo creación y edición (carga producto existente por ID)
+
 ### Shop — Fase 1.4: ShopListComponent (admin lista de productos)
 
 **Qué se hizo:**
