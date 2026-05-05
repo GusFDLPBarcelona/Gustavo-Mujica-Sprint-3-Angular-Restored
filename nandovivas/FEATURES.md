@@ -4,6 +4,22 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 ---
 
+## 2026-05-05
+
+### Shop — Fase 1.1: modelo de datos y servicio Firestore
+
+**Qué se hizo:**
+- Nueva interface `Product` para Firestore con variantes de tallas/colores, slugs y campo `active`
+- Interfaces auxiliares: `ProductSize`, `ProductColor`, `CartItem`, `ShopSettings`
+- `ProductsService` reescrito con Firestore: CRUD completo + slugs (`generateSlug`, `checkSlugExists`, `getProductBySlug`) + gestión de `settings/shop`
+- `ProductResolver` actualizado: busca por slug primero, fallback a ID (compatibilidad)
+- Ruta pública `/product-detail/:id` → `/product-detail/:slug`
+- Stubs mínimos en `ShopComponent` y `ProductDetailComponent` para compilación limpia (se reescriben en Fase 2)
+
+**Por qué:** La capa de datos es el prerequisito para el admin CRUD de la tienda (Fases 1.3–1.5).
+
+---
+
 ## 2026-04-14
 
 ### Fix: scroll al filtrar y al volver desde un proyecto (Android producción)

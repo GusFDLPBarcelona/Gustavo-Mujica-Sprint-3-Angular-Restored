@@ -31,7 +31,7 @@ export const routes: Routes = [
     resolve: { project: ProjectResolver }
   },
   {
-    path: 'product-detail/:id',
+    path: 'product-detail/:slug',
     component: ProductDetailComponent,
     resolve: { product: ProductResolver }
   },

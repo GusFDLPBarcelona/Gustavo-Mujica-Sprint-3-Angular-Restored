@@ -1,124 +1,74 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Product } from '../interfaces/product';
-import { ToastService } from './toast.service';
+import { Injectable, inject } from '@angular/core';
+import {
+  Firestore, collection, collectionData, doc, docData,
+  addDoc, updateDoc, deleteDoc, getDocs, query, where, setDoc
+} from '@angular/fire/firestore';
+import { Observable, from } from 'rxjs';
+import { Product, ShopSettings } from '../interfaces/product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  private apiUrl = 'http://localhost:4000/api/products';
-  private cache: Product[] | null = null;
-  public isLoading = new BehaviorSubject<boolean>(false);
+  private firestore = inject(Firestore);
+  private productsCollection = collection(this.firestore, 'products');
 
-  constructor(
-    private http: HttpClient,
-    private toastService: ToastService
-  ) {}
-
-  // Obtener todos los productos y parsear datos correctamente
   getProducts(): Observable<Product[]> {
-    this.isLoading.next(true);
+    return collectionData(this.productsCollection, { idField: 'id' }) as Observable<Product[]>;
+  }
 
-    return this.http.get<Product[]>(this.apiUrl).pipe(
-      map((products) => products.map(this.transformProduct)), // Transformamos los datos
-      tap((products) => {
-        this.cache = products;
-        this.isLoading.next(false);
-      }),
-      catchError((error) => {
-        console.error('Error al cargar productos:', error);
-        this.isLoading.next(false);
+  getProductById(id: string): Observable<Product | null> {
+    return docData(doc(this.firestore, 'products', id), { idField: 'id' }) as Observable<Product | null>;
+  }
 
-        if (this.cache) {
-          console.warn('Cargando desde caché.');
-          return of(this.cache);
-        }
-
-        this.toastService.showError('Error al cargar productos.');
-        return of([]);
+  getProductBySlug(slug: string): Observable<Product | null> {
+    const q = query(this.productsCollection, where('slug', '==', slug));
+    return from(
+      getDocs(q).then(snapshot => {
+        if (snapshot.empty) return null;
+        const d = snapshot.docs[0];
+        return { id: d.id, ...d.data() } as Product;
       })
     );
   }
 
-  // Obtener un producto por ID y parsear los datos
-  getProductById(id: number): Observable<Product | null> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`).pipe(
-      map((product) => this.transformProduct(product)),
-      catchError(() => {
-        this.toastService.showError('No se pudo cargar el producto.');
-        return of(null);
-      })
-    );
+  async checkSlugExists(slug: string, excludeId?: string): Promise<string | null> {
+    const q = query(this.productsCollection, where('slug', '==', slug));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) return null;
+    const conflict = snapshot.docs.find(d => d.id !== excludeId);
+    if (!conflict) return null;
+    return (conflict.data() as any)['name'] ?? 'otro producto';
   }
 
-  // Transformar producto recibido del backend
-  private transformProduct(product: any): Product {
-    return {
-      ...product,
-      price: Number(product.price), // Convertir a número
-      sizes: (typeof product.sizes === 'string' 
-        ? JSON.parse(product.sizes) 
-        : product.sizes || []).map((size: any) => ({
-          ...size,
-          selected: false // Inicializar selección
-        })),
-      colors: typeof product.colors === 'string' 
-        ? JSON.parse(product.colors) 
-        : product.colors || [],
-      images: typeof product.images === 'string' 
-        ? JSON.parse(product.images) 
-        : product.images || []
-    };
+  static generateSlug(name: string): string {
+    return name
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
   }
 
-  // Crear un nuevo producto y convertir los datos a JSON antes de enviarlos
-  createProduct(product: Product): Observable<Product> {
-    const transformedProduct = this.prepareProductForBackend(product);
-    return this.http.post<Product>(this.apiUrl, transformedProduct).pipe(
-      tap(() => this.toastService.showSuccess('Producto creado con éxito.')),
-      catchError((error) => {
-        console.error('Error al crear producto:', error);
-        this.toastService.showError('No se pudo crear el producto.');
-        return of(transformedProduct);
-      })
-    );
+  createProduct(data: Omit<Product, 'id'>): Promise<string> {
+    return addDoc(this.productsCollection, data).then(ref => ref.id);
   }
 
-  // Actualizar un producto
-  updateProduct(id: number, product: Product): Observable<Product> {
-    const transformedProduct = this.prepareProductForBackend(product);
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, transformedProduct).pipe(
-      tap(() => this.toastService.showSuccess('Producto actualizado con éxito.')),
-      catchError((error) => {
-        console.error('Error al actualizar producto:', error);
-        this.toastService.showError('No se pudo actualizar el producto.');
-        return of(transformedProduct);
-      })
-    );
+  updateProduct(id: string, data: Partial<Omit<Product, 'id'>>): Promise<void> {
+    return updateDoc(doc(this.firestore, 'products', id), { ...data });
   }
 
-  // Eliminar un producto
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.toastService.showSuccess('Producto eliminado con éxito.')),
-      catchError((error) => {
-        console.error('Error al eliminar producto:', error);
-        this.toastService.showError('No se pudo eliminar el producto.');
-        return of(undefined);
-      })
-    );
+  deleteProduct(id: string): Promise<void> {
+    return deleteDoc(doc(this.firestore, 'products', id));
   }
 
-  // Preparar producto para enviarlo al backend
-  private prepareProductForBackend(product: Product): any {
-    return {
-      ...product,
-      sizes: JSON.stringify(product.sizes || []),
-      colors: JSON.stringify(product.colors || []),
-      images: JSON.stringify(product.images || [])
-    };
+  getShopSettings(): Observable<ShopSettings | null> {
+    return docData(doc(this.firestore, 'settings', 'shop')) as Observable<ShopSettings | null>;
+  }
+
+  async updateShopSettings(data: ShopSettings): Promise<void> {
+    return setDoc(doc(this.firestore, 'settings', 'shop'), { ...data });
   }
 }
