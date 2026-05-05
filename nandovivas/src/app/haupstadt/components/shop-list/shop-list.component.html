@@ -1,0 +1,80 @@
+<div class="page">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Shop</div>
+      <div class="topbar-breadcrumb">Inicio › <span>Shop</span></div>
+    </div>
+    <a class="btn-primary" routerLink="/haupstadt/shop/new">+ Nuevo producto</a>
+  </div>
+
+  <div class="content">
+    @if (items().length === 0) {
+      <div class="empty-state">
+        <p>No hay productos todavía.</p>
+        <a class="btn-primary" routerLink="/haupstadt/shop/new">+ Añadir producto</a>
+      </div>
+    } @else {
+      <div class="products-grid">
+        @for (item of items(); track item.id) {
+          <div class="product-card">
+            <div class="card-img">
+              @if (item.image) {
+                <img [src]="item.image" [alt]="item.altText || item.name" />
+              } @else {
+                <div class="card-img-placeholder">Sin imagen</div>
+              }
+            </div>
+            <div class="card-body">
+              <div class="card-header">
+                <div class="card-title" [title]="item.name">{{ item.name }}</div>
+                <span class="badge" [class.badge-active]="item.active" [class.badge-inactive]="!item.active">
+                  {{ item.active ? 'Activo' : 'Inactivo' }}
+                </span>
+              </div>
+              <div class="card-meta">
+                <span class="card-price">€ {{ item.price }}</span>
+                <span class="card-category">{{ item.category }}</span>
+              </div>
+              <div class="card-actions">
+                @if (confirmingId() === item.id) {
+                  <button class="btn-sm danger btn-confirm" (click)="confirmDelete(item.id!)">¿Confirmar?</button>
+                  <button class="btn-sm" (click)="cancelDelete()">Cancelar</button>
+                } @else {
+                  <a class="btn-sm" [routerLink]="['/haupstadt/shop', item.id]">Editar</a>
+                  <button class="btn-sm danger" (click)="requestDelete(item.id!)">Eliminar</button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="categories-section">
+      <div class="section-title">Categorías</div>
+      <div class="categories-list">
+        @for (cat of (settings()?.categories ?? []); track cat) {
+          <div class="category-chip">
+            <span>{{ cat }}</span>
+            <button class="chip-remove" (click)="removeCategory(cat)" title="Eliminar">×</button>
+          </div>
+        }
+        @if ((settings()?.categories ?? []).length === 0) {
+          <span class="empty-cats">Sin categorías definidas</span>
+        }
+      </div>
+      <div class="category-add">
+        <input
+          class="category-input"
+          [(ngModel)]="newCategoryValue"
+          placeholder="Nueva categoría"
+          (keydown.enter)="addCategory()"
+        />
+        <button class="btn-sm" (click)="addCategory()" [disabled]="!newCategoryValue.trim()">Añadir</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

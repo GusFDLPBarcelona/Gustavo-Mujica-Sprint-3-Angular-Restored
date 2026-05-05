@@ -22,6 +22,14 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 **Qué se hizo:** Añadidas reglas en Firebase Console para las colecciones `products` y `settings`: lectura pública, escritura solo autenticada. Misma política que `gallery` y `projects`.
 
+### Shop — Fase 1.4: ShopListComponent (admin lista de productos)
+
+**Qué se hizo:**
+- Grid de tarjetas con imagen, nombre, precio, categoría y badge Activo/Inactivo
+- Ordenado por campo `order`
+- Editar / Eliminar con confirmación inline (mismo patrón que Work)
+- Sección de categorías al pie: chips con × para eliminar + input para añadir — persiste en `settings/shop` de Firestore
+
 ### Shop — Fase 1.3: rutas admin y sidebar
 
 **Qué se hizo:**
