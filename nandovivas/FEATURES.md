@@ -18,6 +18,17 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 **Por qué:** La capa de datos es el prerequisito para el admin CRUD de la tienda (Fases 1.3–1.5).
 
+### Shop — Fase 1.2: reglas Firestore para products y settings
+
+**Qué se hizo:** Añadidas reglas en Firebase Console para las colecciones `products` y `settings`: lectura pública, escritura solo autenticada. Misma política que `gallery` y `projects`.
+
+### Shop — Fase 1.3: rutas admin y sidebar
+
+**Qué se hizo:**
+- Nuevas rutas en `haupstadt.routes.ts`: `/haupstadt/shop`, `/haupstadt/shop/new`, `/haupstadt/shop/:id`
+- Sidebar activado: link "Shop" pasa de deshabilitado a activo con `routerLinkActive`
+- Stubs `ShopListComponent` y `ShopFormComponent` creados (se implementan en Fases 1.4 y 1.5)
+
 ---
 
 ## 2026-04-14

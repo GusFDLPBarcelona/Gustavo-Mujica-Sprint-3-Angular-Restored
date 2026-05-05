@@ -38,6 +38,18 @@ export const haupstadtRoutes: Routes = [
       {
         path: 'work/:id',
         loadComponent: () => import('./components/work-form/work-form.component').then(m => m.WorkFormComponent)
+      },
+      {
+        path: 'shop',
+        loadComponent: () => import('./components/shop-list/shop-list.component').then(m => m.ShopListComponent)
+      },
+      {
+        path: 'shop/new',
+        loadComponent: () => import('./components/shop-form/shop-form.component').then(m => m.ShopFormComponent)
+      },
+      {
+        path: 'shop/:id',
+        loadComponent: () => import('./components/shop-form/shop-form.component').then(m => m.ShopFormComponent)
       }
     ]
   }
