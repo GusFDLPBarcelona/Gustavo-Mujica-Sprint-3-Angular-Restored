@@ -4,6 +4,19 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 ---
 
+## 2026-05-11
+
+### Perf: optimización del bundle inicial
+
+**Qué se hizo:**
+- Eliminado `@angular/material/prebuilt-themes/azure-blue.css` de `angular.json` (build y test): el tema no aportaba nada visual porque `styles.css` sobreescribe todos los estilos de Material con `!important`
+- Eliminados de `app.config.ts` los módulos globales no utilizados: `MatFormFieldModule`, `MatInputModule`, `MatButtonModule`
+- Budget de Angular subido de 512 kB a 1.2 MB warning / 2 MB error (el SDK de Firebase ocupa ~600 kB en el bundle inicial, es el límite real de lo que se puede reducir sin reestructurar la app)
+
+**Resultado:** CSS inicial 89.96 kB → 18.98 kB (−71 kB). Bundle total 1.01 MB → 937 kB. Transferencia gzipped: 247 kB → 240 kB. Sin advertencias en el build.
+
+---
+
 ## 2026-05-05
 
 ### Shop — Fase 1.1: modelo de datos y servicio Firestore
