@@ -4,6 +4,17 @@ Registro de funcionalidades y correcciones implementadas en el proyecto, ordenad
 
 ---
 
+## 2026-05-12
+
+### Perf: optimización LCP y eliminación de recursos bloqueantes
+
+**Qué se hizo:**
+- Añadido `<link rel="preload">` para `vivas_logo.svg` en `index.html` — el browser descarga el logo en paralelo con el HTML en vez de esperar a que Angular lo descubra. Reduce el LCP de ~1.1s a ~0.4-0.6s estimado.
+- Eliminado `@import url(Google Fonts Inter)` de `styles.css` — redundante con el `<link>` que ya existía en `index.html` (la versión del HTML es más completa y no bloquea el render)
+- Eliminadas dos peticiones a Google Fonts innecesarias del `index.html`: Roboto (interceptada con @font-face falso en styles.css y no usada) y Material Icons (duplicada y no usada en ningún template)
+
+---
+
 ## 2026-05-11
 
 ### Perf: optimización del bundle inicial
